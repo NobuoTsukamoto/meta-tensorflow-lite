@@ -8,6 +8,7 @@ SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;branch=r2.3 \
     file://001-Change-curl-to-wget-command.patch \
     file://001-TensorFlow-Lite_Makefile.patch \
+    file://001-Remove-toolchain-setup.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -29,7 +30,7 @@ RDEPENDS_${PN} += " \
     python3-pybind11 \
 "
 
-inherit python3native
+inherit python3native 
 
 export PYTHON_BIN_PATH="${PYTHON}"
 export PYTHON_LIB_PATH="${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}/site-packages"
@@ -40,7 +41,18 @@ do_configure(){
 
 do_compile () {
     echo ${STAGING_LIBDIR_NATIVE}
+
+    if [ ${TARGET_ARCH} = "aarch64" ]; then
+        export TENSORFLOW_TARGET=aarch64
+        export TARGET=aarch64
+        ${S}/tensorflow/lite/tools/pip_package/build_pip_package.sh
+    elif [ ${TARGET_ARCH} = "armv7l" ]; then
+        export TENSORFLOW_TARGET=rpi
+        export TARGET=rpi
+    fi
+    
     ${S}/tensorflow/lite/tools/pip_package/build_pip_package.sh
+
 }
 
 do_install() {
@@ -49,7 +61,7 @@ do_install() {
     
     ${STAGING_BINDIR_NATIVE}/pip3 install --disable-pip-version-check -v \
         -t ${D}/${PYTHON_SITEPACKAGES_DIR} --no-cache-dir --no-deps \
-        ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/${TOPDIR}/tmp/work/aarch64-poky-linux/python3-tensorflow-lite/2.3.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3/dist/tflite_runtime-2.3.0rc0-cp38-cp38-linux_x86_64.whl
+        ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/${TOPDIR}/tmp/work/aarch64-poky-linux/python3-tensorflow-lite/2.3.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3/dist/tflite_runtime-2.3.0rc0-*.whl
 }
 
 FILES_${PN}-dev = ""

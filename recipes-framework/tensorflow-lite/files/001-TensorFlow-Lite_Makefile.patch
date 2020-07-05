@@ -1,5 +1,5 @@
 diff --git a/tensorflow/lite/tools/make/Makefile b/tensorflow/lite/tools/make/Makefile
-index f8b67fbbe7d..210311c8019 100644
+index f8b67fbbe7d..350447b1f60 100644
 --- a/tensorflow/lite/tools/make/Makefile
 +++ b/tensorflow/lite/tools/make/Makefile
 @@ -44,7 +44,7 @@ INCLUDES := \
@@ -11,17 +11,6 @@ index f8b67fbbe7d..210311c8019 100644
  
  # These are the default libraries needed, but they can be added to or
  # overridden by the platform-specific settings in target makefiles.
-@@ -58,8 +58,8 @@ LIBS := \
- # There are no rules for compiling objects for the host system (since we don't
- # generate things like the protobuf compiler that require that), so all of
- # these settings are for the target compiler.
--CFLAGS := -O3 -DNDEBUG -fPIC $(EXTRA_CFLAGS)
--CXXFLAGS := $(CFLAGS) --std=c++11 $(EXTRA_CXXFLAGS)
-+CFLAGS := -O3 -DNDEBUG -fPIC ${CFLAGS}
-+CXXFLAGS := $(CFLAGS) --std=c++11 ${CXXFLAGS}
- LDOPTS := -L/usr/local/lib
- ARFLAGS := -r
- TARGET_TOOLCHAIN_PREFIX :=
 @@ -283,9 +283,9 @@ BENCHMARK_PERF_OPTIONS_BINARY := $(BINDIR)$(BENCHMARK_PERF_OPTIONS_BINARY_NAME)
  MINIMAL_BINARY := $(BINDIR)minimal
  LABEL_IMAGE_BINARY := $(BINDIR)label_image

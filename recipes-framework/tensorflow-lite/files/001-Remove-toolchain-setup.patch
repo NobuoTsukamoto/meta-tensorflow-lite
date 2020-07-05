@@ -1,0 +1,17 @@
+diff --git a/tensorflow/lite/tools/pip_package/setup.py b/tensorflow/lite/tools/pip_package/setup.py
+index 387f0483850..28034acc24d 100644
+--- a/tensorflow/lite/tools/pip_package/setup.py
++++ b/tensorflow/lite/tools/pip_package/setup.py
+@@ -51,12 +51,6 @@ DOWNLOAD_SCRIPT_PATH = os.path.join(MAKE_DIR, 'download_dependencies.sh')
+ 
+ # Setup cross compiling
+ TARGET = os.environ.get('TENSORFLOW_TARGET')
+-if TARGET == 'rpi':
+-  os.environ['CXX'] = 'arm-linux-gnueabihf-g++'
+-  os.environ['CC'] = 'arm-linux-gnueabihf-gcc'
+-elif TARGET == 'aarch64':
+-  os.environ['CXX'] = 'aarch64-linux-gnu-g++'
+-  os.environ['CC'] = 'aarch64-linux-gnu-gcc'
+ 
+ MAKE_CROSS_OPTIONS = []
+ for name in [
