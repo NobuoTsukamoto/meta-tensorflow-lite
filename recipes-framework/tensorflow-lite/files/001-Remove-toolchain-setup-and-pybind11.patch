@@ -1,7 +1,16 @@
 diff --git a/tensorflow/lite/tools/pip_package/setup.py b/tensorflow/lite/tools/pip_package/setup.py
-index 387f0483850..28034acc24d 100644
+index 387f0483850..8c122418abd 100644
 --- a/tensorflow/lite/tools/pip_package/setup.py
 +++ b/tensorflow/lite/tools/pip_package/setup.py
+@@ -33,7 +33,7 @@ import sysconfig
+ 
+ from distutils.command.build_ext import build_ext
+ import numpy
+-import pybind11
++# import pybind11
+ 
+ from setuptools import Extension
+ from setuptools import find_packages
 @@ -51,12 +51,6 @@ DOWNLOAD_SCRIPT_PATH = os.path.join(MAKE_DIR, 'download_dependencies.sh')
  
  # Setup cross compiling
@@ -15,3 +24,13 @@ index 387f0483850..28034acc24d 100644
  
  MAKE_CROSS_OPTIONS = []
  for name in [
+@@ -182,7 +176,7 @@ ext = Extension(
+         numpy.get_include(),
+         os.path.join(DOWNLOADS_DIR, 'flatbuffers', 'include'),
+         os.path.join(DOWNLOADS_DIR, 'absl'),
+-        pybind11.get_include()
++        #pybind11.get_include()
+     ],
+     libraries=[LIB_TFLITE],
+     library_dirs=[LIB_TFLITE_DIR])
+
