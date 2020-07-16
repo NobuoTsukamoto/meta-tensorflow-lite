@@ -2,7 +2,7 @@ DESCRIPTION = "TensorFlow Lite pip package"
 LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=64a34301f8e355f57ec992c2af3e5157"
-SRCREV = "99fea8da0d98fb271b60b58cfa5755f2bd430079"
+SRCREV = "14b2d686d68696f90dbd08564b11af04066ce291"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;branch=r2.3 \
@@ -63,7 +63,7 @@ do_install() {
     
     ${STAGING_BINDIR_NATIVE}/pip3 install --disable-pip-version-check -v \
         -t ${D}/${PYTHON_SITEPACKAGES_DIR} --no-cache-dir --no-deps \
-        ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip${WORKDIR}/recipe-sysroot-native/usr/bin/python3-native/python3/dist/tflite_runtime-2.3.0rc0-*.whl
+        ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip${WORKDIR}/recipe-sysroot-native/usr/bin/python3-native/python3/dist/tflite_runtime-2.3.0rc1-*.whl
 }
 
 FILES_${PN}-dev = ""
