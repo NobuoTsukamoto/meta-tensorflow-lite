@@ -41,7 +41,6 @@ do_configure(){
 
 do_compile () {
     echo ${TARGET_ARCH}
-    echo | arm-poky-linux-gnueabi-gcc -dM -E -
 
     if [ ${TARGET_ARCH} = "aarch64" ]; then
         echo "build aarch64"
