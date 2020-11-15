@@ -1,5 +1,5 @@
-DESCRIPTION = "TensorFlow Lite pip package"
-LICENSE = "MIT"
+DESCRIPTION = "TensorFlow Lite Standalone Pip"
+LICENSE = "Apache-2.0"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=64a34301f8e355f57ec992c2af3e5157"
 SRCREV = "5e5730ba9d15a3b328d2b20a01bf8a9762f3711c"
