@@ -2,7 +2,7 @@ DESCRIPTION = "TensorFlow Lite Standalone Pip"
 LICENSE = "Apache-2.0"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=64a34301f8e355f57ec992c2af3e5157"
-SRCREV = "ef82f4c66cae4a719a3815c307061a941a88b206"
+SRCREV = "68f236364cdd261754c68782d99ec2fc791922e6"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;branch=r2.4 \
@@ -62,7 +62,7 @@ do_install() {
     
     ${STAGING_BINDIR_NATIVE}/pip3 install --disable-pip-version-check -v \
         -t ${D}/${PYTHON_SITEPACKAGES_DIR} --no-cache-dir --no-deps \
-        ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip${WORKDIR}/recipe-sysroot-native/usr/bin/python3-native/python3/dist/tflite_runtime-2.4.0rc1-*.whl
+        ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip${WORKDIR}/recipe-sysroot-native/usr/bin/python3-native/python3/dist/tflite_runtime-2.4.0rc3-*.whl
 }
 
 FILES_${PN}-dev = ""
