@@ -7,7 +7,6 @@ SRC_URI[sha256sum] = "63873623917c756d1be49ff4d5fc23049736180e6b9a7d5236c6f204ed
 
 SRC_URI = "https://github.com/bazelbuild/bazel/releases/download/${PV}/bazel-${PV}-dist.zip"
 
-inherit native pythonnative
 
 DEPENDS = "coreutils-native \
            zip-native \
@@ -24,7 +23,7 @@ do_compile () {
 
 do_install () {
   install -d ${D}${bindir}
-  install -m 0755 ${S}/output/bazel ${D}${bindir}
+  cp ${S}/output/bazel ${D}${bindir}
 }
 
 # Explicitly disable uninative
