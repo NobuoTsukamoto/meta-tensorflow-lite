@@ -34,39 +34,73 @@ RDEPENDS_${PN} += " \
     python3-pybind11 \
 "
 
-inherit python3native 
-
-export PYTHON_BIN_PATH="${PYTHON}"
-export PYTHON_LIB_PATH="${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}/site-packages"
+inherit setuptools3
 
 do_configure(){
 	${S}/tensorflow/lite/tools/make/download_dependencies.sh
 }
 
-do_compile () {
-    echo ${TARGET_ARCH}
+do_compile() {
+    LOCAL_BUILD_DIR="${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3"
+    VERSION_SUFFIX=${VERSION_SUFFIX:-}
+    export TENSORFLOW_DIR="${S}"
+    TENSORFLOW_LITE_DIR="${S}/tensorflow/lite"
+    TENSORFLOW_VERSION=$(grep "_VERSION = " "${TENSORFLOW_DIR}/tensorflow/tools/pip_package/setup.py" | cut -d= -f2 | sed "s/[ '-]//g")
+    export PACKAGE_VERSION="${TENSORFLOW_VERSION}${VERSION_SUFFIX}"
+
+    # Build source tree.
+    rm -rf "${LOCAL_BUILD_DIR}" && mkdir -p "${LOCAL_BUILD_DIR}/tflite_runtime"
+    cp -r "${TENSORFLOW_LITE_DIR}/tools/pip_package/debian" \
+          "${TENSORFLOW_LITE_DIR}/tools/pip_package/setup.py" \
+          "${TENSORFLOW_LITE_DIR}/tools/pip_package/MANIFEST.in" \
+          "${TENSORFLOW_LITE_DIR}/python/interpreter_wrapper" \
+          "${LOCAL_BUILD_DIR}"
+    cp "${TENSORFLOW_LITE_DIR}/python/interpreter.py" \
+       "${LOCAL_BUILD_DIR}/tflite_runtime"
+    echo "__version__ = '${PACKAGE_VERSION}'" >> "${LOCAL_BUILD_DIR}/tflite_runtime/__init__.py"
+    echo "__git_version__ = '$(git -C "${TENSORFLOW_DIR}" describe)'" >> "${LOCAL_BUILD_DIR}/tflite_runtime/__init__.py"
+
+    # Build python wheel.
+    cd "${LOCAL_BUILD_DIR}"
+    echo ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}
 
     if [ ${TARGET_ARCH} = "aarch64" ]; then
         echo "build aarch64"
         export TENSORFLOW_TARGET=aarch64
         export TARGET=aarch64
+
+        STAGING_INCDIR=${STAGING_INCDIR} \
+        STAGING_LIBDIR=${STAGING_LIBDIR} \
+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
+        bdist --plat-name=linux-aarch64 bdist_wheel --plat-name=linux-aarch64
+
     elif [ ${TARGET_ARCH} = "arm" ]; then
         echo "build arm"
         export TENSORFLOW_TARGET=rpi
         export TARGET=rpi
+
+        STAGING_INCDIR=${STAGING_INCDIR} \
+        STAGING_LIBDIR=${STAGING_LIBDIR} \
+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
+        bdist --plat-name=linux-armv7l bdist_wheel --plat-name=linux-armv7l
     fi
-
-    ${S}/tensorflow/lite/tools/pip_package/build_pip_package.sh
-
 }
 
 do_install() {
     echo "Generating pip package"
+    LOCAL_BUILD_DIR="${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3"
+    cd "${LOCAL_BUILD_DIR}"
+    
     install -d ${D}/${PYTHON_SITEPACKAGES_DIR}
 
-    ${STAGING_BINDIR_NATIVE}/pip3 install --disable-pip-version-check -v \
-        -t ${D}/${PYTHON_SITEPACKAGES_DIR} --no-cache-dir --no-deps \
-        ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip${WORKDIR}/recipe-sysroot-native/usr/bin/python3-native/python3/dist/tflite_runtime-${DPV}-*.whl
+    echo ${D}/${PYTHON_SITEPACKAGES_DIR}
+
+    TAGING_INCDIR=${STAGING_INCDIR} \
+    STAGING_LIBDIR=${STAGING_LIBDIR} \
+    PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
+    ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} -m pip install --disable-pip-version-check -v \
+    -t ${D}/${PYTHON_SITEPACKAGES_DIR} --no-cache-dir --no-deps \
+    ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3/dist/tflite_runtime-${DPV}-*.whl
 }
 
 FILES_${PN}-dev = ""
