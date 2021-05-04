@@ -15,6 +15,10 @@ SRC_URI = " \
     file://001-Remove-toolchain-setup-and-pybind11.patch \
 "
 
+SRC_URI_append_riscv64 += " \
+    file://link-atomic-lib.patch \
+"
+
 S = "${WORKDIR}/git"
 
 DEPENDS += "gzip-native \
@@ -83,6 +87,15 @@ do_compile() {
         STAGING_LIBDIR=${STAGING_LIBDIR} \
         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
         bdist --plat-name=linux-armv7l bdist_wheel --plat-name=linux-armv7l
+    elif [ ${TARGET_ARCH} = "riscv64" ]; then
+        echo "build riscv64"
+        export TENSORFLOW_TARGET=riscv64
+        export TARGET=riscv64
+
+        STAGING_INCDIR=${STAGING_INCDIR} \
+        STAGING_LIBDIR=${STAGING_LIBDIR} \
+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
+        bdist --plat-name=linux-riscv64 bdist_wheel --plat-name=linux-riscv64
     fi
 }
 
