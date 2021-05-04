@@ -1,0 +1,27 @@
+diff --git a/tensorflow/lite/tools/make/Makefile b/tensorflow/lite/tools/make/Makefile
+index 9d90e9526be..1ba137304e7 100644
+--- a/tensorflow/lite/tools/make/Makefile
++++ b/tensorflow/lite/tools/make/Makefile
+@@ -57,7 +57,8 @@ LIBS := \
+ -lpthread \
+ -lm \
+ -lz \
+--ldl
++-ldl \
++-latomic
+
+ # There are no rules for compiling objects for the host system (since we don't
+ # generate things like the protobuf compiler that require that), so all of
+diff --git a/tensorflow/lite/tools/pip_package/setup.py b/tensorflow/lite/tools/pip_package/setup.py
+index 8c122418abd..5ccd40683b1 100644
+--- a/tensorflow/lite/tools/pip_package/setup.py
++++ b/tensorflow/lite/tools/pip_package/setup.py
+@@ -178,7 +178,7 @@ ext = Extension(
+         os.path.join(DOWNLOADS_DIR, 'absl'),
+         #pybind11.get_include()
+     ],
+-    libraries=[LIB_TFLITE],
++    libraries=[LIB_TFLITE, 'atomic'],
+     library_dirs=[LIB_TFLITE_DIR])
+
+ setup(
