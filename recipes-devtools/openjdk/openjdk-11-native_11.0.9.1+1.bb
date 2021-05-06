@@ -13,8 +13,8 @@ INHIBIT_SYSROOT_STRIP = "1"
 S = "${WORKDIR}/jdk-11.0.9-ojdkbuild-linux-x64"
 
 do_install () {
-  install -d ${D}${libdir}/jvm/openjdk-11-native
-  cp -rf ${S}/* ${D}${libdir}/jvm/openjdk-11-native
+  install -d ${D}${bindir}/jvm/openjdk-11-native
+  cp -rf ${S}/* ${D}${bindir}/jvm/openjdk-11-native
 }
 
 
