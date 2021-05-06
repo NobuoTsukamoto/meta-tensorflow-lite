@@ -76,7 +76,7 @@ do_compile() {
         STAGING_INCDIR=${STAGING_INCDIR} \
         STAGING_LIBDIR=${STAGING_LIBDIR} \
         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
-        bdist --plat-name=linux-aarch64 bdist_wheel --plat-name=linux-aarch64
+        bdist bdist_wheel
 
     elif [ ${TARGET_ARCH} = "arm" ]; then
         echo "build arm"
@@ -86,7 +86,7 @@ do_compile() {
         STAGING_INCDIR=${STAGING_INCDIR} \
         STAGING_LIBDIR=${STAGING_LIBDIR} \
         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
-        bdist --plat-name=linux-armv7l bdist_wheel --plat-name=linux-armv7l
+        bdist bdist_wheel
     elif [ ${TARGET_ARCH} = "riscv64" ]; then
         echo "build riscv64"
         export TENSORFLOW_TARGET=riscv64
@@ -95,7 +95,7 @@ do_compile() {
         STAGING_INCDIR=${STAGING_INCDIR} \
         STAGING_LIBDIR=${STAGING_LIBDIR} \
         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
-        bdist --plat-name=linux-riscv64 bdist_wheel --plat-name=linux-riscv64
+        bdist bdist_wheel
     fi
 }
 
