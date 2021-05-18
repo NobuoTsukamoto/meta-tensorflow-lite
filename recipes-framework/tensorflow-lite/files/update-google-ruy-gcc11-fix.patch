@@ -1,0 +1,63 @@
+diff --git a/tensorflow/lite/micro/tools/make/third_party_downloads.inc b/tensorflow/lite/micro/tools/make/third_party_downloads.inc
+index 31b1c0a5e40..1a940787ab6 100644
+--- a/tensorflow/lite/micro/tools/make/third_party_downloads.inc
++++ b/tensorflow/lite/micro/tools/make/third_party_downloads.inc
+@@ -36,8 +36,8 @@ SIFIVE_FE310_LIB_MD5 := "06ee24c4956f8e21670ab3395861fe64"
+ KISSFFT_URL="http://mirror.tensorflow.org/github.com/mborgerding/kissfft/archive/v130.zip"
+ KISSFFT_MD5="438ba1fef5783cc5f5f201395cc477ca"
+ 
+-RUY_URL="https://github.com/google/ruy/archive/54774a7a2cf85963777289193629d4bd42de4a59.zip"
+-RUY_MD5="c9cb85bf99dab7a49d78758470890b31"
++RUY_URL="https://github.com/google/ruy/archive/d37128311b445e758136b8602d1bbd2a755e115d.zip"
++RUY_MD5="abf7a91eb90d195f016ebe0be885bb6e"
+ 
+ CIFAR10_DATASET_URL="http://mirror.tensorflow.org/www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz"
+ CIFAR10_DATASET_MD5="c32a1d4ab5d03f1284b67883e8d87530"
+diff --git a/tensorflow/lite/tools/cmake/modules/ruy.cmake b/tensorflow/lite/tools/cmake/modules/ruy.cmake
+index 02a99cd7bab..ea010a2fbf0 100644
+--- a/tensorflow/lite/tools/cmake/modules/ruy.cmake
++++ b/tensorflow/lite/tools/cmake/modules/ruy.cmake
+@@ -22,7 +22,7 @@ include(OverridableFetchContent)
+ OverridableFetchContent_Declare(
+   ruy
+   GIT_REPOSITORY https://github.com/google/ruy
+-  GIT_TAG master # TODO
++  GIT_TAG d37128311b445e758136b8602d1bbd2a755e115d
+   GIT_SHALLOW TRUE
+   GIT_PROGRESS TRUE
+   SOURCE_DIR "${CMAKE_BINARY_DIR}/ruy"
+diff --git a/tensorflow/lite/tools/make/download_dependencies.sh b/tensorflow/lite/tools/make/download_dependencies.sh
+index 6a330463a53..064f0e15b66 100755
+--- a/tensorflow/lite/tools/make/download_dependencies.sh
++++ b/tensorflow/lite/tools/make/download_dependencies.sh
+@@ -41,8 +41,8 @@ GEMMLOWP_WORKSPACE_BZL_PATH="third_party/gemmlowp/workspace.bzl"
+ GEMMLOWP_COMMIT="$(grep -oP 'GEMMLOWP_COMMIT = "\K[0-9a-f]{40}' "${GEMMLOWP_WORKSPACE_BZL_PATH}")"
+ GEMMLOWP_URL="https://storage.googleapis.com/mirror.tensorflow.org/github.com/google/gemmlowp/archive/"${GEMMLOWP_COMMIT}".zip"
+ GEMMLOWP_SHA="$(grep -oP 'GEMMLOWP_SHA256 = "\K[0-9a-f]{64}' "${GEMMLOWP_WORKSPACE_BZL_PATH}")"
+-RUY_URL="https://github.com/google/ruy/archive/54774a7a2cf85963777289193629d4bd42de4a59.zip"
+-RUY_SHA="da5ec0cc07472bdb21589b0b51c8f3d7f75d2ed6230b794912adf213838d289a"
++RUY_URL="https://github.com/google/ruy/archive/d37128311b445e758136b8602d1bbd2a755e115d.zip"
++RUY_SHA="525de68739faa23eeea674596607a3eea7ca4425be2962b26775158e084c1036"
+ GOOGLETEST_URL="https://github.com/google/googletest/archive/release-1.8.0.tar.gz"
+ GOOGLETEST_SHA="58a6f4277ca2bc8565222b3bbd58a177609e9c488e8a72649359ba51450db7d8"
+ ABSL_WORKSPACE_BZL_PATH="third_party/absl/workspace.bzl"
+diff --git a/third_party/ruy/workspace.bzl b/third_party/ruy/workspace.bzl
+index 50769621770..471079b3bb2 100644
+--- a/third_party/ruy/workspace.bzl
++++ b/third_party/ruy/workspace.bzl
+@@ -5,11 +5,11 @@ load("//third_party:repo.bzl", "tf_http_archive")
+ def repo():
+     tf_http_archive(
+         name = "ruy",
+-        sha256 = "da5ec0cc07472bdb21589b0b51c8f3d7f75d2ed6230b794912adf213838d289a",
+-        strip_prefix = "ruy-54774a7a2cf85963777289193629d4bd42de4a59",
++        sha256 = "525de68739faa23eeea674596607a3eea7ca4425be2962b26775158e084c1036",
++        strip_prefix = "ruy-d37128311b445e758136b8602d1bbd2a755e115d",
+         urls = [
+-            "https://storage.googleapis.com/mirror.tensorflow.org/github.com/google/ruy/archive/54774a7a2cf85963777289193629d4bd42de4a59.zip",
+-            "https://github.com/google/ruy/archive/54774a7a2cf85963777289193629d4bd42de4a59.zip",
++            "https://storage.googleapis.com/mirror.tensorflow.org/github.com/google/ruy/archive/d37128311b445e758136b8602d1bbd2a755e115d.zip",
++            "https://github.com/google/ruy/archive/d37128311b445e758136b8602d1bbd2a755e115d.zip",
+         ],
+         build_file = "//third_party/ruy:BUILD",
+     )
