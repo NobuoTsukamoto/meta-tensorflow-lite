@@ -60,6 +60,8 @@ do_compile() {
           "${TENSORFLOW_LITE_DIR}/python/interpreter_wrapper" \
           "${LOCAL_BUILD_DIR}"
     cp "${TENSORFLOW_LITE_DIR}/python/interpreter.py" \
+       "${TENSORFLOW_LITE_DIR}/python/metrics_interface.py" \
+       "${TENSORFLOW_LITE_DIR}/python/metrics_portable.py" \
        "${LOCAL_BUILD_DIR}/tflite_runtime"
     echo "__version__ = '${PACKAGE_VERSION}'" >> "${LOCAL_BUILD_DIR}/tflite_runtime/__init__.py"
     echo "__git_version__ = '$(git -C "${TENSORFLOW_DIR}" describe)'" >> "${LOCAL_BUILD_DIR}/tflite_runtime/__init__.py"
