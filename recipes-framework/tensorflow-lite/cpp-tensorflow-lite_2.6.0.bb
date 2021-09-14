@@ -32,7 +32,9 @@ EXTRA_OECMAKE += "-DBUILD_SHARED_LIBS=ON"
 
 do_install() {
     install -d ${D}/${libdir}
-    install -m 0644 ${B}/libtensorflow-lite.so  ${D}/${libdir}/libtensorflowlite.so
+    install -m 0644 ${B}/libtensorflow-lite.so  ${D}/${libdir}/
+    ln -s -r ${D}/${libdir}/libtensorflow-lite.so ${D}/${libdir}/libtensorflowlite.so
+
     install -m 0644 ${B}/_deps/farmhash-build/libfarmhash.so ${D}/${libdir}
     install -m 0644 ${B}/_deps/fft2d-build/libfft2d_fftsg2d.so ${D}/${libdir}
     install -m 0644 ${B}/_deps/ruy-build/libruy.so ${D}/${libdir}
