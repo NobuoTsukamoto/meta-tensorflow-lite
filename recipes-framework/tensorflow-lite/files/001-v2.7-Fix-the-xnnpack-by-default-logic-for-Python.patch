@@ -1,0 +1,46 @@
+diff --git a/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper.cc b/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper.cc
+index 3b8ec26627f..0395590db8d 100644
+--- a/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper.cc
++++ b/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper.cc
+@@ -258,8 +258,12 @@ InterpreterWrapper::~InterpreterWrapper() {}
+ 
+ PyObject* InterpreterWrapper::AllocateTensors(int subgraph_index) {
+   TFLITE_PY_ENSURE_VALID_INTERPRETER();
+-  TFLITE_PY_SUBGRAPH_BOUNDS_CHECK(subgraph_index);
+-  TFLITE_PY_CHECK(interpreter_->subgraph(subgraph_index)->AllocateTensors());
++  if (subgraph_index == InterpreterWrapper::kUndeterminedSubgraphIndex) {
++    TFLITE_PY_CHECK(interpreter_->AllocateTensors());
++  } else {
++    TFLITE_PY_SUBGRAPH_BOUNDS_CHECK(subgraph_index);
++    TFLITE_PY_CHECK(interpreter_->subgraph(subgraph_index)->AllocateTensors());
++  }
+   Py_RETURN_NONE;
+ }
+ 
+diff --git a/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper.h b/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper.h
+index 6c4ce336f2c..a7a8a7bcd38 100644
+--- a/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper.h
++++ b/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper.h
+@@ -44,6 +44,8 @@ class InterpreterWrapper {
+  public:
+   using Model = FlatBufferModel;
+ 
++  static constexpr int kUndeterminedSubgraphIndex = -1;
++
+   // SWIG caller takes ownership of pointer.
+   static InterpreterWrapper* CreateWrapperCPPFromFile(
+       const char* model_path, int op_resolver_id,
+diff --git a/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper_pybind11.cc b/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper_pybind11.cc
+index d79b3f7cdf2..72e6a7d8420 100644
+--- a/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper_pybind11.cc
++++ b/tensorflow/lite/python/interpreter_wrapper/interpreter_wrapper_pybind11.cc
+@@ -94,7 +94,8 @@ PYBIND11_MODULE(_pywrap_tensorflow_interpreter_wrapper, m) {
+           [](InterpreterWrapper& self, int subgraph_index) {
+             return tensorflow::PyoOrThrow(self.AllocateTensors(subgraph_index));
+           },
+-          py::arg("subgraph_index") = 0)
++          py::arg("subgraph_index") =
++              InterpreterWrapper::kUndeterminedSubgraphIndex)
+       .def(
+           "Invoke",
+           [](InterpreterWrapper& self, int subgraph_index) {

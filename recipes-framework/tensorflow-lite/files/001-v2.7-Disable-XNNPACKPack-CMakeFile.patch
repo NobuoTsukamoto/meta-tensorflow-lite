@@ -1,0 +1,13 @@
+diff --git a/tensorflow/lite/CMakeLists.txt b/tensorflow/lite/CMakeLists.txt
+index 178f0398336..d1940304f40 100644
+--- a/tensorflow/lite/CMakeLists.txt
++++ b/tensorflow/lite/CMakeLists.txt
+@@ -66,7 +66,7 @@ cmake_dependent_option(TFLITE_ENABLE_NNAPI_VERBOSE_VALIDATION "Enable NNAPI verb
+                        "TFLITE_ENABLE_NNAPI" ON)
+ option(TFLITE_ENABLE_MMAP "Enable MMAP (unsupported on Windows)" ON)
+ option(TFLITE_ENABLE_GPU "Enable GPU" OFF)
+-option(TFLITE_ENABLE_XNNPACK "Enable XNNPACK backend" ON)
++option(TFLITE_ENABLE_XNNPACK "Enable XNNPACK backend" OFF)
+ 
+ option(TFLITE_KERNEL_TEST "Enable tflite kernel unit test" OFF)
+ 
