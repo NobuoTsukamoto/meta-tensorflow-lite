@@ -16,7 +16,7 @@ SRC_URI = " \
     file://update-google-ruy-gcc11-fix.patch \
 "
 
-SRC_URI_append_riscv64 += " \
+SRC_URI:append:riscv64 += " \
     file://link-atomic-lib.patch \
 "
 

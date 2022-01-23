@@ -15,7 +15,7 @@ SRC_URI = " \
     file://001-Remove-toolchain-setup-and-pybind11.patch \
 "
 
-SRC_URI_append_riscv64 += " \
+SRC_URI:append:riscv64 += " \
     file://link-atomic-lib.patch \
 "
 
