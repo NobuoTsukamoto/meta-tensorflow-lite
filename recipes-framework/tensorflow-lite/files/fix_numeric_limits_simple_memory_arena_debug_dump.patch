@@ -1,0 +1,14 @@
+diff --git a/tensorflow/lite/simple_memory_arena_debug_dump.cc b/tensorflow/lite/simple_memory_arena_debug_dump.cc
+index 256fa0b9a7e..a2cf2e14ebb 100644
+--- a/tensorflow/lite/simple_memory_arena_debug_dump.cc
++++ b/tensorflow/lite/simple_memory_arena_debug_dump.cc
+@@ -19,6 +19,9 @@ limitations under the License.
+ #include <string>
+ #include <vector>
+ 
++#include <stdexcept>
++#include <limits>
++
+ #include "tensorflow/lite/simple_memory_arena.h"
+ 
+ namespace tflite {
