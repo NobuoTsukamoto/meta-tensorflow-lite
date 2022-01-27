@@ -52,6 +52,12 @@ OECMAKE_C_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_IN} -I${NUMPY_INCLUDE}"
 OECMAKE_CXX_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_INCLUDE} -I${NUMPY_INCLUDE}"
 CMAKE_VERBOSE = "VERBOSE=1"
 
+# Note:
+# XNNPack is valid only on 64bit. 
+# In the case of arm 32bit, it will be turned off because the build will be
+# an error depending on the combination of target CPUs.
+TUNE_CCARGS:raspberrypi0-2w-64  = ""
+EXTRA_OECMAKE:raspberrypi0-2w-64 += "-DTFLITE_ENABLE_XNNPACK=ON"
 TUNE_CCARGS:raspberrypi3-64 = ""
 EXTRA_OECMAKE:raspberrypi3 += "-DTFLITE_ENABLE_XNNPACK=ON"
 TUNE_CCARGS:raspberrypi4-64 = ""
