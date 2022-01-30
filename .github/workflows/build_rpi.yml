@@ -1,0 +1,53 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      # Install essential host packages
+      - name: Install Pakages
+        run: |
+          sudo apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint3 xterm
+          sudo apt-get clean
+          
+      # checkout repository
+      - name: Clone poky, meta-raspberrypi, meta-openembedded
+        run: |
+          git clone git://git.yoctoproject.org/poky.git
+          git clone git://git.yoctoproject.org/meta-raspberrypi
+          git clone git://git.openembedded.org/meta-openembedded
+        working-directory: ../
+
+      # Run bitbake
+      - name: Run a one-line script
+        run: |
+          source poky/oe-init-build-env rpi-build
+          bitbake-layers add-layer ../meta-openembedded/meta-oe/
+          bitbake-layers add-layer ../meta-openembedded/meta-python/
+          bitbake-layers add-layer ../meta-openembedded/meta-networking/
+          bitbake-layers add-layer ../meta-openembedded/meta-multimedia/
+          bitbake-layers add-layer ../meta-raspberrypi/
+          bitbake-layers add-layer ../meta-tensorflow-lite/
+          MACHINE=raspberrypi4-64 bitbake python3-tensorflow-lite
+        working-directory: ../
