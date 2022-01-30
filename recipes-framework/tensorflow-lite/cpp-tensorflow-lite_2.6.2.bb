@@ -9,7 +9,7 @@ DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 SRCREV = "v${PV}"
 
 SRC_URI = " \
-    git://github.com/tensorflow/tensorflow.git;branch=r${BPV} \
+    git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
 "
 
 inherit cmake

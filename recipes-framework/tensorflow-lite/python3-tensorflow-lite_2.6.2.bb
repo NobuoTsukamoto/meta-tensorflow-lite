@@ -9,13 +9,13 @@ DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 SRCREV = "v${PV}"
 
 SRC_URI = " \
-    git://github.com/tensorflow/tensorflow.git;branch=r${BPV} \
+    git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
     file://001-Change-curl-to-wget-command.patch \
     file://001-TensorFlow-Lite_Makefile.patch \
     file://001-Remove-toolchain-setup-and-pybind11.patch \
 "
 
-SRC_URI_append_riscv64 += " \
+SRC_URI:append:riscv64 = " \
     file://link-atomic-lib.patch \
 "
 

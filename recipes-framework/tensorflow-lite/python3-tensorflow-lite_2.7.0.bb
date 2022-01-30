@@ -9,13 +9,14 @@ DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 SRCREV = "v${PV}"
 
 SRC_URI = " \
-    git://github.com/tensorflow/tensorflow.git;branch=r${BPV} \
+    git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
     file://001-v2.7-Fix-the-xnnpack-by-default-logic-for-Python.patch \
     file://001-v2.7-Disable-XNNPACKPack-CMakeFile.patch \
 "
 
-SRC_URI_append_riscv64 += " \
-    file://link-atomic-lib.patch \
+SRC_URI:append:riscv64 = " \
+    file://fix_numeric_limits_simple_memory_arena_debug_dump.patch \
+    file://riscv_download.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -52,20 +53,18 @@ OECMAKE_C_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_IN} -I${NUMPY_INCLUDE}"
 OECMAKE_CXX_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_INCLUDE} -I${NUMPY_INCLUDE}"
 CMAKE_VERBOSE = "VERBOSE=1"
 
-TUNE_CCARGS:raspberrypi2 = ""
-EXTRA_OECMAKE:raspberrypi2 += "-DTFLITE_ENABLE_XNNPACK=ON"
-TUNE_CCARGS:raspberrypi3 = ""
-EXTRA_OECMAKE:raspberrypi3 += "-DTFLITE_ENABLE_XNNPACK=ON"
+# Note:
+# XNNPack is valid only on 64bit. 
+# In the case of arm 32bit, it will be turned off because the build will be
+# an error depending on the combination of target CPUs.
+TUNE_CCARGS:raspberrypi0-2w-64  = ""
+EXTRA_OECMAKE:raspberrypi0-2w-64 += "-DTFLITE_ENABLE_XNNPACK=ON"
 TUNE_CCARGS:raspberrypi3-64 = ""
 EXTRA_OECMAKE:raspberrypi3 += "-DTFLITE_ENABLE_XNNPACK=ON"
-TUNE_CCARGS:raspberrypi-cm3 = ""
-EXTRA_OECMAKE:raspberrypi-cm3 += "-DTFLITE_ENABLE_XNNPACK=ON"
-TUNE_CCARGS:raspberrypi4 = ""
-EXTRA_OECMAKE:raspberrypi4 += "-DTFLITE_ENABLE_XNNPACK=ON"
 TUNE_CCARGS:raspberrypi4-64 = ""
 EXTRA_OECMAKE:raspberrypi4-64 += "-DTFLITE_ENABLE_XNNPACK=ON"
 
-do_compile_prepend() {
+do_compile:prepend() {
     TENSORFLOW_VERSION=$(grep "_VERSION = " "${S}/tensorflow/tools/pip_package/setup.py" | cut -d= -f2 | sed "s/[ '-]//g")
     export PACKAGE_VERSION="${TENSORFLOW_VERSION}"
 
@@ -83,7 +82,7 @@ do_compile_prepend() {
     echo "__git_version__ = '$(git -C "${S}" describe)'" >> "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime/__init__.py"
 }
 
-do_compile_append() {
+do_compile:append() {
     cp "${B}/_pywrap_tensorflow_interpreter_wrapper.so" \
         "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime"
 

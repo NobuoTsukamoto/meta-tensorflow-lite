@@ -1,7 +1,7 @@
 DESCRIPTION = "TensorFlow Lite Standalone Pip"
 LICENSE = "Apache-2.0"
 
-LIC_FILES_CHKSUM = "file://LICENSE;md5=5131e32d71a4eb06326ea1772d0de6fd"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=64a34301f8e355f57ec992c2af3e5157"
 # Compute branch info from ${PV} as Base PV...
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
@@ -9,14 +9,13 @@ DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 SRCREV = "v${PV}"
 
 SRC_URI = " \
-    git://github.com/tensorflow/tensorflow.git;branch=r${BPV} \
+    git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
     file://001-Change-curl-to-wget-command.patch \
     file://001-TensorFlow-Lite_Makefile.patch \
     file://001-Remove-toolchain-setup-and-pybind11.patch \
-    file://update-google-ruy-gcc11-fix.patch \
 "
 
-SRC_URI_append_riscv64 += " \
+SRC_URI:append:riscv64 = " \
     file://link-atomic-lib.patch \
 "
 
@@ -61,8 +60,6 @@ do_compile() {
           "${TENSORFLOW_LITE_DIR}/python/interpreter_wrapper" \
           "${LOCAL_BUILD_DIR}"
     cp "${TENSORFLOW_LITE_DIR}/python/interpreter.py" \
-       "${TENSORFLOW_LITE_DIR}/python/metrics_interface.py" \
-       "${TENSORFLOW_LITE_DIR}/python/metrics_portable.py" \
        "${LOCAL_BUILD_DIR}/tflite_runtime"
     echo "__version__ = '${PACKAGE_VERSION}'" >> "${LOCAL_BUILD_DIR}/tflite_runtime/__init__.py"
     echo "__git_version__ = '$(git -C "${TENSORFLOW_DIR}" describe)'" >> "${LOCAL_BUILD_DIR}/tflite_runtime/__init__.py"
