@@ -34,7 +34,7 @@ jobs:
       # Check space before cleanup
       - name: Check space before cleanup
         run: |
-          run: df -h
+          df -h
           sudo rm -rf "/usr/local/share/boost"
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           sudo rm -rf /usr/share/dotnet
