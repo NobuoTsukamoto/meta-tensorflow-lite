@@ -34,13 +34,13 @@ jobs:
       # checkout repository
       - name: Clone poky, meta-raspberrypi, meta-openembedded
         run: |
-          git clone git://git.yoctoproject.org/poky.git
-          git clone git://git.yoctoproject.org/meta-raspberrypi
-          git clone git://git.openembedded.org/meta-openembedded
+          git clone -b dunfell git://git.yoctoproject.org/poky.git
+          git clone -b dunfell git://git.yoctoproject.org/meta-raspberrypi
+          git clone -b dunfell git://git.openembedded.org/meta-openembedded
         working-directory: ../
 
       # Run bitbake
-      - name: Run a one-line script
+      - name: Run Bitbake target raspberrypi4-64 
         run: |
           source poky/oe-init-build-env rpi-build
           bitbake-layers add-layer ../meta-openembedded/meta-oe/
@@ -51,3 +51,10 @@ jobs:
           bitbake-layers add-layer ../meta-tensorflow-lite/
           MACHINE=raspberrypi4-64 bitbake python3-tensorflow-lite
         working-directory: ../
+        
+      # Run bitbake
+      - name: Run Bitbake target raspberrypi4
+        run: |
+          rm -rf ./sstate-cache/ tmp/ cache/ bitbake-cookerdaemon.log
+          MACHINE=raspberrypi4 bitbake python3-tensorflow-lite
+        working-directory: ../rpi-build
