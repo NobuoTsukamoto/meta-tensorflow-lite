@@ -70,15 +70,99 @@ jobs:
       - name: Bitbake MACHINE=raspberrypi4-64, TensorFlow-Lite v2.6.2
         run: |
           source poky/oe-init-build-env rpi-build
+          rm -rf conf/auto.conf
+          cat <<EOF> conf/auto.conf
           PREFERRED_VERSION_python3-tensorflow-lite="2.6.2"
           EOF
           cat conf/auto.conf
           MACHINE=raspberrypi4-64 bitbake python3-tensorflow-lite
+        working-directory: ../
           
+      - name: Bitbake MACHINE=raspberrypi4-64, TensorFlow-Lite v2.5.2
+        run: |
+          source poky/oe-init-build-env rpi-build
+          rm -rf conf/auto.conf
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.5.2"
+          EOF
+          cat conf/auto.conf
+          MACHINE=raspberrypi4-64 bitbake python3-tensorflow-lite
+        working-directory: ../
+          
+      - name: Bitbake MACHINE=raspberrypi4-64, TensorFlow-Lite v2.4.4
+        run: |
+          source poky/oe-init-build-env rpi-build
+          rm -rf conf/auto.conf
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.4.4"
+          EOF
+          cat conf/auto.conf
+          MACHINE=raspberrypi4-64 bitbake python3-tensorflow-lite
+        working-directory: ../
+
+      - name: Bitbake MACHINE=raspberrypi4-64, TensorFlow-Lite v2.3.4
+        run: |
+          source poky/oe-init-build-env rpi-build
+          rm -rf conf/auto.conf
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.3.4"
+          EOF
+          cat conf/auto.conf
+          MACHINE=raspberrypi4-64 bitbake python3-tensorflow-lite
+        working-directory: ../
+        
       # Run bitbake
       - name: Run Bitbake target raspberrypi4
         run: |
           source poky/oe-init-build-env rpi-build
-          rm -rf ./sstate-cache/ tmp/ cache/ bitbake-cookerdaemon.log
+          rm -rf ./sstate-cache/ tmp/ cache/ bitbake-cookerdaemon.log conf/auto.conf
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.7.0"
+          EOF
+          cat conf/auto.conf
           MACHINE=raspberrypi4 bitbake python3-tensorflow-lite
+        working-directory: ../
+
+      - name: Bitbake MACHINE=raspberrypi4-64, TensorFlow-Lite v2.6.2
+        run: |
+          source poky/oe-init-build-env rpi-build
+          rm -rf conf/auto.conf
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.6.2"
+          EOF
+          cat conf/auto.conf
+          MACHINE=raspberrypi4-64 bitbake python3-tensorflow-lite
+        working-directory: ../
+          
+      - name: Bitbake MACHINE=raspberrypi4-64, TensorFlow-Lite v2.5.2
+        run: |
+          source poky/oe-init-build-env rpi-build
+          rm -rf conf/auto.conf
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.5.2"
+          EOF
+          cat conf/auto.conf
+          MACHINE=raspberrypi4-64 bitbake python3-tensorflow-lite
+        working-directory: ../
+          
+      - name: Bitbake MACHINE=raspberrypi4-64, TensorFlow-Lite v2.4.4
+        run: |
+          source poky/oe-init-build-env rpi-build
+          rm -rf conf/auto.conf
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.4.4"
+          EOF
+          cat conf/auto.conf
+          MACHINE=raspberrypi4-64 bitbake python3-tensorflow-lite
+        working-directory: ../
+
+      - name: Bitbake MACHINE=raspberrypi4-64, TensorFlow-Lite v2.3.4
+        run: |
+          source poky/oe-init-build-env rpi-build
+          rm -rf conf/auto.conf
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.3.4"
+          EOF
+          cat conf/auto.conf
+          MACHINE=raspberrypi4-64 bitbake python3-tensorflow-lite
         working-directory: ../
