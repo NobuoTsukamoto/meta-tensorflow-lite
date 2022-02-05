@@ -1,0 +1,131 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Bitbake riscv64
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  bitbake-riscv64-sifive:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      # Install essential host packages
+      - name: Install Pakages
+        run: |
+          sudo apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint3 xterm zstd liblz4-tool
+          sudo apt-get clean
+      
+      # Check space before cleanup
+      - name: Check space before cleanup
+        run: |
+          df -h
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          df -h
+          
+      # checkout repository
+      - name: Clone repository
+        run: |
+          git clone -b 2022.01 https://github.com/sifive/freedom-u-sdk.git
+          git clone -b 2022.01 https://github.com/sifive/meta-sifive
+          git clone https://github.com/riscv/meta-riscv.git
+          cd meta-riscv
+          git checkout 9561639c61663a10d8c9c23d26173db499f4c39b
+          cd ..
+          git clone https://github.com/openembedded/openembedded-core.git
+          cd openembedded-core
+          git checkout 88da9b61b469654805fd51869790b1fd6d34c5a3
+          cd ..
+          git clone https://github.com/openembedded/bitbake.git
+          cd bitbake
+          git checkout 9f272ad7f76c1559e745e9af686d0a529f917659
+          cd ..
+          git clone https://github.com/openembedded/meta-openembedded.git
+          cd meta-openembedded
+          git checkout 2156c4416a711c42a9eda106ae228b53bd130ab7
+          cd ..
+          git clone https://github.com/kraj/meta-clang.git
+          cd meta-clang
+          git checkout fd587eaf0340faba2f85cf7b2e254a290500c48c
+        working-directory: ../
+
+      # Run bitbake
+      - name: Bitbake MACHINE=qemuriscv64, TensorFlow-Lite v2.8.0
+        run: |
+          . ./freedom-u-sdk/setup.sh
+          cat conf/auto.conf
+          MACHINE=qemuriscv64 bitbake python3-tensorflow-lite
+        working-directory: ../
+
+      - name: Bitbake MACHINE=qemuriscv64, TensorFlow-Lite v2.7.1
+        run: |
+          rm -rf build/conf/auto.conf
+          . ./freedom-u-sdk/setup.sh
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.7.1"
+          EOF
+          cat conf/auto.conf
+          MACHINE=qemuriscv64 bitbake python3-tensorflow-lite
+        working-directory: ../
+
+      - name: Bitbake MACHINE=qemuriscv64, TensorFlow-Lite v2.6.3
+        run: |
+          rm -rf build/conf/auto.conf
+          . ./freedom-u-sdk/setup.sh
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.6.3"
+          EOF
+          cat conf/auto.conf
+          MACHINE=qemuriscv64 bitbake python3-tensorflow-lite
+        working-directory: ../
+          
+      - name: Bitbake MACHINE=qemuriscv64, TensorFlow-Lite v2.5.3
+        run: |
+          rm -rf build/conf/auto.conf
+          . ./freedom-u-sdk/setup.sh
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.5.3"
+          EOF
+          cat conf/auto.conf
+          MACHINE=qemuriscv64 bitbake python3-tensorflow-lite
+        working-directory: ../
+          
+      - name: Bitbake MACHINE=qemuriscv64, TensorFlow-Lite v2.4.4
+        run: |
+          rm -rf build/conf/auto.conf
+          . ./freedom-u-sdk/setup.sh
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.4.4"
+          EOF
+          cat conf/auto.conf
+          MACHINE=qemuriscv64 bitbake python3-tensorflow-lite
+        working-directory: ../
+
+      - name: Bitbake MACHINE=qemuriscv64, TensorFlow-Lite v2.3.4
+        run: |
+          rm -rf build/conf/auto.conf
+          . ./freedom-u-sdk/setup.sh
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="2.3.4"
+          EOF
+          cat conf/auto.conf
+          MACHINE=qemuriscv64 bitbake python3-tensorflow-lite
+        working-directory: ../
