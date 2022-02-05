@@ -1,7 +1,7 @@
 DESCRIPTION = "TensorFlow Lite Standalone Pip"
 LICENSE = "Apache-2.0"
 
-LIC_FILES_CHKSUM = "file://LICENSE;md5=c7e17cca1ef4230861fb7868e96c387e"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 # Compute branch info from ${PV} as Base PV...
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
@@ -10,13 +10,12 @@ SRCREV = "v${PV}"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
-    file://001-v2.7-Fix-the-xnnpack-by-default-logic-for-Python.patch \
-    file://001-v2.7-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-v2.8-Disable-XNNPACKPack-CMakeFile.patch \
 "
 
 SRC_URI:append:riscv64 = " \
-    file://fix_numeric_limits_simple_memory_arena_debug_dump.patch \
-    file://riscv_download.patch \
+    file://001-fix_numeric_limits_simple_memory_arena_debug_dump.patch \
+    file://001-v2.8_riscv_download.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -57,10 +56,23 @@ CMAKE_VERBOSE = "VERBOSE=1"
 # XNNPack is valid only on 64bit. 
 # In the case of arm 32bit, it will be turned off because the build will be
 # an error depending on the combination of target CPUs.
+HOST_ARCH:raspberrypi = "armv6"
+HOST_ARCH:raspberrypi0 = "armv6"
+HOST_ARCH:raspberrypi0-wifi = "armv6"
+HOST_ARCH:raspberrypi-cm = "armv6"
+
+HOST_ARCH:raspberrypi2 = "armv7"
+HOST_ARCH:raspberrypi3 = "armv7"
+HOST_ARCH:raspberrypi4 = "armv7"
+HOST_ARCH:raspberrypi-cm3 = "armv7"
+
+HOST_ARCH:raspberrypi0-2w-64 = "aarch64"
 TUNE_CCARGS:raspberrypi0-2w-64  = ""
 EXTRA_OECMAKE:raspberrypi0-2w-64 += "-DTFLITE_ENABLE_XNNPACK=ON"
+HOST_ARCH:raspberrypi3-64 = "aarch64"
 TUNE_CCARGS:raspberrypi3-64 = ""
-EXTRA_OECMAKE:raspberrypi3 += "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:raspberrypi3-64 += "-DTFLITE_ENABLE_XNNPACK=ON"
+HOST_ARCH:raspberrypi4-64 = "aarch64"
 TUNE_CCARGS:raspberrypi4-64 = ""
 EXTRA_OECMAKE:raspberrypi4-64 += "-DTFLITE_ENABLE_XNNPACK=ON"
 
@@ -75,8 +87,8 @@ do_compile:prepend() {
           "${TENSORFLOW_LITE_BUILD_DIR}"
     cp "${TENSORFLOW_LITE_DIR}/tools/pip_package/setup_with_binary.py" "${TENSORFLOW_LITE_BUILD_DIR}/setup.py"
     cp "${TENSORFLOW_LITE_DIR}/python/interpreter.py" \
-       "${TENSORFLOW_LITE_DIR}/python/metrics_interface.py" \
-       "${TENSORFLOW_LITE_DIR}/python/metrics_portable.py" \
+       "${TENSORFLOW_LITE_DIR}/python/metrics/metrics_interface.py" \
+       "${TENSORFLOW_LITE_DIR}/python/metrics/metrics_portable.py" \
        "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime"
     echo "__version__ = '${PACKAGE_VERSION}'" >> "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime/__init__.py"
     echo "__git_version__ = '$(git -C "${S}" describe)'" >> "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime/__init__.py"
