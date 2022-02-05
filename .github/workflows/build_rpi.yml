@@ -66,7 +66,7 @@ jobs:
           MACHINE=raspberrypi4-64 bitbake python3-tensorflow-lite
         working-directory: ../
 
-      - name: Bitbake MACHINE=raspberrypi4, TensorFlow-Lite v2.7.1
+      - name: Bitbake MACHINE=raspberrypi4-64, TensorFlow-Lite v2.7.1
         run: |
           source poky/oe-init-build-env rpi-build
           rm -rf conf/auto.conf
