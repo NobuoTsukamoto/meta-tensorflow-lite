@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Bitbake qemuriscv64 honister
+name: Bitbake qemuriscv honister
 
 # Controls when the workflow will run
 on:
@@ -67,7 +67,7 @@ jobs:
           bitbake-layers add-layer ../meta-openembedded/meta-multimedia
           bitbake-layers add-layer ../meta-openembedded/meta-networking
           bitbake-layers add-layer ../meta-riscv
-          bitbake-layers add-layer ../meta-tensorflow-lite/
+          bitbake-layers add-layer ../meta-tensorflow-lite
           cat <<EOF > conf/auto.conf
           MACHINE ?= "${{ matrix.target_machine }}"
           #IMAGE_FEATURES += "tools-debug"
