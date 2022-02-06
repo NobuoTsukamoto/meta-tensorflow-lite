@@ -11,10 +11,10 @@ SRCREV = "v${PV}"
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
     file://001-v2.8-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-fix_numeric_limits_simple_memory_arena_debug_dump.patch \
 "
 
 SRC_URI:append:riscv64 = " \
-    file://001-fix_numeric_limits_simple_memory_arena_debug_dump.patch \
     file://001-v2.8_riscv_download.patch \
 "
 
