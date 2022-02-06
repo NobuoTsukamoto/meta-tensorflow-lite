@@ -1,0 +1,76 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Bitbake honister
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the honister branch
+  push:
+    branches: [ honister ]
+  pull_request:
+    branches: [ honister ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  TARGET_VERSION: honister
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  bitbake-raspberrypi:
+
+    strategy:
+      matrix:
+        target_machine: [raspberrypi4-64, raspberrypi4, raspberrypi0]
+        tensorflow_version: [2.8.0, 2.7.1, 2.6.3, 2.5.3]
+
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      # Install essential host packages
+      - name: Install Pakages
+        run: |
+          sudo apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint3 xterm
+          sudo apt-get clean
+      
+      # Check space before cleanup
+      - name: Check space before cleanup
+        run: |
+          df -h
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          df -h
+          
+      # checkout repository
+      - name: Clone poky, meta-raspberrypi, meta-openembedded
+        run: |
+          git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
+          git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/meta-raspberrypi
+          git clone -b ${TARGET_VERSION} git://git.openembedded.org/meta-openembedded
+        working-directory: ../
+
+      # Run bitbake
+      - name: Bitbake MACHINE=${{ matrix.target_machine.target_machine }}, TensorFlow-Lite ${{ matrix.tensorflow_version }}
+        run: |
+          source poky/oe-init-build-env rpi-build
+          bitbake-layers add-layer ../meta-openembedded/meta-oe/
+          bitbake-layers add-layer ../meta-openembedded/meta-python/
+          bitbake-layers add-layer ../meta-openembedded/meta-networking/
+          bitbake-layers add-layer ../meta-openembedded/meta-multimedia/
+          bitbake-layers add-layer ../meta-raspberrypi/
+          bitbake-layers add-layer ../meta-tensorflow-lite/
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_python3-tensorflow-lite="${{ matrix.tensorflow_version }}"
+          EOF
+          cat conf/auto.conf
+          MACHINE=${{target_machine.target_machine}} bitbake python3-tensorflow-lite
+        working-directory: ../
