@@ -70,7 +70,80 @@ jobs:
       # Run bitbake
       - name: Bitbake MACHINE=qemuriscv64, TensorFlow-Lite v2.8.0
         run: |
-          . ./freedom-u-sdk/setup.sh
+          source openembedded-core/oe-init-build-env riscv64-build
+          bitbake-layers add-layer ../meta-openembedded/meta-oe
+          bitbake-layers add-layer ../meta-openembedded/meta-python
+          bitbake-layers add-layer ../meta-openembedded/meta-multimedia
+          bitbake-layers add-layer ../meta-openembedded/meta-filesystems
+          bitbake-layers add-layer ../meta-openembedded/meta-networking
+          bitbake-layers add-layer ../meta-openembedded/meta-gnome
+          bitbake-layers add-layer ../meta-openembedded/meta-xfce
+          bitbake-layers add-layer ../meta-riscv
+          bitbake-layers add-layer ../meta-clang
+          bitbake-layers add-layer ../meta-sifive
+          bitbake-layers add-layer ../meta-tensorflow-lite/
+          bitbake-layers add-layer ../freedom-u-sdk
+          cat <<EOF > conf/auto.conf
+          MACHINE ?= "unmatched"
+          #IMAGE_FEATURES += "tools-debug"
+          #IMAGE_FEATURES += "tools-tweaks"
+          #IMAGE_FEATURES += "dbg-pkgs"
+          # rootfs for debugging
+          #IMAGE_GEN_DEBUGFS = "1"
+          #IMAGE_FSTYPES_DEBUGFS = "tar.gz"
+          #EXTRA_IMAGE_FEATURES:append = " ssh-server-dropbear"
+          EXTRA_IMAGE_FEATURES:append = " package-management"
+          PACKAGECONFIG:append:pn-qemu-native = " sdl"
+          PACKAGECONFIG:append:pn-nativesdk-qemu = " sdl"
+          USER_CLASSES ?= "buildstats buildhistory buildstats-summary image-prelink"
+          require conf/distro/include/yocto-uninative.inc
+          require conf/distro/include/security_flags.inc
+          INHERIT += "uninative"
+          DISTRO_FEATURES:append = " largefile opengl ptest multiarch pam systemd vulkan "
+          DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
+          VIRTUAL-RUNTIME_init_manager = "systemd"
+          VIRTUAL-RUNTIME_initscripts = ""
+          VIRTUAL-RUNTIME_syslog = ""
+          VIRTUAL-RUNTIME_login_manager = "shadow-base"
+          HOSTTOOLS_NONFATAL:append = " ssh"
+          PREFERRED_PROVIDER_base-utils = "packagegroup-core-base-utils"
+          VIRTUAL-RUNTIME_base-utils = "packagegroup-core-base-utils"
+          VIRTUAL-RUNTIME_base-utils-hwclock = "util-linux-hwclock"
+          VIRTUAL-RUNTIME_base-utils-syslog = ""
+          # Use full features vim instead of vim-tiny
+          VIRTUAL-RUNTIME_vim = "vim"
+          # We use NetworkManager instead
+          PACKAGECONFIG:remove:pn-systemd = "networkd"
+          PACKAGECONFIG:remove:pn-systemd = "resolved"
+          PACKAGECONFIG:remove:pn-systemd = "nss-resolve"
+          SECURITY_CFLAGS:pn-opensbi = ""
+          SECURITY_LDFLAGS:pn-opensbi = ""
+          # Add r600 drivers for AMD GPU
+          PACKAGECONFIG:append:pn-mesa = " r600"
+          # Add support for modern AMD GPU (e.g. RX550 / POLARIS)
+          PACKAGECONFIG:append:pn-mesa = " radeonsi"
+          PACKAGECONFIG:append:pn-mesa = " gallium-llvm"
+          PACKAGECONFIG:append:pn-mesa = " vdpau"
+          PACKAGECONFIG:append:pn-gdb = " python"
+          PACKAGECONFIG:append:pn-gdb = " tui"
+          PACKAGECONFIG:append:pn-gdb = " xz"
+          PACKAGECONFIG:append:pn-elfutils = " bzip2"
+          PACKAGECONFIG:append:pn-elfutils = " xz"
+          PACKAGECONFIG:append:pn-pulseaudio = " autospawn-for-root"
+          PACKAGECONFIG:append:pn-mousepad = " spell"
+          PACKAGECONFIG:append:pn-perf = " dwarf"
+          PACKAGECONFIG:append:pn-perf = " libunwind"
+          PACKAGECONFIG:append:pn-perf = " manpages"
+          PACKAGECONFIG:append:pn-perf = " jvmti"
+          PACKAGECONFIG:append:pn-perf = " cap"
+          QEMU_TARGETS = "riscv64 x86_64"
+          CLANGSDK = "1"
+          FORTRAN:forcevariable = ",fortran"
+          BBMASK += "openembedded-core/meta/recipes-bsp/opensbi/opensbi_0.9.bb"
+          DISTRO_NAME = "FreedomUSDK"
+          DISTRO_VERSION = "2022.01.00"
+          DISTRO_CODENAME = "2022January"
+          EOF
           cat conf/auto.conf
           MACHINE=qemuriscv64 bitbake python3-tensorflow-lite
         working-directory: ../
@@ -78,7 +151,7 @@ jobs:
       - name: Bitbake MACHINE=qemuriscv64, TensorFlow-Lite v2.7.1
         run: |
           rm -rf build/conf/auto.conf
-          . ./freedom-u-sdk/setup.sh
+          source ./freedom-u-sdk/setup.sh
           cat <<EOF> conf/auto.conf
           PREFERRED_VERSION_python3-tensorflow-lite="2.7.1"
           EOF
