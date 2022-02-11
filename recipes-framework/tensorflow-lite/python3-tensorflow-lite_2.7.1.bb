@@ -62,11 +62,11 @@ CMAKE_VERBOSE = "VERBOSE=1"
 # In the case of arm 32bit, it will be turned off because the build will be
 # an error depending on the combination of target CPUs.
 TUNE_CCARGS:raspberrypi0-2w-64  = ""
-EXTRA_OECMAKE:raspberrypi0-2w-64 += "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi0-2w-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
 TUNE_CCARGS:raspberrypi3-64 = ""
-EXTRA_OECMAKE:raspberrypi3 += "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi3 = "-DTFLITE_ENABLE_XNNPACK=ON"
 TUNE_CCARGS:raspberrypi4-64 = ""
-EXTRA_OECMAKE:raspberrypi4-64 += "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi4-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
 
 do_compile:prepend() {
     TENSORFLOW_VERSION=$(grep "_VERSION = " "${S}/tensorflow/tools/pip_package/setup.py" | cut -d= -f2 | sed "s/[ '-]//g")
