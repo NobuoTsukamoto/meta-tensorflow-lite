@@ -20,6 +20,10 @@ SRC_URI:append:riscv64 = " \
     file://link-atomic-lib.patch \
 "
 
+SRC_URI:append:riscv32 = " \
+    file://link-atomic-lib.patch \
+"
+
 S = "${WORKDIR}/git"
 
 DEPENDS += "gzip-native \
@@ -75,31 +79,24 @@ do_compile() {
         echo "build aarch64"
         export TENSORFLOW_TARGET=aarch64
         export TARGET=aarch64
-
-        STAGING_INCDIR=${STAGING_INCDIR} \
-        STAGING_LIBDIR=${STAGING_LIBDIR} \
-        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
-        bdist bdist_wheel
-
     elif [ ${TARGET_ARCH} = "arm" ]; then
         echo "build arm"
         export TENSORFLOW_TARGET=rpi
         export TARGET=rpi
-
-        STAGING_INCDIR=${STAGING_INCDIR} \
-        STAGING_LIBDIR=${STAGING_LIBDIR} \
-        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
-        bdist bdist_wheel
     elif [ ${TARGET_ARCH} = "riscv64" ]; then
         echo "build riscv64"
         export TENSORFLOW_TARGET=riscv64
         export TARGET=riscv64
-
-        STAGING_INCDIR=${STAGING_INCDIR} \
-        STAGING_LIBDIR=${STAGING_LIBDIR} \
-        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
-        bdist bdist_wheel
+    elif [ ${TARGET_ARCH} = "riscv32" ]; then
+        echo "build riscv32"
+        export TENSORFLOW_TARGET=riscv32
+        export TARGET=riscv32
     fi
+
+    STAGING_INCDIR=${STAGING_INCDIR} \
+    STAGING_LIBDIR=${STAGING_LIBDIR} \
+    ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
+    bdist bdist_wheel
 }
 
 do_install() {
