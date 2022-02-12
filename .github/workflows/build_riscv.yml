@@ -66,8 +66,8 @@ jobs:
           source openembedded-core/oe-init-build-env build
           bitbake-layers add-layer ../meta-openembedded/meta-oe
           bitbake-layers add-layer ../meta-openembedded/meta-python
-          bitbake-layers add-layer ../meta-tensorflow-lite
           bitbake-layers add-layer ../meta-riscv
+          bitbake-layers add-layer ../meta-tensorflow-lite
           cat <<EOF > conf/auto.conf
           PREFERRED_VERSION_python3-tensorflow-lite="${{ matrix.tensorflow_version }}"
           EOF
