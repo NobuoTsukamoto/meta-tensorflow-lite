@@ -36,7 +36,7 @@ DEPENDS += "gzip-native \
             python3-pybind11 \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     python3 \
     python3-numpy \
     python3-pybind11 \
