@@ -60,8 +60,8 @@ jobs:
         working-directory: ../
 
       # Run bitbake cpp-tensorflow-lite
-      - if: ${{ !contains(["2.5.3"], ${{ matrix.tensorflow_version }}) }}
-        name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite C++ ${{ matrix.tensorflow_version }}
+      - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite C++ ${{ matrix.tensorflow_version }}
+        if: ${{ !contains(["2.5.3"], ${{ matrix.tensorflow_version }}) }}
           source poky/oe-init-build-env rpi-build
           cat <<EOF> conf/auto.conf
           PREFERRED_VERSION_cpp-tensorflow-lite="${{ matrix.tensorflow_version }}"
