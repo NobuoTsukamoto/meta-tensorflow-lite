@@ -65,17 +65,6 @@ do_install() {
     if [ -e ${B}/_deps/cpuinfo-build/libcpuinfo.so ]; then
         install -m 0755 ${B}/_deps/cpuinfo-build/libcpuinfo.so ${D}/${libdir}
     fi
-    install -d ${D}/${libdir}
-    install -m 0644 ${B}/libtensorflow-lite.so  ${D}/${libdir}/
-    ln -s -r ${D}/${libdir}/libtensorflow-lite.so ${D}/${libdir}/libtensorflowlite.so
-
-    install -m 0644 ${B}/_deps/farmhash-build/libfarmhash.so ${D}/${libdir}
-    install -m 0644 ${B}/_deps/fft2d-build/libfft2d_fftsg2d.so ${D}/${libdir}
-    install -m 0644 ${B}/_deps/ruy-build/libruy.so ${D}/${libdir}
-    install -m 0644 ${B}/_deps/xnnpack-build/libXNNPACK.so ${D}/${libdir}
-    install -m 0644 ${B}/_deps/fft2d-build/libfft2d_fftsg.so ${D}/${libdir}
-    install -m 0644 ${B}/pthreadpool/libpthreadpool.so ${D}/${libdir}
-    install -m 0644 ${B}/cpuinfo/libcpuinfo.so ${D}/${libdir}
 
     install -d ${D}${includedir}/tensorflow/lite
     install -d ${D}${includedir}/tensorflow/lite/c
