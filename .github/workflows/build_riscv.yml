@@ -60,8 +60,19 @@ jobs:
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/meta-openembedded.git
         working-directory: ../
 
-      # Run bitbake
-      - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite ${{ matrix.tensorflow_version }}
+      # Run bitbake cpp-tensorflow-lite
+      - if: ${{ !contains(["2.5.3"], ${{ matrix.tensorflow_version }}) }}
+        name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite C++ ${{ matrix.tensorflow_version }}
+          source poky/oe-init-build-env rpi-build
+          cat <<EOF> conf/auto.conf
+          PREFERRED_VERSION_cpp-tensorflow-lite="${{ matrix.tensorflow_version }}"
+          EOF
+          cat conf/auto.conf
+          MACHINE=${{matrix.target_machine}} bitbake cpp-tensorflow-lite
+        working-directory: ../
+
+      # Run bitbake python3-tensorflow-lite
+      - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite Python ${{ matrix.tensorflow_version }}
         run: |
           source openembedded-core/oe-init-build-env build
           bitbake-layers add-layer ../meta-openembedded/meta-oe
