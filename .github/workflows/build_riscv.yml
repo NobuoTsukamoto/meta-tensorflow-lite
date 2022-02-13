@@ -69,7 +69,7 @@ jobs:
           bitbake-layers add-layer ../meta-tensorflow-lite
           bitbake-layers add-layer ../meta-riscv
           export BITBAKE_OPTION="python3-tensorflow-lite"
-          case "${{ matrix.b }}" in
+          case "${{ matrix.tensorflow_version }}" in
           2.8.*|2.7.*|2.6.*)
             export PREFERRED_VERSION_CPP=PREFERRED_VERSION_cpp-tensorflow-lite=\"${{ matrix.tensorflow_version }}\"
             export BITBAKE_OPTION="${BITBAKE_OPTION} cpp-tensorflow-lite"
@@ -80,4 +80,5 @@ jobs:
           ${PREFERRED_VERSION_CPP}
           EOF
           cat conf/auto.conf
-          MACHINE=${{matrix.target_machine}} bitbake ${BITBAKE_OPTION}        working-directory: ../
+          MACHINE=${{matrix.target_machine}} bitbake ${BITBAKE_OPTION}
+        working-directory: ../
