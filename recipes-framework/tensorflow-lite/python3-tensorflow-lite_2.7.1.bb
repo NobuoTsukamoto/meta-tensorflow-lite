@@ -61,10 +61,23 @@ CMAKE_VERBOSE = "VERBOSE=1"
 # XNNPack is valid only on 64bit. 
 # In the case of arm 32bit, it will be turned off because the build will be
 # an error depending on the combination of target CPUs.
+HOST_ARCH:raspberrypi = "armv6"
+HOST_ARCH:raspberrypi0 = "armv6"
+HOST_ARCH:raspberrypi0-wifi = "armv6"
+HOST_ARCH:raspberrypi-cm = "armv6"
+
+HOST_ARCH:raspberrypi2 = "armv7"
+HOST_ARCH:raspberrypi3 = "armv7"
+HOST_ARCH:raspberrypi4 = "armv7"
+HOST_ARCH:raspberrypi-cm3 = "armv7"
+
+HOST_ARCH:raspberrypi0-2w-64 = "aarch64"
 TUNE_CCARGS:raspberrypi0-2w-64  = ""
 EXTRA_OECMAKE:append:raspberrypi0-2w-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+HOST_ARCH:raspberrypi3-64 = "aarch64"
 TUNE_CCARGS:raspberrypi3-64 = ""
-EXTRA_OECMAKE:append:raspberrypi3 = "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi3-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+HOST_ARCH:raspberrypi4-64 = "aarch64"
 TUNE_CCARGS:raspberrypi4-64 = ""
 EXTRA_OECMAKE:append:raspberrypi4-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
 
