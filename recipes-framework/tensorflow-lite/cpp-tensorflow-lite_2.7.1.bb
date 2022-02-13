@@ -10,27 +10,61 @@ SRCREV = "v${PV}"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
+    file://001-v2.7-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-fix_numeric_limits_simple_memory_arena_debug_dump.patch \
+    file://001-v2.7_riscv_download.patch \
 "
 
 inherit cmake
 
 S = "${WORKDIR}/git"
 
-DEPENDS += " \
-            unzip-native \
-            python3-native \
-            python3-numpy-native \
-"
-
-# XNNPACK is building all types of cpus and chooses the right one
-# on runtime, so passing any tune values just causes the compilation to
-# fail.
-TUNE_CCARGS = ""
-
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
 EXTRA_OECMAKE += "-DBUILD_SHARED_LIBS=ON"
 
+# Note:
+# XNNPack is valid only on 64bit. 
+# In the case of arm 32bit, it will be turned off because the build will be
+# an error depending on the combination of target CPUs.
+HOST_ARCH:raspberrypi = "armv6"
+HOST_ARCH:raspberrypi0 = "armv6"
+HOST_ARCH:raspberrypi0-wifi = "armv6"
+HOST_ARCH:raspberrypi-cm = "armv6"
+
+HOST_ARCH:raspberrypi2 = "armv7"
+HOST_ARCH:raspberrypi3 = "armv7"
+HOST_ARCH:raspberrypi4 = "armv7"
+HOST_ARCH:raspberrypi-cm3 = "armv7"
+
+HOST_ARCH:raspberrypi0-2w-64 = "aarch64"
+TUNE_CCARGS:raspberrypi0-2w-64  = ""
+EXTRA_OECMAKE:append:raspberrypi0-2w-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+HOST_ARCH:raspberrypi3-64 = "aarch64"
+TUNE_CCARGS:raspberrypi3-64 = ""
+EXTRA_OECMAKE:append:raspberrypi3-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+HOST_ARCH:raspberrypi4-64 = "aarch64"
+TUNE_CCARGS:raspberrypi4-64 = ""
+EXTRA_OECMAKE:append:raspberrypi4-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+
 do_install() {
+    install -d ${D}/${libdir}
+    install -m 0755 ${B}/libtensorflow-lite.so  ${D}/${libdir}/
+
+    install -m 0755 ${B}/_deps/farmhash-build/libfarmhash.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/fft2d-build/libfft2d_fftsg2d.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/fft2d-build/libfft2d_fftsg.so ${D}/${libdir}
+    if [ -e ${B}/_deps/ruy-build/libruy.so ]; then
+        install -m 0755 ${B}/_deps/ruy-build/libruy.so ${D}/${libdir}
+    fi
+    if [ -e ${B}/_deps/xnnpack-build/libXNNPACK.so ]; then
+        install -m 0755 ${B}/_deps/xnnpack-build/libXNNPACK.so ${D}/${libdir}
+    fi
+    if [ -e ${B}/pthreadpool/libpthreadpool.so ]; then
+        install -m 0755 ${B}/pthreadpool/libpthreadpool.so ${D}/${libdir}
+    fi
+    if [ -e ${B}/_deps/cpuinfo-build/libcpuinfo.so ]; then
+        install -m 0755 ${B}/_deps/cpuinfo-build/libcpuinfo.so ${D}/${libdir}
+    fi
     install -d ${D}/${libdir}
     install -m 0644 ${B}/libtensorflow-lite.so  ${D}/${libdir}/
     ln -s -r ${D}/${libdir}/libtensorflow-lite.so ${D}/${libdir}/libtensorflowlite.so
@@ -86,8 +120,8 @@ do_install() {
     install -m 644 ${B}/flatbuffers/include/flatbuffers/*.h ${D}${includedir}/flatbuffers
 }
 
-FILES_${PN}-dev = ""
-
-INSANE_SKIP_${PN} = "dev-so"
-INSANE_SKIP_${PN}-dev += "dev-elf"
-FILES_${PN} += "${libdir}/* ${includedir}/*"
+FILES:${PN}-dev = "${includedir} \
+                   ${libdir}/libtensorflowlite.so \
+                   "
+FILES:${PN} += "${libdir}/*.so"
+INSANE:SKIP_${PN}= "dev-so"
