@@ -62,8 +62,8 @@ do_install() {
     if [ -e ${B}/pthreadpool/libpthreadpool.so ]; then
         install -m 0755 ${B}/pthreadpool/libpthreadpool.so ${D}/${libdir}
     fi
-    if [ -e ${B}/_deps/cpuinfo-build/libcpuinfo.so ]; then
-        install -m 0755 ${B}/_deps/cpuinfo-build/libcpuinfo.so ${D}/${libdir}
+    if [ -e ${B}/cpuinfo/libcpuinfo.so ]; then
+        install -m 0755 ${B}/cpuinfo/libcpuinfo.so ${D}/${libdir}
     fi
 
     install -d ${D}${includedir}/tensorflow/lite
