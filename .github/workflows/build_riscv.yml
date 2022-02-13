@@ -15,6 +15,7 @@ on:
 
 env:
   TARGET_VERSION: honister
+  TARGET_CPP_BUILD: [2.5.3]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -62,7 +63,7 @@ jobs:
 
       # Run bitbake cpp-tensorflow-lite
       - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite C++ ${{ matrix.tensorflow_version }}
-        if: ${{ !contains(["2.5.3"], ${{ matrix.tensorflow_version }}) }}
+        if: ${{ !contains(${TARGET_CPP_BUILD}, ${{ matrix.tensorflow_version }}) }}
         run: |
           source poky/oe-init-build-env rpi-build
           cat <<EOF> conf/auto.conf
