@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Bitbake qemuriscv honister
+name: Bitbake main meta-riscv
 
 # Controls when the workflow will run
 on:
@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         target_machine: [qemuriscv64, qemuriscv32]
-        tensorflow_version: [2.8.0, 2.7.1, 2.6.3, 2.5.3]
+        tensorflow_version: [2.8.0]
         
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -60,7 +60,7 @@ jobs:
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/meta-openembedded.git
         working-directory: ../
 
-      # Run bitbake python3-tensorflow-lite
+      # Run bitbake
       - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite Python ${{ matrix.tensorflow_version }}
         run: |
           source openembedded-core/oe-init-build-env build
@@ -68,17 +68,10 @@ jobs:
           bitbake-layers add-layer ../meta-openembedded/meta-python
           bitbake-layers add-layer ../meta-tensorflow-lite
           bitbake-layers add-layer ../meta-riscv
-          export BITBAKE_OPTION="python3-tensorflow-lite"
-          case "${{ matrix.tensorflow_version }}" in
-          2.8.*|2.7.*|2.6.*)
-            export PREFERRED_VERSION_CPP=PREFERRED_VERSION_cpp-tensorflow-lite=\"${{ matrix.tensorflow_version }}\"
-            export BITBAKE_OPTION="${BITBAKE_OPTION} cpp-tensorflow-lite"
-            ;;
-          esac
           cat <<EOF> conf/auto.conf
           PREFERRED_VERSION_python3-tensorflow-lite="${{ matrix.tensorflow_version }}"
-          ${PREFERRED_VERSION_CPP}
+          PREFERRED_VERSION_cpp-tensorflow-lite="${{ matrix.tensorflow_version }}"
           EOF
           cat conf/auto.conf
-          MACHINE=${{matrix.target_machine}} bitbake ${BITBAKE_OPTION}
+          MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite cpp-tensorflow-lite
         working-directory: ../
