@@ -62,11 +62,11 @@ jobs:
       # Run bitbake
       - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite ${{ matrix.tensorflow_version }}
         run: |
-          source openembedded-core/oe-init-build-env build
-          bitbake-layers add-layer ../meta-openembedded/meta-oe
-          bitbake-layers add-layer ../meta-openembedded/meta-python
-          bitbake-layers add-layer ../meta-tensorflow-lite
-          bitbake-layers add-layer ../meta-riscv
+          source poky/oe-init-build-env rpi-build
+          bitbake-layers add-layer ../meta-openembedded/meta-oe/
+          bitbake-layers add-layer ../meta-openembedded/meta-python/
+          bitbake-layers add-layer ../meta-tensorflow-lite/
+          bitbake-layers add-layer ../meta-raspberrypi/
           export BITBAKE_OPTION="python3-tensorflow-lite"
           case "${{ matrix.tensorflow_version }}" in
           2.8.*|2.7.*|2.6.*)
