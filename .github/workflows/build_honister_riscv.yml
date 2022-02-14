@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Bitbake raspberrypi honister
+name: Bitbake honister meta-riscv
 
 # Controls when the workflow will run
 on:
@@ -18,13 +18,13 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  bitbake-raspberrypi:
+  bitbake-riscv:
 
     strategy:
       matrix:
-        target_machine: [raspberrypi4-64, raspberrypi4, raspberrypi0]
+        target_machine: [qemuriscv64, qemuriscv32]
         tensorflow_version: [2.8.0, 2.7.1, 2.6.3, 2.5.3]
-
+        
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -37,7 +37,7 @@ jobs:
       - name: Install Pakages
         run: |
           sudo apt-get update
-          sudo apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint3 xterm
+          sudo apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint3 xterm zstd liblz4-tool
           sudo apt-get clean
       
       # Check space before cleanup
@@ -52,21 +52,22 @@ jobs:
           df -h
           
       # checkout repository
-      - name: Clone poky, meta-raspberrypi, meta-openembedded
+      - name: Clone repository
         run: |
-          git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
-          git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/meta-raspberrypi
-          git clone -b ${TARGET_VERSION} git://git.openembedded.org/meta-openembedded
+          git clone -b ${TARGET_VERSION} https://github.com/riscv/meta-riscv.git
+          git clone -b ${TARGET_VERSION} https://github.com/openembedded/openembedded-core.git
+          git clone -b 1.52 https://github.com/openembedded/bitbake.git
+          git clone -b ${TARGET_VERSION} https://github.com/openembedded/meta-openembedded.git
         working-directory: ../
 
-      # Run bitbake
-      - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite ${{ matrix.tensorflow_version }}
+      # Run bitbake python3-tensorflow-lite
+      - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite Python ${{ matrix.tensorflow_version }}
         run: |
-          source poky/oe-init-build-env rpi-build
-          bitbake-layers add-layer ../meta-openembedded/meta-oe/
-          bitbake-layers add-layer ../meta-openembedded/meta-python/
-          bitbake-layers add-layer ../meta-tensorflow-lite/
-          bitbake-layers add-layer ../meta-raspberrypi/
+          source openembedded-core/oe-init-build-env build
+          bitbake-layers add-layer ../meta-openembedded/meta-oe
+          bitbake-layers add-layer ../meta-openembedded/meta-python
+          bitbake-layers add-layer ../meta-tensorflow-lite
+          bitbake-layers add-layer ../meta-riscv
           export BITBAKE_OPTION="python3-tensorflow-lite"
           case "${{ matrix.tensorflow_version }}" in
           2.8.*|2.7.*|2.6.*)
