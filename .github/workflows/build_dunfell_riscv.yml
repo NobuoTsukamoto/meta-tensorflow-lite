@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Bitbake qemuriscv dunfell
+name: Bitbake dunfell meta-riscv
 
 # Controls when the workflow will run
 on:
@@ -60,17 +60,25 @@ jobs:
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/meta-openembedded.git
         working-directory: ../
 
-      # Run bitbake
-      - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite ${{ matrix.tensorflow_version }}
+      # Run bitbake python3-tensorflow-lite and cpp-tensorflow-lite
+      - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite Python ${{ matrix.tensorflow_version }}
         run: |
           source openembedded-core/oe-init-build-env build
           bitbake-layers add-layer ../meta-openembedded/meta-oe
           bitbake-layers add-layer ../meta-openembedded/meta-python
           bitbake-layers add-layer ../meta-tensorflow-lite
           bitbake-layers add-layer ../meta-riscv
-          cat <<EOF > conf/auto.conf
+          export BITBAKE_OPTION="python3-tensorflow-lite"
+          case "${{ matrix.tensorflow_version }}" in
+          2.8.*|2.7.*|2.6.*)
+            export PREFERRED_VERSION_CPP=PREFERRED_VERSION_cpp-tensorflow-lite=\"${{ matrix.tensorflow_version }}\"
+            export BITBAKE_OPTION="${BITBAKE_OPTION} cpp-tensorflow-lite"
+            ;;
+          esac
+          cat <<EOF> conf/auto.conf
           PREFERRED_VERSION_python3-tensorflow-lite="${{ matrix.tensorflow_version }}"
+          ${PREFERRED_VERSION_CPP}
           EOF
           cat conf/auto.conf
-          MACHINE=${{ matrix.target_machine }} bitbake python3-tensorflow-lite
+          MACHINE=${{matrix.target_machine}} bitbake ${BITBAKE_OPTION}
         working-directory: ../
