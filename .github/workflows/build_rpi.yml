@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Bitbake honister meta-raspberrypi
+name: Bitbake raspberrypi
 
 # Controls when the workflow will run
 on:
@@ -9,6 +9,8 @@ on:
     branches: [ honister ]
   pull_request:
     branches: [ honister ]
+  schedule:
+    - cron: '0 12 * * 5'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
