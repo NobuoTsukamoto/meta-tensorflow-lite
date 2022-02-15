@@ -13,10 +13,14 @@ Yocto layer for the TensorFlow Lite interpreter with Python / C++.
 
 ## Available BSP
 Please note that it is not official support.
-| BSP                                                              | Build site                                                                                                     |
+| BSP                                                              | Build status                                                                                                   |
 | :--------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
-| [meta-raspberrypi](https://github.com/agherzan/meta-raspberrypi) | ![Build meta-raspberrypi](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml/badge.svg) |
-| [meta-riscv](https://github.com/riscv/meta-riscv)                | ![Build mata-riscv](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml/badge.svg) |
+| [meta-raspberrypi](https://github.com/agherzan/meta-raspberrypi) | [![Bitbake main meta-raspberrypi](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml/badge.svg?branch=main)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml) |
+| [meta-riscv](https://github.com/riscv/meta-riscv)                | [![Bitbake main meta-riscv](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml/badge.svg?branch=main)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml) |
+
+## Available recipes
+- [Python3 interpreter](recipes-framework/tensorflow-lite/python3-tensorflow-lite_2.8.0.bb)
+- [C++ API shared library](recipes-framework/tensorflow-lite/cpp-tensorflow-lite_2.8.0.bb)
 
 ## How to
 
@@ -38,8 +42,8 @@ $ bitbake-layers add-layer ../meta-raspberrypi/
 $ bitbake-layers add-layer ../meta-tensorflow-lite/
 
 # Add the package to 'conf/auto.conf' file. 
-  MACHINE ?= "raspberrypi4-64"
-  IMAGE_INSTALL:append = " python3-tensorflow-lite"
+MACHINE ?= "raspberrypi4-64"
+IMAGE_INSTALL:append = " python3-tensorflow-lite cpp-tensorflow-lite"
 
 # Build
 $ bitbake core-image-weston
@@ -48,11 +52,11 @@ $ bitbake core-image-weston
 ### Quick start for the qemuriscv64
 ```
 # Clone repositories and oe-init-build-env
-$ git clone https://github.com/riscv/meta-riscv.git
-$ git clone https://github.com/openembedded/openembedded-core.git
 $ git clone https://github.com/openembedded/bitbake.git
+$ git clone https://github.com/openembedded/openembedded-core.git
 $ git clone https://github.com/openembedded/meta-openembedded.git
-$ bitbake-layers add-layer ../meta-tensorflow-lite/
+$ git clone https://github.com/riscv/meta-riscv.git
+$ git clone https://github.com/NobuoTsukamoto/meta-tensorflow-lite.git
 $ openembedded-core/oe-init-build-env build
 
 # Add layer
@@ -60,12 +64,12 @@ $ bitbake-layers add-layer ../meta-openembedded/meta-oe/
 $ bitbake-layers add-layer ../meta-openembedded/meta-python/
 $ bitbake-layers add-layer ../meta-openembedded/meta-networking/
 $ bitbake-layers add-layer ../meta-openembedded/meta-multimedia/
-$ bitbake-layers add-layer ../meta-raspberrypi/
+$ bitbake-layers add-layer ../meta-riscv/
 $ bitbake-layers add-layer ../meta-tensorflow-lite/
 
 # Add the package to 'conf/auto.conf' file. 
-  MACHINE ?= "qemuriscv64"
-  IMAGE_INSTALL:append = " python3-tensorflow-lite"
+MACHINE ?= "qemuriscv64"
+IMAGE_INSTALL:append = " python3-tensorflow-lite  cpp-tensorflow-lite"
 
 # Build
 $ bitbake core-image-full-cmdline
