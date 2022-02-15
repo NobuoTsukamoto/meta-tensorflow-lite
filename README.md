@@ -15,8 +15,8 @@ Yocto layer for the TensorFlow Lite interpreter with Python / C++.
 Please note that it is not official support.
 | BSP                                                              | Build status                                                                                                   |
 | :--------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
-| [meta-raspberrypi](https://github.com/agherzan/meta-raspberrypi) | [![Bitbake raspberrypi](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml/badge.svg?branch=main)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml) |
-| [meta-riscv](https://github.com/riscv/meta-riscv)                | [![Bitbake qemuriscv](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml/badge.svg?branch=main)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml) |
+| [meta-raspberrypi](https://github.com/agherzan/meta-raspberrypi) | [![Bitbake raspberrypi](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml/badge.svg?branch=hardknott)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml) |
+| [meta-riscv](https://github.com/riscv/meta-riscv)                | [![Bitbake qemuriscv](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml/badge.svg?branch=hardknott)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml) |
 
 ## Available recipes
 - [Python3 interpreter](recipes-framework/tensorflow-lite/python3-tensorflow-lite_2.8.0.bb)
