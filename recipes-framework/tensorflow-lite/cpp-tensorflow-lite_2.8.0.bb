@@ -73,43 +73,21 @@ do_install() {
     install -d ${D}${includedir}/tensorflow/lite/nnapi
     install -d ${D}${includedir}/tensorflow/lite/experimental/resource
     install -d ${D}${includedir}/tensorflow/lite/schema
+    install -d ${D}${includedir}/tensorflow/lite/internal
     install -d ${D}${includedir}/flatbuffers
 
-    install -m 644 ${S}/tensorflow/lite/interpreter.h ${D}${includedir}/tensorflow/lite/interpreter.h
-    install -m 644 ${S}/tensorflow/lite/model.h ${D}${includedir}/tensorflow/lite/model.h
-    install -m 644 ${S}/tensorflow/lite/optional_debug_tools.h ${D}${includedir}/tensorflow/lite/optional_debug_tools.h
-    install -m 644 ${S}/tensorflow/lite/allocation.h ${D}${includedir}/tensorflow/lite/allocation.h
-    install -m 644 ${S}/tensorflow/lite/c/common.h ${D}${includedir}/tensorflow/lite/c/common.h
-    install -m 644 ${S}/tensorflow/lite/c/c_api_types.h ${D}${includedir}/tensorflow/lite/c/c_api_types.h
-    install -m 644 ${S}/tensorflow/lite/kernels/register.h ${D}${includedir}/tensorflow/lite/kernels/register.h
-    install -m 644 ${S}/tensorflow/lite/core/api/error_reporter.h ${D}${includedir}/tensorflow/lite/core/api/error_reporter.h
-    install -m 644 ${S}/tensorflow/lite/core/api/profiler.h ${D}${includedir}/tensorflow/lite/core/api/profiler.h
-    install -m 644 ${S}/tensorflow/lite/core/subgraph.h ${D}${includedir}/tensorflow/lite/core/subgraph.h
-    install -m 644 ${S}/tensorflow/lite/core/api/verifier.h ${D}${includedir}/tensorflow/lite/core/api/verifier.h
-    install -m 644 ${S}/tensorflow/lite/core/api/op_resolver.h ${D}${includedir}/tensorflow/lite/core/api/op_resolver.h
-    install -m 644 ${S}/tensorflow/lite/core/macros.h ${D}${includedir}/tensorflow/lite/core/macros.h
-    install -m 644 ${S}/tensorflow/lite/external_cpu_backend_context.h ${D}${includedir}/tensorflow/lite/external_cpu_backend_context.h
-    install -m 644 ${S}/tensorflow/lite/memory_planner.h ${D}${includedir}/tensorflow/lite/memory_planner.h
-    install -m 644 ${S}/tensorflow/lite/stderr_reporter.h ${D}${includedir}/tensorflow/lite/stderr_reporter.h
-    install -m 644 ${S}/tensorflow/lite/type_to_tflitetype.h ${D}${includedir}/tensorflow/lite/type_to_tflitetype.h
-    install -m 644 ${S}/tensorflow/lite/mutable_op_resolver.h ${D}${includedir}/tensorflow/lite/mutable_op_resolver.h
-    install -m 644 ${S}/tensorflow/lite/interpreter_builder.h ${D}${includedir}/tensorflow/lite/interpreter_builder.h
-    install -m 644 ${S}/tensorflow/lite/model_builder.h ${D}${includedir}/tensorflow/lite/model_builder.h
-    install -m 644 ${S}/tensorflow/lite/string_type.h ${D}${includedir}/tensorflow/lite/string_type.h
-    install -m 644 ${S}/tensorflow/lite/util.h ${D}${includedir}/tensorflow/lite/util.h
-    install -m 644 ${S}/tensorflow/lite/portable_type_to_tflitetype.h ${D}${includedir}/tensorflow/lite/portable_type_to_tflitetype.h
-    install -m 644 ${S}/tensorflow/lite/delegates/nnapi/nnapi_delegate.h ${D}${includedir}/tensorflow/lite/delegates/nnapi/nnapi_delegate.h
-    install -m 644 ${S}/tensorflow/lite/nnapi/NeuralNetworksTypes.h ${D}${includedir}/tensorflow/lite/nnapi/NeuralNetworksTypes.h
-    install -m 644 ${S}/tensorflow/lite/nnapi/nnapi_implementation.h ${D}${includedir}/tensorflow/lite/nnapi/nnapi_implementation.h
-    install -m 644 ${S}/tensorflow/lite/experimental/resource/resource_base.h ${D}${includedir}/tensorflow/lite/experimental/resource/resource_base.h
-    install -m 644 ${S}/tensorflow/lite/schema/schema_generated.h ${D}${includedir}/tensorflow/lite/schema/schema_generated.h
-
 	install -m 644 ${S}/tensorflow/lite/*.h ${D}${includedir}/tensorflow/lite
+	install -m 644 ${S}/tensorflow/lite/kernels/*.h ${D}${includedir}/tensorflow/lite/kernels
+    install -m 644 ${S}/tensorflow/lite/core/api/*.h ${D}${includedir}/tensorflow/lite/core/api
+    install -m 644 ${S}/tensorflow/lite/core/*.h ${D}${includedir}/tensorflow/lite/core
+    install -m 644 ${S}/tensorflow/lite/nnapi/*.h ${D}${includedir}/tensorflow/lite/nnapi
+    install -m 644 ${S}/tensorflow/lite/c/*.h ${D}${includedir}/tensorflow/lite/c
+    install -m 644 ${S}/tensorflow/lite/internal/*.h ${D}${includedir}/tensorflow/lite/internal
+    install -m 644 ${S}/tensorflow/lite/schema/*.h ${D}${includedir}/tensorflow/lite/schema
+    install -m 644 ${S}/tensorflow/lite/experimental/resource/*.h ${D}${includedir}/tensorflow/lite/experimental/resource
+
     install -m 644 ${B}/flatbuffers/include/flatbuffers/*.h ${D}${includedir}/flatbuffers
 }
 
-FILES:${PN}-dev = "${includedir} \
-                   ${libdir}/libtensorflowlite.so \
-                   "
+FILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
 FILES:${PN} += "${libdir}/*.so"
-INSANE:SKIP_${PN}= "dev-so"
