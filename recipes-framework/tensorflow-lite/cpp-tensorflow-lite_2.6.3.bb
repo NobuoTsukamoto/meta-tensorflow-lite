@@ -38,7 +38,7 @@ HOST_ARCH:raspberrypi0-2w-64 = "aarch64"
 HOST_ARCH:raspberrypi3-64 = "aarch64"
 HOST_ARCH:raspberrypi4-64 = "aarch64"
 
-do_install():append() {
+do_install:append() {
     install -d ${D}/${libdir}
     install -m 0755 ${B}/libtensorflow-lite.so  ${D}/${libdir}/
 
