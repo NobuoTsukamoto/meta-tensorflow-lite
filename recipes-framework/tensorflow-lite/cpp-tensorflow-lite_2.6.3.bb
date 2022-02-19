@@ -75,8 +75,8 @@ do_install():append() {
     install -d ${D}${includedir}/tensorflow/lite/tools/evaluation
     install -d ${D}${includedir}/tensorflow/lite/tools/delegates
 
-	install -m 644 ${S}/tensorflow/core/util/*.h ${D}${includedir}/tensorflow/core/util/
-	install -m 644 ${S}/tensorflow/lite/*.h ${D}${includedir}/tensorflow/lite
+    install -m 644 ${S}/tensorflow/core/util/*.h ${D}${includedir}/tensorflow/core/util/
+    install -m 644 ${S}/tensorflow/lite/*.h ${D}${includedir}/tensorflow/lite
     install -m 644 ${S}/tensorflow/lite/c/*.h ${D}${includedir}/tensorflow/lite/c
     install -m 644 ${S}/tensorflow/lite/core/*.h ${D}${includedir}/tensorflow/lite/core
     install -m 644 ${S}/tensorflow/lite/core/api/*.h ${D}${includedir}/tensorflow/lite/core/api
@@ -85,7 +85,7 @@ do_install():append() {
     install -m 644 ${S}/tensorflow/lite/delegates/xnnpack/*.h ${D}${includedir}/tensorflow/lite/delegates/xnnpack
     install -m 644 ${S}/tensorflow/lite/experimental/resource/*.h ${D}${includedir}/tensorflow/lite/experimental/resource
     install -m 644 ${S}/tensorflow/lite/internal/*.h ${D}${includedir}/tensorflow/lite/internal
-	install -m 644 ${S}/tensorflow/lite/kernels/*.h ${D}${includedir}/tensorflow/lite/kernels
+    install -m 644 ${S}/tensorflow/lite/kernels/*.h ${D}${includedir}/tensorflow/lite/kernels
     install -m 644 ${S}/tensorflow/lite/nnapi/*.h ${D}${includedir}/tensorflow/lite/nnapi
     install -m 644 ${S}/tensorflow/lite/profiling/*.h ${D}${includedir}/tensorflow/lite/profiling
     install -m 644 ${S}/tensorflow/lite/schema/*.h ${D}${includedir}/tensorflow/lite/schema
