@@ -1,6 +1,5 @@
 DESCRIPTION = "TensorFlow Lite Python image classification demo"
 LICENSE = "Apache-2.0"
-SECTION = "examples"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 
 # Compute branch info from ${PV} as Base PV...
@@ -16,20 +15,17 @@ SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_1.0_224_frozen.tgz;name=label \
+    file://001-v2.8_label_image_py.patch \
 "
 
 S = "${WORKDIR}/git"
 
-DEPENDS = " \
-    python3-tensorflow-lite \
-    python3-pillow \
-"
-
-do_install() {
-    install -d ${D}${docdir}/${PN}/tensorflow/lite/examples/python
-    install -m 644 ${S}/tensorflow/lite/examples/python/label_image.py ${D}${docdir}/${PN}/tensorflow/lite/examples/python/
-    install -m 644 ${S}/tensorflow/lite/examples/label_image/testdata/grace_hopper.bmp ${D}${docdir}/${PN}/tensorflow/lite/examples/python/
-    install -m 644 ${WORKDIR}/mobilenet_v1_1.0_224.tflite ${D}${docdir}/${PN}/tensorflow/lite/examples/python/
-    install -m 644 ${WORKDIR}/mobilenet_v1_1.0_224/labels.txt ${D}${docdir}/${PN}/tensorflow/lite/examples/python/
+do_install:append() {
+    install -d ${D}${datadir}/tensorflow/lite/examples/python
+    install -m 644 ${S}/tensorflow/lite/examples/python/label_image.py ${D}${datadir}/tensorflow/lite/examples/python/
+    install -m 644 ${S}/tensorflow/lite/examples/label_image/testdata/grace_hopper.bmp ${D}${datadir}/tensorflow/lite/examples/python/
+    install -m 644 ${WORKDIR}/mobilenet_v1_1.0_224.tflite ${D}${datadir}/tensorflow/lite/examples/python/
+    install -m 644 ${WORKDIR}/mobilenet_v1_1.0_224/labels.txt ${D}${datadir}/tensorflow/lite/examples/python/
 }
 
+FILES:${PN} += "${datadir}/tensorflow/lite/examples/python/*"
