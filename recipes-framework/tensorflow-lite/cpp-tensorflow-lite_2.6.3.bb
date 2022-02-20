@@ -66,7 +66,6 @@ do_install:append() {
     install -d ${D}${includedir}/tensorflow/lite/delegates/nnapi
     install -d ${D}${includedir}/tensorflow/lite/delegates/xnnpack
     install -d ${D}${includedir}/tensorflow/lite/experimental/resource
-    install -d ${D}${includedir}/tensorflow/lite/internal
     install -d ${D}${includedir}/tensorflow/lite/kernels
     install -d ${D}${includedir}/tensorflow/lite/nnapi
     install -d ${D}${includedir}/tensorflow/lite/profiling
@@ -84,7 +83,6 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/delegates/nnapi/*.h ${D}${includedir}/tensorflow/lite/delegates/nnapi
     install -m 644 ${S}/tensorflow/lite/delegates/xnnpack/*.h ${D}${includedir}/tensorflow/lite/delegates/xnnpack
     install -m 644 ${S}/tensorflow/lite/experimental/resource/*.h ${D}${includedir}/tensorflow/lite/experimental/resource
-    install -m 644 ${S}/tensorflow/lite/internal/*.h ${D}${includedir}/tensorflow/lite/internal
     install -m 644 ${S}/tensorflow/lite/kernels/*.h ${D}${includedir}/tensorflow/lite/kernels
     install -m 644 ${S}/tensorflow/lite/nnapi/*.h ${D}${includedir}/tensorflow/lite/nnapi
     install -m 644 ${S}/tensorflow/lite/profiling/*.h ${D}${includedir}/tensorflow/lite/profiling
