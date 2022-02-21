@@ -57,7 +57,7 @@ $ git clone https://github.com/openembedded/openembedded-core.git
 $ git clone https://github.com/openembedded/meta-openembedded.git
 $ git clone https://github.com/riscv/meta-riscv.git
 $ git clone https://github.com/NobuoTsukamoto/meta-tensorflow-lite.git
-$ openembedded-core/oe-init-build-env build
+$ source openembedded-core/oe-init-build-env build
 
 # Add layer
 $ bitbake-layers add-layer ../meta-openembedded/meta-oe/
