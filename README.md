@@ -19,8 +19,16 @@ Please note that it is not official support.
 | [meta-riscv](https://github.com/riscv/meta-riscv)                | [![Bitbake qemuriscv](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml/badge.svg?branch=main)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml) |
 
 ## Available recipes
-- [Python3 interpreter](recipes-framework/tensorflow-lite/python3-tensorflow-lite_2.8.0.bb)
-- [C++ API shared library](recipes-framework/tensorflow-lite/cpp-tensorflow-lite_2.8.0.bb)
+- framework
+  - [Python3 interpreter](recipes-framework/tensorflow-lite/python3-tensorflow-lite_2.8.0.bb)
+  - [C++ API shared library](recipes-framework/tensorflow-lite/cpp-tensorflow-lite_2.8.0.bb)
+- examples
+  - python3-tensorflow-lite-example  
+    [TensorFlow Lite Python image classification demo](./doc/python3-tensorflow-lite-example.md)
+  - tensorflow-lite-label-image  
+    [TensorFlow Lite C++ image classification demo](./doc/tensorflow-lite-label-image.md)
+  - tensorflow-lite-minimal  
+    [TensorFlow Lite C++ minimal example](./doc/tensorflow-lite-minimal.md)
 
 ## How to
 
