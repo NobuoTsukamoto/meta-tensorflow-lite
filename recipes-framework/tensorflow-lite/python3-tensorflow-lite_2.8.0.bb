@@ -24,22 +24,11 @@ SRC_URI:append:riscv32 = " \
 
 S = "${WORKDIR}/git"
 
-DEPENDS += "gzip-native \
-            unzip-native \
-            zlib \
-            python3 \
-            python3-native \
-            python3-numpy-native \
+DEPENDS += "\
             python3-pip-native \
             python3-wheel-native \
             python3-numpy \
             python3-pybind11 \
-"
-
-RDEPENDS:${PN} += " \
-    python3 \
-    python3-numpy \
-    python3-pybind11 \
 "
 
 inherit setuptools3 cmake
