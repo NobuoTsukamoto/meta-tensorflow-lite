@@ -75,5 +75,5 @@ jobs:
           PREFERRED_VERSION_cpp-tensorflow-lite="${{ matrix.tensorflow_version }}"
           EOF
           cat conf/auto.conf
-          MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite cpp-tensorflow-lite python3-tensorflow-lite-example tensorflow-lite-label-image tensorflow-lite-minimal
+          MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite cpp-tensorflow-lite python3-tensorflow-lite-example tensorflow-lite-label-image tensorflow-lite-minimal tensorflow-lite-benchmark
         working-directory: ../
