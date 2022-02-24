@@ -72,4 +72,4 @@ In this recipe, we will modify CMake to link the shared library (libtensorflow-l
 For more information about the changes in CMake, please refer to the following patch.
 - [001-v2.8_minimal_cmake.patch](../recipes-examples/tensorflow-lite/files/001-v2.8_minimal_cmake.patch)
 
-See [cpp-tensorflow-lite](../recipes-framework/tensorflow-lite/cpp-tensorflow-lite_2.8.0.bb) for a recipe to build a shared library for libtensorflow-lite.so.
+See [libtensorflow-lite](../recipes-framework/tensorflow-lite/libtensorflow-lite_2.8.0.bb) for a recipe to build a shared library for libtensorflow-lite.so.

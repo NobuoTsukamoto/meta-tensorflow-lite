@@ -21,7 +21,7 @@ Please note that it is not official support.
 ## Available recipes
 - framework
   - [Python3 interpreter](recipes-framework/tensorflow-lite/python3-tensorflow-lite_2.8.0.bb)
-  - [C++ API shared library](recipes-framework/tensorflow-lite/cpp-tensorflow-lite_2.8.0.bb)
+  - [C++ API shared library](recipes-framework/tensorflow-lite/libtensorflow-lite_2.8.0.bb)
 - examples
   - python3-tensorflow-lite-example  
     [TensorFlow Lite Python image classification demo](./doc/python3-tensorflow-lite-example.md)
@@ -54,7 +54,7 @@ $ bitbake-layers add-layer ../meta-tensorflow-lite/
 
 # Add the package to 'conf/auto.conf' file. 
 MACHINE ?= "raspberrypi4-64"
-IMAGE_INSTALL:append = " python3-tensorflow-lite cpp-tensorflow-lite"
+IMAGE_INSTALL:append = " python3-tensorflow-lite libtensorflow-lite"
 
 # Build
 $ bitbake core-image-weston
@@ -80,7 +80,7 @@ $ bitbake-layers add-layer ../meta-tensorflow-lite/
 
 # Add the package to 'conf/auto.conf' file. 
 MACHINE ?= "qemuriscv64"
-IMAGE_INSTALL:append = " python3-tensorflow-lite  cpp-tensorflow-lite"
+IMAGE_INSTALL:append = " python3-tensorflow-lite  libtensorflow-lite"
 
 # Build
 $ bitbake core-image-full-cmdline
