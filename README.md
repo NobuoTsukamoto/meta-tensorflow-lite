@@ -29,6 +29,9 @@ Please note that it is not official support.
     [TensorFlow Lite C++ image classification demo](./doc/tensorflow-lite-label-image.md)
   - tensorflow-lite-minimal  
     [TensorFlow Lite C++ minimal example](./doc/tensorflow-lite-minimal.md)
+- tools
+  - tensorflow-lite-benchmark  
+    [TFLite Model Benchmark Tool with C++ Binary](./doc/tensorflow-lite-benchmark.md)
 
 ## How to
 
