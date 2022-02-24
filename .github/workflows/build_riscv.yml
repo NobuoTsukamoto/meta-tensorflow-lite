@@ -72,8 +72,8 @@ jobs:
           bitbake-layers add-layer ../meta-riscv
           cat <<EOF> conf/auto.conf
           PREFERRED_VERSION_python3-tensorflow-lite="${{ matrix.tensorflow_version }}"
-          PREFERRED_VERSION_cpp-tensorflow-lite="${{ matrix.tensorflow_version }}"
+          PREFERRED_VERSION_libtensorflow-lite="${{ matrix.tensorflow_version }}"
           EOF
           cat conf/auto.conf
-          MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite cpp-tensorflow-lite python3-tensorflow-lite-example tensorflow-lite-label-image tensorflow-lite-minimal tensorflow-lite-benchmark
+          MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite python3-tensorflow-lite-example tensorflow-lite-label-image tensorflow-lite-minimal tensorflow-lite-benchmark
         working-directory: ../
