@@ -27,9 +27,9 @@ bitbake-layers add-layer ../meta-tensorflow-lite/
 ```
 
 ### Create conf/auto.conf file and write config
-Add `tensorflow-lite-label-image` recipes to `conf/auto.conf` file.
+Add `tensorflow-lite-minimal` recipes to `conf/auto.conf` file.
 ```
-IMAGE_INSTALL:append = " tensorflow-lite-label-image"
+IMAGE_INSTALL:append = " tensorflow-lite-minimal"
 ```
 
 ### Bitbake
