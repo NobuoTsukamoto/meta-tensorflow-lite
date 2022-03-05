@@ -18,6 +18,11 @@ SRC_URI = " \
     file://001-v2.8_label_image_py.patch \
 "
 
+RDEPENDS:${PN} += " \
+    python3-tensorflow-lite \
+    python3-pillow \
+"
+
 S = "${WORKDIR}/git"
 
 do_install:append() {
