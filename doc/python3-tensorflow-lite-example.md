@@ -29,7 +29,7 @@ bitbake-layers add-layer ../meta-tensorflow-lite/
 ### Create conf/auto.conf file and write config
 Add `python3-tensorflow-lite`, `python3-tensorflow-lite-example` and `python3-pillow` recipes to `conf/auto.conf` file.
 ```
-IMAGE_INSTALL:append = " python3-tensorflow-lite python3-tensorflow-lite-example python3-pillow"
+IMAGE_INSTALL:append = " python3-tensorflow-lite-example"
 ```
 
 ### Bitbake
