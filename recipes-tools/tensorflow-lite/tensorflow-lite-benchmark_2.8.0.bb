@@ -13,7 +13,6 @@ SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
     file://001-v2.8-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-v2.8_riscv_download.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
 
