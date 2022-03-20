@@ -24,6 +24,11 @@ DEPENDS += "\
             python3-pybind11 \
 "
 
+RDEPENDS:${PN} += " \
+    python3 \
+    python3-numpy \
+"
+
 inherit setuptools3 cmake
 
 TENSORFLOW_LITE_BUILD_DIR = "${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3"
