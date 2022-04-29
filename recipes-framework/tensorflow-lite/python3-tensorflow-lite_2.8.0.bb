@@ -6,10 +6,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV = "3f878cff5b698b82eea85db2b60d65a2e320850e"
+SRCREV_tensorflow = "3f878cff5b698b82eea85db2b60d65a2e320850e"
 
 SRC_URI = " \
-    git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
+    git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-v2.8-Disable-XNNPACKPack-CMakeFile.patch \
     file://001-fix_numeric_limits_simple_memory_arena_debug_dump.patch \
 "
