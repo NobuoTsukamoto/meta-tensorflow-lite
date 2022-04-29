@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 # Compute branch info from ${PV} as Base PV...
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
-# Since they tag off of something resembling ${PV}, use it.
-SRCREV = "v${PV}"
+
+SRCREV = "3f878cff5b698b82eea85db2b60d65a2e320850e"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
