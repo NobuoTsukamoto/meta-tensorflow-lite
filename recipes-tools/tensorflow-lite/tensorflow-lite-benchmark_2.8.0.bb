@@ -5,13 +5,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 # Compute branch info from ${PV} as Base PV...
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
-# Since they tag off of something resembling ${PV}, use it.
-SRCREV = "v${PV}"
+
+SRCREV_tensorflow = "3f878cff5b698b82eea85db2b60d65a2e320850e"
 
 SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b"
 
 SRC_URI = " \
-    git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
+    git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-v2.8-Disable-XNNPACKPack-CMakeFile.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
@@ -36,15 +36,22 @@ HOST_ARCH:raspberrypi3 = "armv7"
 HOST_ARCH:raspberrypi4 = "armv7"
 HOST_ARCH:raspberrypi-cm3 = "armv7"
 
+# Note:
+# Download the submodule using FetchContent_Populate.
+# Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
+EXTRA_OECMAKE:append = "-DFETCHCONTENT_FULLY_DISCONNECTED=OFF"
+
 HOST_ARCH:raspberrypi0-2w-64 = "aarch64"
 TUNE_CCARGS:raspberrypi0-2w-64  = ""
-EXTRA_OECMAKE:append:raspberrypi0-2w-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi0-2w-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 HOST_ARCH:raspberrypi3-64 = "aarch64"
 TUNE_CCARGS:raspberrypi3-64 = ""
-EXTRA_OECMAKE:append:raspberrypi3-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi3-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 HOST_ARCH:raspberrypi4-64 = "aarch64"
 TUNE_CCARGS:raspberrypi4-64 = ""
-EXTRA_OECMAKE:append:raspberrypi4-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi4-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+
+do_configure[network] = "1"
 
 do_install:append() {
     install -d ${D}${datadir}/tensorflow/lite/tools/benchmark/

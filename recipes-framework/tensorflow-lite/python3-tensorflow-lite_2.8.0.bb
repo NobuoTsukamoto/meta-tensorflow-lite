@@ -5,11 +5,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 # Compute branch info from ${PV} as Base PV...
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
-# Since they tag off of something resembling ${PV}, use it.
-SRCREV = "v${PV}"
+
+SRCREV_tensorflow = "3f878cff5b698b82eea85db2b60d65a2e320850e"
 
 SRC_URI = " \
-    git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
+    git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-v2.8-Disable-XNNPACKPack-CMakeFile.patch \
     file://001-fix_numeric_limits_simple_memory_arena_debug_dump.patch \
 "
@@ -57,15 +57,22 @@ HOST_ARCH:raspberrypi3 = "armv7"
 HOST_ARCH:raspberrypi4 = "armv7"
 HOST_ARCH:raspberrypi-cm3 = "armv7"
 
+# Note:
+# Download the submodule using FetchContent_Populate.
+# Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
+EXTRA_OECMAKE:append = "-DFETCHCONTENT_FULLY_DISCONNECTED=OFF"
+
 HOST_ARCH:raspberrypi0-2w-64 = "aarch64"
 TUNE_CCARGS:raspberrypi0-2w-64  = ""
-EXTRA_OECMAKE:append:raspberrypi0-2w-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi0-2w-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 HOST_ARCH:raspberrypi3-64 = "aarch64"
 TUNE_CCARGS:raspberrypi3-64 = ""
-EXTRA_OECMAKE:append:raspberrypi3-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi3-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 HOST_ARCH:raspberrypi4-64 = "aarch64"
 TUNE_CCARGS:raspberrypi4-64 = ""
-EXTRA_OECMAKE:append:raspberrypi4-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi4-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+
+do_configure[network] = "1"
 
 do_compile:prepend() {
     TENSORFLOW_VERSION=$(grep "_VERSION = " "${S}/tensorflow/tools/pip_package/setup.py" | cut -d= -f2 | sed "s/[ '-]//g")
@@ -132,7 +139,7 @@ do_install() {
     ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3/dist/tflite_runtime-${DPV}-*.whl
 }
 
-FILES_${PN}-dev = ""
-INSANE_SKIP_${PN} += "dev-so \
+FILES:${PN}-dev = ""
+INSANE_SKIP:${PN} += "dev-so \
                      "
-FILES_${PN} += "${libdir}/* ${datadir}/*"
+FILES:${PN} += "${libdir}/* ${datadir}/*"

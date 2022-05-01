@@ -6,9 +6,9 @@ name: Bitbake qemuriscv
 on:
   # Triggers the workflow on push or pull request events but only for the honister branch
   push:
-    branches: [ main ]
+    branches: [ kirkstone ]
   pull_request:
-    branches: [ main ]
+    branches: [ kirkstone ]
   schedule:
     - cron: '0 12 * * 5'
 
@@ -58,7 +58,7 @@ jobs:
         run: |
           git clone -b ${TARGET_VERSION} https://github.com/riscv/meta-riscv.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/openembedded-core.git
-          git clone -b 1.52 https://github.com/openembedded/bitbake.git
+          git clone -b 2.0 https://github.com/openembedded/bitbake.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/meta-openembedded.git
         working-directory: ../
 
