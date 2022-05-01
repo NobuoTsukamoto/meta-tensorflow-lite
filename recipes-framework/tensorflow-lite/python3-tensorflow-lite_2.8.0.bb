@@ -57,15 +57,22 @@ HOST_ARCH:raspberrypi3 = "armv7"
 HOST_ARCH:raspberrypi4 = "armv7"
 HOST_ARCH:raspberrypi-cm3 = "armv7"
 
+# Note:
+# Download the submodule using FetchContent_Populate.
+# Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
+EXTRA_OECMAKE:append = "-DFETCHCONTENT_FULLY_DISCONNECTED=OFF"
+
 HOST_ARCH:raspberrypi0-2w-64 = "aarch64"
 TUNE_CCARGS:raspberrypi0-2w-64  = ""
-EXTRA_OECMAKE:append:raspberrypi0-2w-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi0-2w-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 HOST_ARCH:raspberrypi3-64 = "aarch64"
 TUNE_CCARGS:raspberrypi3-64 = ""
-EXTRA_OECMAKE:append:raspberrypi3-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi3-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 HOST_ARCH:raspberrypi4-64 = "aarch64"
 TUNE_CCARGS:raspberrypi4-64 = ""
-EXTRA_OECMAKE:append:raspberrypi4-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi4-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+
+do_configure[network] = "1"
 
 do_compile:prepend() {
     TENSORFLOW_VERSION=$(grep "_VERSION = " "${S}/tensorflow/tools/pip_package/setup.py" | cut -d= -f2 | sed "s/[ '-]//g")
