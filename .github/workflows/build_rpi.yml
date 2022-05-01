@@ -4,11 +4,11 @@ name: Bitbake raspberrypi
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the honister branch
+  # Triggers the workflow on push or pull request events but only for the kirkstone branch
   push:
-    branches: [ kirkstone ]
+    branches: [ main ]
   pull_request:
-    branches: [ kirkstone ]
+    branches: [ main ]
   schedule:
     - cron: '0 12 * * 5'
 
@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 env:
-  TARGET_VERSION: honister
+  TARGET_VERSION: kirkstone
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
