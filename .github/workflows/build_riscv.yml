@@ -25,7 +25,7 @@ jobs:
     strategy:
       matrix:
         target_machine: [qemuriscv64, qemuriscv32]
-        tensorflow_version: [2.8.0]
+        tensorflow_version: [2.9.0]
         
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -71,6 +71,7 @@ jobs:
           bitbake-layers add-layer ../meta-tensorflow-lite
           bitbake-layers add-layer ../meta-riscv
           cat <<EOF> conf/auto.conf
+          FORTRAN:forcevariable = ",fortran"
           PREFERRED_VERSION_python3-tensorflow-lite="${{ matrix.tensorflow_version }}"
           PREFERRED_VERSION_libtensorflow-lite="${{ matrix.tensorflow_version }}"
           EOF
