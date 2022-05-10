@@ -14,6 +14,10 @@ SRC_URI = " \
     file://001-v2.9-Add-CMAKE_SYSTEM_PROCESSOR.patch \
 "
 
+SRC_URI:append:riscv32 = " \
+    file://001-v2.9-RISCV32_pthreads.patch \
+"
+
 S = "${WORKDIR}/git"
 
 DEPENDS += "\
@@ -78,6 +82,13 @@ EXTRA_OECMAKE:append:riscv64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append = " -DFETCHCONTENT_FULLY_DISCONNECTED=OFF -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH}"
 
 do_configure[network] = "1"
+
+do_configure:append() {
+    if [ -e ${S}/tensorflow/lite/tools/pip_package/riscv32_pthread.patch ]; then
+        cd ${B}/pthreadpool-source/src
+        patch < ${S}/tensorflow/lite/tools/pip_package/riscv32_pthread.patch
+    fi
+}
 
 do_compile:prepend() {
     TENSORFLOW_VERSION=$(grep "_VERSION = " "${S}/tensorflow/tools/pip_package/setup.py" | cut -d= -f2 | sed "s/[ '-]//g")

@@ -1,0 +1,19 @@
+diff --git a/tensorflow/lite/tools/pip_package/riscv32_pthread.patch b/tensorflow/lite/tools/pip_package/riscv32_pthread.patch
+new file mode 100644
+index 00000000000..becc7d70131
+--- /dev/null
++++ b/tensorflow/lite/tools/pip_package/riscv32_pthread.patch
+@@ -0,0 +1,13 @@
++--- src/pthreads.c.org 2022-05-10 07:38:34.722817647 +0900
+++++ src/pthreads.c     2022-05-10 07:41:58.851806698 +0900
++@@ -9,6 +9,10 @@
++ /* Configuration header */
++ #include "threadpool-common.h"
++
+++#if !defined(__NR_futex)
+++# define __NR_futex __NR_futex_time64
+++#endif
+++
++ /* POSIX headers */
++ #include <pthread.h>
++ #include <unistd.h>
