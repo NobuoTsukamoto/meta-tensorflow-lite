@@ -6,14 +6,17 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "3f878cff5b698b82eea85db2b60d65a2e320850e"
+SRCREV_tensorflow = "8a20d54a3c1bfa38c03ea99a2ad3c1b0a45dfa95"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-v2.8-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-v2.8-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-v2.9-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-v2.9-Add-CMAKE_SYSTEM_PROCESSOR.patch \
 "
 
+SRC_URI:append:riscv32 = " \
+    file://001-v2.9-RISCV32_pthreads.patch \
+"
 
 S = "${WORKDIR}/git"
 
@@ -22,6 +25,7 @@ DEPENDS += "\
             python3-wheel-native \
             python3-numpy \
             python3-pybind11 \
+            libgfortran \
 "
 
 RDEPENDS:${PN} += " \
@@ -67,6 +71,11 @@ TENSORFLOW_TARGET_ARCH:raspberrypi4-64 = "aarch64"
 TUNE_CCARGS:raspberrypi4-64 = ""
 EXTRA_OECMAKE:append:raspberrypi4-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 
+TENSORFLOW_TARGET_ARCH:riscv32 = "riscv32"
+EXTRA_OECMAKE:append:riscv32 = " -DTFLITE_ENABLE_XNNPACK=ON"
+TENSORFLOW_TARGET_ARCH:riscv64 = "riscv64"
+EXTRA_OECMAKE:append:riscv64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+
 # Note:
 # Download the submodule using FetchContent_Populate.
 # Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
@@ -74,9 +83,17 @@ EXTRA_OECMAKE:append = " -DFETCHCONTENT_FULLY_DISCONNECTED=OFF -DTENSORFLOW_TARG
 
 do_configure[network] = "1"
 
+do_configure:append() {
+    if [ -e ${S}/tensorflow/lite/tools/pip_package/riscv32_pthread.patch ]; then
+        cd ${B}/pthreadpool-source/src
+        patch < ${S}/tensorflow/lite/tools/pip_package/riscv32_pthread.patch
+    fi
+}
+
 do_compile:prepend() {
     TENSORFLOW_VERSION=$(grep "_VERSION = " "${S}/tensorflow/tools/pip_package/setup.py" | cut -d= -f2 | sed "s/[ '-]//g")
     export PACKAGE_VERSION="${TENSORFLOW_VERSION}"
+    export PROJECT_NAME="tflite_runtime"
 
     rm -rf "${TENSORFLOW_LITE_BUILD_DIR}" && mkdir -p "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime"
     cp -r "${TENSORFLOW_LITE_DIR}/tools/pip_package/debian" \
@@ -136,7 +153,7 @@ do_install() {
     PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
     ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} -m pip install --disable-pip-version-check -v \
     -t ${D}/${PYTHON_SITEPACKAGES_DIR} --no-cache-dir --no-deps \
-    ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3/dist/tflite_runtime-${DPV}-*.whl
+    ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3/dist/tflite_runtime-${DPV}*.whl
 }
 
 FILES:${PN}-dev = ""

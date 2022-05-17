@@ -6,15 +6,19 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "3f878cff5b698b82eea85db2b60d65a2e320850e"
+SRCREV_tensorflow = "8a20d54a3c1bfa38c03ea99a2ad3c1b0a45dfa95"
 
 SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-v2.8-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-v2.8-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-v2.9-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-v2.9-Add-CMAKE_SYSTEM_PROCESSOR.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
+"
+
+SRC_URI:append:riscv32 = " \
+    file://001-v2.9-RISCV32_pthreads.patch \
 "
 
 inherit cmake
@@ -48,12 +52,24 @@ TENSORFLOW_TARGET_ARCH:raspberrypi4-64 = "aarch64"
 TUNE_CCARGS:raspberrypi4-64 = ""
 EXTRA_OECMAKE:append:raspberrypi4-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 
+TENSORFLOW_TARGET_ARCH:riscv32 = "riscv32"
+EXTRA_OECMAKE:append:riscv32 = " -DTFLITE_ENABLE_XNNPACK=ON"
+TENSORFLOW_TARGET_ARCH:riscv64 = "riscv64"
+EXTRA_OECMAKE:append:riscv64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+
 # Note:
 # Download the submodule using FetchContent_Populate.
 # Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
 EXTRA_OECMAKE:append = " -DFETCHCONTENT_FULLY_DISCONNECTED=OFF -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH}"
 
 do_configure[network] = "1"
+
+do_configure:append() {
+    if [ -e ${S}/tensorflow/lite/tools/pip_package/riscv32_pthread.patch ]; then
+        cd ${B}/pthreadpool-source/src
+        patch < ${S}/tensorflow/lite/tools/pip_package/riscv32_pthread.patch
+    fi
+}
 
 do_install:append() {
     install -d ${D}${datadir}/tensorflow/lite/tools/benchmark/

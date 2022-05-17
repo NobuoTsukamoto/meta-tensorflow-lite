@@ -1,8 +1,8 @@
 diff --git a/tensorflow/lite/CMakeLists.txt b/tensorflow/lite/CMakeLists.txt
-index 200d1a7c46d..4ddeff7f2c1 100644
+index 40f9485b5d6..d484ef5df41 100644
 --- a/tensorflow/lite/CMakeLists.txt
 +++ b/tensorflow/lite/CMakeLists.txt
-@@ -78,6 +78,9 @@ if(TFLITE_KERNEL_TEST AND ${CMAKE_CROSSCOMPILING})
+@@ -79,6 +79,9 @@ if(TFLITE_KERNEL_TEST AND ${CMAKE_CROSSCOMPILING})
    endif()
  endif()
  
