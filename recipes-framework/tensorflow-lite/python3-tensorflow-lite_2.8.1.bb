@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "3f878cff5b698b82eea85db2b60d65a2e320850e"
+SRCREV_tensorflow = "0516d4d8bced506cae97dc3cb45dbd2fe4311f26"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
@@ -77,6 +77,7 @@ do_configure[network] = "1"
 do_compile:prepend() {
     TENSORFLOW_VERSION=$(grep "_VERSION = " "${S}/tensorflow/tools/pip_package/setup.py" | cut -d= -f2 | sed "s/[ '-]//g")
     export PACKAGE_VERSION="${TENSORFLOW_VERSION}"
+    export PROJECT_NAME="tflite_runtime"
 
     rm -rf "${TENSORFLOW_LITE_BUILD_DIR}" && mkdir -p "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime"
     cp -r "${TENSORFLOW_LITE_DIR}/tools/pip_package/debian" \
