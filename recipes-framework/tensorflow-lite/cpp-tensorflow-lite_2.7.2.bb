@@ -1,7 +1,7 @@
 DESCRIPTION = "TensorFlow Lite CPP "
 LICENSE = "Apache-2.0"
 
-LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=c7e17cca1ef4230861fb7868e96c387e"
 # Compute branch info from ${PV} as Base PV...
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
@@ -10,8 +10,8 @@ SRCREV = "v${PV}"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
-    file://001-v2.8-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-v2.8_riscv_download.patch \
+    file://001-v2.7-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-fix_numeric_limits_simple_memory_arena_debug_dump.patch \
 "
 
 inherit cmake
@@ -19,7 +19,7 @@ inherit cmake
 S = "${WORKDIR}/git"
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
-EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS=ON"
+EXTRA_OECMAKE += "-DBUILD_SHARED_LIBS=ON"
 
 # Note:
 # XNNPack is valid only on 64bit. 
@@ -61,12 +61,9 @@ do_install:append() {
     if [ -e ${B}/pthreadpool/libpthreadpool.so ]; then
         install -m 0755 ${B}/pthreadpool/libpthreadpool.so ${D}/${libdir}
     fi
-    if [ -e ${B}/_deps/cpuinfo-build/libcpuinfo.so ]; then
-        install -m 0755 ${B}/_deps/cpuinfo-build/libcpuinfo.so ${D}/${libdir}
+    if [ -e ${B}/cpuinfo/libcpuinfo.so ]; then
+        install -m 0755 ${B}/cpuinfo/libcpuinfo.so ${D}/${libdir}
     fi
-
-    install -d ${D}${includedir}/tensorflow/core/util
-    install -m 644 ${S}/tensorflow/core/util/*.h ${D}${includedir}/tensorflow/core/util
 
     install -d ${D}${includedir}/tensorflow/lite
     install -d ${D}${includedir}/tensorflow/lite/c
@@ -85,12 +82,12 @@ do_install:append() {
     install -d ${D}${includedir}/tensorflow/lite/delegates/coreml/builders
     install -d ${D}${includedir}/tensorflow/lite/delegates/external
     install -d ${D}${includedir}/tensorflow/lite/delegates/flex
+    install -d ${D}${includedir}/tensorflow/lite/delegates/flex/training
     install -d ${D}${includedir}/tensorflow/lite/delegates/gpu
     install -d ${D}${includedir}/tensorflow/lite/delegates/gpu/cl
     install -d ${D}${includedir}/tensorflow/lite/delegates/gpu/cl/default
     install -d ${D}${includedir}/tensorflow/lite/delegates/gpu/cl/kernels
     install -d ${D}${includedir}/tensorflow/lite/delegates/gpu/common
-    install -d ${D}${includedir}/tensorflow/lite/delegates/gpu/common/google
     install -d ${D}${includedir}/tensorflow/lite/delegates/gpu/common/memory_management
     install -d ${D}${includedir}/tensorflow/lite/delegates/gpu/common/selectors
     install -d ${D}${includedir}/tensorflow/lite/delegates/gpu/common/task
@@ -146,7 +143,7 @@ do_install:append() {
     install -d ${D}${includedir}/tensorflow/lite/profiling
     install -d ${D}${includedir}/tensorflow/lite/python/analyzer_wrapper
     install -d ${D}${includedir}/tensorflow/lite/python/interpreter_wrapper
-    install -d ${D}${includedir}/tensorflow/lite/python/metrics/wrapper
+    install -d ${D}${includedir}/tensorflow/lite/python/metrics_wrapper
     install -d ${D}${includedir}/tensorflow/lite/python/optimize
     install -d ${D}${includedir}/tensorflow/lite/schema
     install -d ${D}${includedir}/tensorflow/lite/schema/builtin_ops_header
@@ -176,6 +173,7 @@ do_install:append() {
     install -d ${D}${includedir}/tensorflow/lite/tools/signature
     install -d ${D}${includedir}/tensorflow/lite/tools/strip_buffers
     install -d ${D}${includedir}/tensorflow/lite/tools/versioning
+
     install -m 644 ${S}/tensorflow/lite/*.h ${D}${includedir}/tensorflow/lite
     install -m 644 ${S}/tensorflow/lite/c/*.h ${D}${includedir}/tensorflow/lite/c
     install -m 644 ${S}/tensorflow/lite/core/*.h ${D}${includedir}/tensorflow/lite/core
@@ -193,12 +191,12 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/delegates/coreml/builders/*.h ${D}${includedir}/tensorflow/lite/delegates/coreml/builders
     install -m 644 ${S}/tensorflow/lite/delegates/external/*.h ${D}${includedir}/tensorflow/lite/delegates/external
     install -m 644 ${S}/tensorflow/lite/delegates/flex/*.h ${D}${includedir}/tensorflow/lite/delegates/flex
+    install -m 644 ${S}/tensorflow/lite/delegates/flex/training/*.h ${D}${includedir}/tensorflow/lite/delegates/flex/training
     install -m 644 ${S}/tensorflow/lite/delegates/gpu/*.h ${D}${includedir}/tensorflow/lite/delegates/gpu
     install -m 644 ${S}/tensorflow/lite/delegates/gpu/cl/*.h ${D}${includedir}/tensorflow/lite/delegates/gpu/cl
     install -m 644 ${S}/tensorflow/lite/delegates/gpu/cl/default/*.h ${D}${includedir}/tensorflow/lite/delegates/gpu/cl/default
     install -m 644 ${S}/tensorflow/lite/delegates/gpu/cl/kernels/*.h ${D}${includedir}/tensorflow/lite/delegates/gpu/cl/kernels
     install -m 644 ${S}/tensorflow/lite/delegates/gpu/common/*.h ${D}${includedir}/tensorflow/lite/delegates/gpu/common
-    install -m 644 ${S}/tensorflow/lite/delegates/gpu/common/google/*.h ${D}${includedir}/tensorflow/lite/delegates/gpu/common/google
     install -m 644 ${S}/tensorflow/lite/delegates/gpu/common/memory_management/*.h ${D}${includedir}/tensorflow/lite/delegates/gpu/common/memory_management
     install -m 644 ${S}/tensorflow/lite/delegates/gpu/common/selectors/*.h ${D}${includedir}/tensorflow/lite/delegates/gpu/common/selectors
     install -m 644 ${S}/tensorflow/lite/delegates/gpu/common/task/*.h ${D}${includedir}/tensorflow/lite/delegates/gpu/common/task
@@ -254,7 +252,7 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/profiling/*.h ${D}${includedir}/tensorflow/lite/profiling
     install -m 644 ${S}/tensorflow/lite/python/analyzer_wrapper/*.h ${D}${includedir}/tensorflow/lite/python/analyzer_wrapper
     install -m 644 ${S}/tensorflow/lite/python/interpreter_wrapper/*.h ${D}${includedir}/tensorflow/lite/python/interpreter_wrapper
-    install -m 644 ${S}/tensorflow/lite/python/metrics/wrapper/*.h ${D}${includedir}/tensorflow/lite/python/metrics/wrapper
+    install -m 644 ${S}/tensorflow/lite/python/metrics_wrapper/*.h ${D}${includedir}/tensorflow/lite/python/metrics_wrapper
     install -m 644 ${S}/tensorflow/lite/python/optimize/*.h ${D}${includedir}/tensorflow/lite/python/optimize
     install -m 644 ${S}/tensorflow/lite/schema/*.h ${D}${includedir}/tensorflow/lite/schema
     install -m 644 ${S}/tensorflow/lite/schema/builtin_ops_header/*.h ${D}${includedir}/tensorflow/lite/schema/builtin_ops_header
@@ -368,8 +366,5 @@ do_install:append() {
     install -m 644 ${B}/abseil-cpp/absl/utility/*.h ${D}${includedir}/absl/utility
 }
 
-FILES:${PN}-dev = "${includedir} \
-                   ${libdir}/libtensorflowlite.so \
-                   "
+FILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
 FILES:${PN} += "${libdir}/*.so"
-INSANE:SKIP_${PN}= "dev-so"
