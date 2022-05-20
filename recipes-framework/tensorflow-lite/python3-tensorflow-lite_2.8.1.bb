@@ -15,11 +15,6 @@ SRC_URI = " \
 
 SRC_URI:append:riscv64 = " \
     file://001-fix_numeric_limits_simple_memory_arena_debug_dump.patch \
-    file://001-v2.8_riscv_download.patch \
-"
-
-SRC_URI:append:riscv32 = " \
-    file://001-v2.8_riscv_download.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -83,6 +78,7 @@ EXTRA_OECMAKE:append:raspberrypi4-64 = "-DTFLITE_ENABLE_XNNPACK=ON"
 do_compile:prepend() {
     TENSORFLOW_VERSION=$(grep "_VERSION = " "${S}/tensorflow/tools/pip_package/setup.py" | cut -d= -f2 | sed "s/[ '-]//g")
     export PACKAGE_VERSION="${TENSORFLOW_VERSION}"
+    export PROJECT_NAME="tflite_runtime"
 
     rm -rf "${TENSORFLOW_LITE_BUILD_DIR}" && mkdir -p "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime"
     cp -r "${TENSORFLOW_LITE_DIR}/tools/pip_package/debian" \

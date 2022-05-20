@@ -16,11 +16,6 @@ SRC_URI = " \
 
 SRC_URI:append:riscv64 = " \
     file://001-fix_numeric_limits_simple_memory_arena_debug_dump.patch \
-    file://001-v2.7_riscv_download.patch \
-"
-
-SRC_URI:append:riscv32 = " \
-    file://001-v2.7_riscv_download.patch \
 "
 
 S = "${WORKDIR}/git"
