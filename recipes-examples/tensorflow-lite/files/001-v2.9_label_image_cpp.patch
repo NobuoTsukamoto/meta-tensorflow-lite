@@ -129,7 +129,7 @@ index 13527260e46..15f88430adb 100644
  namespace tflite {
  namespace label_image {
 diff --git a/tensorflow/lite/examples/label_image/label_image.cc b/tensorflow/lite/examples/label_image/label_image.cc
-index c88ed7c2948..b6db035153b 100644
+index c88ed7c2948..2a776c216fb 100644
 --- a/tensorflow/lite/examples/label_image/label_image.cc
 +++ b/tensorflow/lite/examples/label_image/label_image.cc
 @@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
@@ -154,3 +154,12 @@ index c88ed7c2948..b6db035153b 100644
  #include "tensorflow/lite/kernels/register.h"
  #include "tensorflow/lite/optional_debug_tools.h"
  #include "tensorflow/lite/profiling/profiler.h"
+@@ -126,7 +126,7 @@ class DelegateProviders {
+                      "XNNPACK delegate isn't supported on the platform!";
+       } else {
+         params_.Set<bool>("use_xnnpack", true);
+-        params_.Set<bool>("num_threads", s.number_of_threads);
++        params_.Set<int32_t>("num_threads", s.number_of_threads);
+       }
+     }
+   }
