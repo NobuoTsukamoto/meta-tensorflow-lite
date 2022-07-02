@@ -26,6 +26,14 @@ DEPENDS = " \
     libusb1 \
 "
 
+RDEPENDS:${PN} += " \
+    flatbuffers \
+    abseil-cpp \
+    libusb1 \
+"
+
+EXTRA_OEMAKE = " libedgetpu"
+
 do_configure:prepend () {
     export TFROOT=${WORKDIR}/tensorflow
 }
