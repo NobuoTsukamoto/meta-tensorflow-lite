@@ -6,10 +6,13 @@ Yocto layer for the TensorFlow Lite interpreter with Python / C++.
 - [TensorFlow Lite guide](https://www.tensorflow.org/lite/guide)
 - [Python quickstart](https://www.tensorflow.org/lite/guide/python)
 - [TensorFlow Lite](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite)
+- [Google Coral](https://coral.ai/)
+- [Edge TPU runtime library (libedgetpu)](https://github.com/google-coral/libedgetpu)
 
 ## Reference
 - [Building TensorFlow Lite Standalone Pip](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/tools/pip_package)
 - [Build TensorFlow Lite with CMake](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/lite/g3doc/guide/build_cmake.md)
+- [Building with only a Makefile - libedgetpu](https://github.com/google-coral/libedgetpu/blob/master/makefile_build/README.md)
 
 ## Available BSP
 Please note that it is not official support.
@@ -20,8 +23,12 @@ Please note that it is not official support.
 
 ## Available recipes
 - framework
-  - [Python3 interpreter](recipes-framework/tensorflow-lite/python3-tensorflow-lite_2.9.0.bb)
-  - [C++ API shared library](recipes-framework/tensorflow-lite/libtensorflow-lite_2.9.0.bb)
+  - python3-tensorflow-lite  
+    [Python3 interpreter](recipes-framework/tensorflow-lite/python3-tensorflow-lite_2.9.0.bb)
+  - libtensorflow-lite  
+    [C++ API shared library](recipes-framework/tensorflow-lite/libtensorflow-lite_2.9.0.bb)
+  - libedgetpu-max / libedget-std  
+    [bitbake with libedgetpu](./doc/coral_libedgetpu.md)
 - examples
   - python3-tensorflow-lite-example  
     [TensorFlow Lite Python image classification demo](./doc/python3-tensorflow-lite-example.md)
