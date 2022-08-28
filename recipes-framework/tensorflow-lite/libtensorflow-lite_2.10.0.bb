@@ -96,6 +96,8 @@ do_install:append() {
 
     if [ ${TENSORFLOW_TARGET_ARCH} = "armv6" ]; then
         install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
+    elif [ ${TENSORFLOW_TARGET_ARCH} = "riscv32" ]; then
+        install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
     fi
 
     install -d ${D}${includedir}/tensorflow/core/util
