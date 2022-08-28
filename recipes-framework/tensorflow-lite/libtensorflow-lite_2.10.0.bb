@@ -94,6 +94,10 @@ do_install:append() {
     install -m 0755 ${B}/_deps/abseil-cpp-build/absl/strings/libabsl_strings_internal.so ${D}/${libdir}
     install -m 0755 ${B}/_deps/abseil-cpp-build/absl/base/libabsl_raw_logging_internal.so ${D}/${libdir}
 
+    if [ ${TENSORFLOW_TARGET_ARCH} = "armv6" ]; then
+        install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
+    fi
+
     install -d ${D}${includedir}/tensorflow/core/util
     install -m 644 ${S}/tensorflow/core/util/*.h ${D}${includedir}/tensorflow/core/util
 
