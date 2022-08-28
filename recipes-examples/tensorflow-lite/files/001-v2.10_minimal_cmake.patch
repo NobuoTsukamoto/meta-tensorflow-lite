@@ -1,5 +1,5 @@
 diff --git a/tensorflow/lite/examples/minimal/CMakeLists.txt b/tensorflow/lite/examples/minimal/CMakeLists.txt
-index e46ee6d2ab1..9c9a42413b6 100644
+index 7f8301162bb..539c64be6dd 100644
 --- a/tensorflow/lite/examples/minimal/CMakeLists.txt
 +++ b/tensorflow/lite/examples/minimal/CMakeLists.txt
 @@ -22,18 +22,6 @@ project(minimal C CXX)
@@ -19,5 +19,5 @@ index e46ee6d2ab1..9c9a42413b6 100644
 -  EXCLUDE_FROM_ALL
 -)
  
- set(CMAKE_CXX_STANDARD 11)
+ set(CMAKE_CXX_STANDARD 17)
  add_executable(minimal

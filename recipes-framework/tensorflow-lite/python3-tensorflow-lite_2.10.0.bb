@@ -6,16 +6,17 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "8a20d54a3c1bfa38c03ea99a2ad3c1b0a45dfa95"
+SRCREV_tensorflow = "4bf2119f1d93411479981108dd0a3c3a46e8e3c4"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-v2.9-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-v2.9-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-v2.10-Fix-CMAKE_Build_Error.patch \
+    file://001-v2.10-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-v2.10-Add-CMAKE_SYSTEM_PROCESSOR.patch \
 "
 
 SRC_URI:append:riscv32 = " \
-    file://001-v2.9-RISCV32_pthreads.patch \
+    file://001-v2.10-RISCV32_pthreads.patch \
 "
 
 S = "${WORKDIR}/git"
