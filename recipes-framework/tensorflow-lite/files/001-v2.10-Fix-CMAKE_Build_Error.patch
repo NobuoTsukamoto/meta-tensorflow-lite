@@ -1,0 +1,20 @@
+diff --git a/tensorflow/lite/CMakeLists.txt b/tensorflow/lite/CMakeLists.txt
+index 1fd4e95d20b..0e400a2b69a 100644
+--- a/tensorflow/lite/CMakeLists.txt
++++ b/tensorflow/lite/CMakeLists.txt
+@@ -505,6 +505,7 @@ add_library(tensorflow-lite
+   ${TFLITE_PROFILER_SRCS}
+   ${TFLITE_SOURCE_DIR}/kernels/internal/utils/sparsity_format_converter.cc
+   ${TFLITE_SOURCE_DIR}/schema/schema_utils.cc
++  ${TF_SOURCE_DIR}/core/profiler/lib/scoped_memory_debug_annotation.cc
+ )
+ target_include_directories(tensorflow-lite
+   PUBLIC
+@@ -529,6 +530,7 @@ target_link_libraries(tensorflow-lite
+     ${TFLITE_TARGET_DEPENDENCIES}
+ )
+ 
++add_compile_definitions(IS_MOBILE_PLATFORM)
+ if (NOT BUILD_SHARED_LIBS)
+   list(APPEND TFLITE_TARGET_PUBLIC_OPTIONS "-DTFL_STATIC_LIBRARY_BUILD")
+ endif()

@@ -6,16 +6,17 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "8a20d54a3c1bfa38c03ea99a2ad3c1b0a45dfa95"
+SRCREV_tensorflow = "359c3cdfc5fabac82b3c70b3b6de2b0a8c16874f"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-v2.9-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-v2.9-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-v2.10-Fix-CMAKE_Build_Error.patch \
+    file://001-v2.10-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-v2.10-Add-CMAKE_SYSTEM_PROCESSOR.patch \
 "
 
 SRC_URI:append:riscv32 = " \
-    file://001-v2.9-RISCV32_pthreads.patch \
+    file://001-v2.10-RISCV32_pthreads.patch \
 "
 
 inherit cmake
@@ -88,6 +89,17 @@ do_install:append() {
     fi
     if [ -e ${B}/_deps/cpuinfo-build/libcpuinfo.so ]; then
         install -m 0755 ${B}/_deps/cpuinfo-build/libcpuinfo.so ${D}/${libdir}
+    fi
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/strings/libabsl_strings.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/strings/libabsl_strings_internal.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/base/libabsl_raw_logging_internal.so ${D}/${libdir}
+
+    if [ ${TENSORFLOW_TARGET_ARCH} = "armv6" ]; then
+        install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
+    elif [ ${TENSORFLOW_TARGET_ARCH} = "armv7" ]; then
+        install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
+    elif [ ${TENSORFLOW_TARGET_ARCH} = "riscv32" ]; then
+        install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
     fi
 
     install -d ${D}${includedir}/tensorflow/core/util

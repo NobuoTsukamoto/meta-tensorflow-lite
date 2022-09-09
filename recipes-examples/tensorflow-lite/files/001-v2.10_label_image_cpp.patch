@@ -1,5 +1,5 @@
 diff --git a/tensorflow/lite/examples/label_image/CMakeLists.txt b/tensorflow/lite/examples/label_image/CMakeLists.txt
-index 1bf259aad10..94aa127be83 100644
+index 1bf259aad10..2b99d0ed3e7 100644
 --- a/tensorflow/lite/examples/label_image/CMakeLists.txt
 +++ b/tensorflow/lite/examples/label_image/CMakeLists.txt
 @@ -15,12 +15,23 @@
@@ -48,7 +48,7 @@ index 1bf259aad10..94aa127be83 100644
    )
  endif()  # TFLITE_ENABLE_GPU
  
-+set(CMAKE_CXX_STANDARD 14)  # Some components require C++14.
++set(CMAKE_CXX_STANDARD 17)  # Some components require C++17.
 +set(CMAKE_CXX_STANDARD_REQUIRED ON)
 +
  add_executable(label_image
@@ -66,7 +66,7 @@ index 1bf259aad10..94aa127be83 100644
 +  ${CMAKE_CURRENT_LIST_DIR}/../
 +)
 diff --git a/tensorflow/lite/examples/label_image/bitmap_helpers.cc b/tensorflow/lite/examples/label_image/bitmap_helpers.cc
-index 0b67f70dc65..7ce315ab86a 100644
+index f876d486477..4feb986975c 100644
 --- a/tensorflow/lite/examples/label_image/bitmap_helpers.cc
 +++ b/tensorflow/lite/examples/label_image/bitmap_helpers.cc
 @@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
@@ -78,9 +78,9 @@ index 0b67f70dc65..7ce315ab86a 100644
  
  #include <unistd.h>  // NOLINT(build/include_order)
  
-@@ -23,7 +23,7 @@ limitations under the License.
- #include <fstream>
+@@ -24,7 +24,7 @@ limitations under the License.
  #include <iostream>
+ #include <string>
  
 -#include "tensorflow/lite/examples/label_image/log.h"
 +#include "label_image/log.h"
@@ -88,12 +88,12 @@ index 0b67f70dc65..7ce315ab86a 100644
  namespace tflite {
  namespace label_image {
 diff --git a/tensorflow/lite/examples/label_image/bitmap_helpers.h b/tensorflow/lite/examples/label_image/bitmap_helpers.h
-index 817d0f67783..eb7d75ee15f 100644
+index 1a05d80162d..ebfb006cedd 100644
 --- a/tensorflow/lite/examples/label_image/bitmap_helpers.h
 +++ b/tensorflow/lite/examples/label_image/bitmap_helpers.h
-@@ -16,8 +16,8 @@ limitations under the License.
- #ifndef TENSORFLOW_LITE_EXAMPLES_LABEL_IMAGE_BITMAP_HELPERS_H_
- #define TENSORFLOW_LITE_EXAMPLES_LABEL_IMAGE_BITMAP_HELPERS_H_
+@@ -18,8 +18,8 @@ limitations under the License.
+ 
+ #include <string>
  
 -#include "tensorflow/lite/examples/label_image/bitmap_helpers_impl.h"
 -#include "tensorflow/lite/examples/label_image/label_image.h"
@@ -129,7 +129,7 @@ index 13527260e46..15f88430adb 100644
  namespace tflite {
  namespace label_image {
 diff --git a/tensorflow/lite/examples/label_image/label_image.cc b/tensorflow/lite/examples/label_image/label_image.cc
-index c88ed7c2948..2a776c216fb 100644
+index 42e056796ef..b1c0612da3c 100644
 --- a/tensorflow/lite/examples/label_image/label_image.cc
 +++ b/tensorflow/lite/examples/label_image/label_image.cc
 @@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
@@ -141,7 +141,7 @@ index c88ed7c2948..2a776c216fb 100644
  
  #include <fcntl.h>      // NOLINT(build/include_order)
  #include <getopt.h>     // NOLINT(build/include_order)
-@@ -36,9 +36,9 @@ limitations under the License.
+@@ -37,9 +37,9 @@ limitations under the License.
  #include <vector>
  
  #include "absl/memory/memory.h"
@@ -154,12 +154,3 @@ index c88ed7c2948..2a776c216fb 100644
  #include "tensorflow/lite/kernels/register.h"
  #include "tensorflow/lite/optional_debug_tools.h"
  #include "tensorflow/lite/profiling/profiler.h"
-@@ -126,7 +126,7 @@ class DelegateProviders {
-                      "XNNPACK delegate isn't supported on the platform!";
-       } else {
-         params_.Set<bool>("use_xnnpack", true);
--        params_.Set<bool>("num_threads", s.number_of_threads);
-+        params_.Set<int32_t>("num_threads", s.number_of_threads);
-       }
-     }
-   }
