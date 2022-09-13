@@ -16,7 +16,8 @@ on:
   workflow_dispatch:
 
 env:
-  TARGET_VERSION: kirkstone
+  TARGET_VERSION: master
+  TARGET_BITBAKE_VERSION: master
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -58,7 +59,7 @@ jobs:
         run: |
           git clone -b ${TARGET_VERSION} https://github.com/riscv/meta-riscv.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/openembedded-core.git
-          git clone -b 2.0 https://github.com/openembedded/bitbake.git
+          git clone -b $[TARGET_BITBAKE_VERSION} https://github.com/openembedded/bitbake.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/meta-openembedded.git
         working-directory: ../
 
