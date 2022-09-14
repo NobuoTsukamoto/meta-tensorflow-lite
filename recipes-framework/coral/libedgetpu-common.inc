@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 PV = "grouper"
 
 SRCREV_libedgetpu = "3164995622300286ef2bb14d7fdc2792dae045b7"
-SRCREV_tensorflow = "8a20d54a3c1bfa38c03ea99a2ad3c1b0a45dfa95"
+SRCREV_tensorflow = "359c3cdfc5fabac82b3c70b3b6de2b0a8c16874f"
 
 SRC_URI = " \
     git://github.com/google-coral/libedgetpu.git;name=libedgetpu;branch="master";protocol=https \
-    git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.9;protocol=https \
+    git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.10;protocol=https \
     file://001-v2.9_libedgetpu_makefile.patch \
     file://001-v2.9_libedgetpu_allocated_buffer_header.patch \
 "
