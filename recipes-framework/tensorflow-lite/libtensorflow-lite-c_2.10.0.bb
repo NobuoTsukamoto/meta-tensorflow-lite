@@ -81,4 +81,5 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/c/c_api_experimental.h ${D}${includedir}/tensorflow/lite/c/
 }
 
-FILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite_c.so"
+FILES:${PN}-dev = "${includedir}"
+FILES:${PN} += "${libdir}/libtensorflowlite_c.so"
