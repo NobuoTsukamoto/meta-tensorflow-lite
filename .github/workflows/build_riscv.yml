@@ -16,8 +16,8 @@ on:
   workflow_dispatch:
 
 env:
-  TARGET_VERSION: master
-  TARGET_BITBAKE_VERSION: master
+  TARGET_VERSION: langdale
+  TARGET_BITBAKE_VERSION: 2.2
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:

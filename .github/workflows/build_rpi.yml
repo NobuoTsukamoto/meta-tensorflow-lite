@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 env:
-  TARGET_VERSION: master
+  TARGET_VERSION: langdale
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -73,6 +73,7 @@ jobs:
           FORTRAN:forcevariable = ",fortran"
           PREFERRED_VERSION_python3-tensorflow-lite="${{ matrix.tensorflow_version }}"
           PREFERRED_VERSION_libtensorflow-lite="${{ matrix.tensorflow_version }}"
+          LICENSE_FLAGS_ACCEPTED = "synaptics-killswitch"
           EOF
           cat conf/auto.conf
           MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite libtensorflow-lite-c python3-tensorflow-lite-example tensorflow-lite-label-image tensorflow-lite-minimal tensorflow-lite-benchmark libedgetpu-max
