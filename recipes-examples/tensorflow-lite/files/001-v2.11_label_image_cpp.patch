@@ -1,0 +1,156 @@
+diff --git a/tensorflow/lite/examples/label_image/CMakeLists.txt b/tensorflow/lite/examples/label_image/CMakeLists.txt
+index 1bf259aad10..2b99d0ed3e7 100644
+--- a/tensorflow/lite/examples/label_image/CMakeLists.txt
++++ b/tensorflow/lite/examples/label_image/CMakeLists.txt
+@@ -15,12 +15,23 @@
+ 
+ 
+ # The label_image example for Tensorflow Lite.
++project(label_image C CXX)
++
++message(STATUS, “CMAKE_CURRENT_LIST_DIR = ${CMAKE_CURRENT_LIST_DIR}”)
++
++set(TF_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../../")
++set(TFLITE_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../")
++
++message(STATUS, “TF_SOURCE_DIR = ${TF_SOURCE_DIR}”)
++message(STATUS, “TFLITE_SOURCE_DIR = ${TFLITE_SOURCE_DIR}”)
++
++include(CMakeDependentOption)
++option(TFLITE_ENABLE_GPU "Enable GPU" OFF)
++option(TFLITE_ENABLE_XNNPACK "Enable XNNPACK backend" OFF)
+ 
+-populate_source_vars("${TFLITE_SOURCE_DIR}/examples/label_image"
+-  TFLITE_LABEL_IMAGE_SRCS
+-  FILTER "_test\\.cc$"
+-)
+ list(APPEND TFLITE_LABEL_IMAGE_SRCS
++  bitmap_helpers.cc
++  label_image.cc
+   ${TF_SOURCE_DIR}/core/util/stats_calculator.cc
+   ${TFLITE_SOURCE_DIR}/profiling/memory_info.cc
+   ${TFLITE_SOURCE_DIR}/profiling/profile_summarizer.cc
+@@ -41,22 +52,16 @@ else()
+   set(TFLITE_LABEL_IMAGE_CC_OPTIONS "-DTFLITE_WITHOUT_XNNPACK")
+ endif()  # TFLITE_ENABLE_XNNPACK
+ 
+-if(CMAKE_SYSTEM_NAME MATCHES "Android")
+-  if(_TFLITE_ENABLE_NNAPI)
+-    list(APPEND TFLITE_LABEL_IMAGE_SRCS
+-      ${TFLITE_SOURCE_DIR}/tools/delegates/nnapi_delegate_provider.cc
+-    )
+-  endif()  # _TFLITE_ENABLE_NNAPI
+-endif()  # Android
+-
+ if(TFLITE_ENABLE_GPU)
+   list(APPEND TFLITE_LABEL_IMAGE_SRCS
+     ${TFLITE_SOURCE_DIR}/tools/delegates/gpu_delegate_provider.cc
+   )
+ endif()  # TFLITE_ENABLE_GPU
+ 
++set(CMAKE_CXX_STANDARD 17)  # Some components require C++17.
++set(CMAKE_CXX_STANDARD_REQUIRED ON)
++
+ add_executable(label_image
+-  EXCLUDE_FROM_ALL
+   ${TFLITE_LABEL_IMAGE_SRCS}
+ )
+ target_compile_options(label_image
+@@ -66,3 +71,8 @@ target_compile_options(label_image
+ target_link_libraries(label_image
+   tensorflow-lite
+ )
++
++include_directories(label_image
++  PUBLIC
++  ${CMAKE_CURRENT_LIST_DIR}/../
++)
+diff --git a/tensorflow/lite/examples/label_image/bitmap_helpers.cc b/tensorflow/lite/examples/label_image/bitmap_helpers.cc
+index f876d486477..4feb986975c 100644
+--- a/tensorflow/lite/examples/label_image/bitmap_helpers.cc
++++ b/tensorflow/lite/examples/label_image/bitmap_helpers.cc
+@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
+ limitations under the License.
+ ==============================================================================*/
+ 
+-#include "tensorflow/lite/examples/label_image/bitmap_helpers.h"
++#include "label_image/bitmap_helpers.h"
+ 
+ #include <unistd.h>  // NOLINT(build/include_order)
+ 
+@@ -24,7 +24,7 @@ limitations under the License.
+ #include <iostream>
+ #include <string>
+ 
+-#include "tensorflow/lite/examples/label_image/log.h"
++#include "label_image/log.h"
+ 
+ namespace tflite {
+ namespace label_image {
+diff --git a/tensorflow/lite/examples/label_image/bitmap_helpers.h b/tensorflow/lite/examples/label_image/bitmap_helpers.h
+index 1a05d80162d..ebfb006cedd 100644
+--- a/tensorflow/lite/examples/label_image/bitmap_helpers.h
++++ b/tensorflow/lite/examples/label_image/bitmap_helpers.h
+@@ -18,8 +18,8 @@ limitations under the License.
+ 
+ #include <string>
+ 
+-#include "tensorflow/lite/examples/label_image/bitmap_helpers_impl.h"
+-#include "tensorflow/lite/examples/label_image/label_image.h"
++#include "label_image/bitmap_helpers_impl.h"
++#include "label_image/label_image.h"
+ 
+ namespace tflite {
+ namespace label_image {
+diff --git a/tensorflow/lite/examples/label_image/bitmap_helpers_impl.h b/tensorflow/lite/examples/label_image/bitmap_helpers_impl.h
+index 07148dc6225..7720b3340ac 100644
+--- a/tensorflow/lite/examples/label_image/bitmap_helpers_impl.h
++++ b/tensorflow/lite/examples/label_image/bitmap_helpers_impl.h
+@@ -16,7 +16,7 @@ limitations under the License.
+ #ifndef TENSORFLOW_LITE_EXAMPLES_LABEL_IMAGE_BITMAP_HELPERS_IMPL_H_
+ #define TENSORFLOW_LITE_EXAMPLES_LABEL_IMAGE_BITMAP_HELPERS_IMPL_H_
+ 
+-#include "tensorflow/lite/examples/label_image/label_image.h"
++#include "label_image/label_image.h"
+ 
+ #include "tensorflow/lite/builtin_op_data.h"
+ #include "tensorflow/lite/interpreter.h"
+diff --git a/tensorflow/lite/examples/label_image/get_top_n.h b/tensorflow/lite/examples/label_image/get_top_n.h
+index 13527260e46..15f88430adb 100644
+--- a/tensorflow/lite/examples/label_image/get_top_n.h
++++ b/tensorflow/lite/examples/label_image/get_top_n.h
+@@ -16,7 +16,7 @@ limitations under the License.
+ #ifndef TENSORFLOW_LITE_EXAMPLES_LABEL_IMAGE_GET_TOP_N_H_
+ #define TENSORFLOW_LITE_EXAMPLES_LABEL_IMAGE_GET_TOP_N_H_
+ 
+-#include "tensorflow/lite/examples/label_image/get_top_n_impl.h"
++#include "label_image/get_top_n_impl.h"
+ 
+ namespace tflite {
+ namespace label_image {
+diff --git a/tensorflow/lite/examples/label_image/label_image.cc b/tensorflow/lite/examples/label_image/label_image.cc
+index 42e056796ef..b1c0612da3c 100644
+--- a/tensorflow/lite/examples/label_image/label_image.cc
++++ b/tensorflow/lite/examples/label_image/label_image.cc
+@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
+ limitations under the License.
+ ==============================================================================*/
+ 
+-#include "tensorflow/lite/examples/label_image/label_image.h"
++#include "label_image/label_image.h"
+ 
+ #include <fcntl.h>      // NOLINT(build/include_order)
+ #include <getopt.h>     // NOLINT(build/include_order)
+@@ -37,9 +37,9 @@ limitations under the License.
+ #include <vector>
+ 
+ #include "absl/memory/memory.h"
+-#include "tensorflow/lite/examples/label_image/bitmap_helpers.h"
+-#include "tensorflow/lite/examples/label_image/get_top_n.h"
+-#include "tensorflow/lite/examples/label_image/log.h"
++#include "label_image/bitmap_helpers.h"
++#include "label_image/get_top_n.h"
++#include "label_image/log.h"
+ #include "tensorflow/lite/kernels/register.h"
+ #include "tensorflow/lite/optional_debug_tools.h"
+ #include "tensorflow/lite/profiling/profiler.h"
