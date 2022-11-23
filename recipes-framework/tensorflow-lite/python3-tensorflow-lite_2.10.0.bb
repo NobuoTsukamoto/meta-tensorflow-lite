@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "359c3cdfc5fabac82b3c70b3b6de2b0a8c16874f"
+SRCREV_tensorflow = "fdfc646704c37bdf450525f6ced9d80df86e4993"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
