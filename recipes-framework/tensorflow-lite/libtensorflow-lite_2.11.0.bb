@@ -6,27 +6,30 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "359c3cdfc5fabac82b3c70b3b6de2b0a8c16874f"
+SRCREV_tensorflow = "d5b57ca93e506df258271ea00fc29cf98383a374"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-v2.10-Fix-CMAKE_Build_Error.patch \
-    file://001-v2.10-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-v2.10-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-v2.11-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-v2.11-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-v2.11-Fix-CMAKE_Build_Error.patch \
+    file://001-v2.11-Fix-CMAKE_Build_Error_flatbuffers.patch \
 "
 
 SRC_URI:append:riscv32 = " \
-    file://001-v2.10-RISCV32_pthreads.patch \
+    file://001-v2.11-RISCV32_pthreads.patch \
 "
 
 inherit cmake
 
 S = "${WORKDIR}/git"
 
-DEPENDS = "libgfortran"
+DEPENDS = " \
+    libgfortran \
+"
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
-EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS=ON"
+EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS=ON "
 
 # Note:
 # XNNPack is valid only on 64bit. 
@@ -74,7 +77,7 @@ do_configure:append() {
 do_install:append() {
     install -d ${D}/${libdir}
     install -m 0755 ${B}/libtensorflow-lite.so  ${D}/${libdir}/
-
+ 
     install -m 0755 ${B}/_deps/farmhash-build/libfarmhash.so ${D}/${libdir}
     install -m 0755 ${B}/_deps/fft2d-build/libfft2d_fftsg2d.so ${D}/${libdir}
     install -m 0755 ${B}/_deps/fft2d-build/libfft2d_fftsg.so ${D}/${libdir}
@@ -101,7 +104,7 @@ do_install:append() {
     elif [ ${TENSORFLOW_TARGET_ARCH} = "riscv32" ]; then
         install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
     fi
-
+    
     install -d ${D}${includedir}/tensorflow/core/util
     install -m 644 ${S}/tensorflow/core/util/*.h ${D}${includedir}/tensorflow/core/util
 
@@ -157,6 +160,7 @@ do_install:append() {
     install -d ${D}${includedir}/tensorflow/lite/experimental/acceleration/mini_benchmark
     install -d ${D}${includedir}/tensorflow/lite/experimental/microfrontend
     install -d ${D}${includedir}/tensorflow/lite/experimental/microfrontend/lib
+    install -d ${D}${includedir}/tensorflow/lite/experimental/remat
     install -d ${D}${includedir}/tensorflow/lite/experimental/resource
     install -d ${D}${includedir}/tensorflow/lite/internal
     install -d ${D}${includedir}/tensorflow/lite/java/src/main/native
@@ -265,6 +269,7 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/experimental/acceleration/mini_benchmark/*.h ${D}${includedir}/tensorflow/lite/experimental/acceleration/mini_benchmark
     install -m 644 ${S}/tensorflow/lite/experimental/microfrontend/*.h ${D}${includedir}/tensorflow/lite/experimental/microfrontend
     install -m 644 ${S}/tensorflow/lite/experimental/microfrontend/lib/*.h ${D}${includedir}/tensorflow/lite/experimental/microfrontend/lib
+    install -m 644 ${S}/tensorflow/lite/experimental/remat/*.h ${D}${includedir}/tensorflow/lite/experimental/remat
     install -m 644 ${S}/tensorflow/lite/experimental/resource/*.h ${D}${includedir}/tensorflow/lite/experimental/resource
     install -m 644 ${S}/tensorflow/lite/internal/*.h ${D}${includedir}/tensorflow/lite/internal
     install -m 644 ${S}/tensorflow/lite/java/src/main/native/*.h ${D}${includedir}/tensorflow/lite/java/src/main/native
@@ -323,7 +328,10 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/tools/versioning/*.h ${D}${includedir}/tensorflow/lite/tools/versioning
 
     install -d ${D}${includedir}/flatbuffers
-    install -m 644 ${B}/flatbuffers/include/flatbuffers/*.h ${D}${includedir}/flatbuffers
+    install -m 644 ${B}/flatbuffers/include/flatbuffers/*.h ${D}${includedir}/flatbuffers/
+    install -d ${D}${includedir}/flatbuffers/pch
+    install -m 644 ${B}/flatbuffers/include/flatbuffers/pch/*.h ${D}${includedir}/flatbuffers/pch/
+    install -d ${D}${includedir}/flatbuffers/pch
 
     install -d ${D}${includedir}/absl/algorithm
     install -d ${D}${includedir}/absl/base
@@ -402,8 +410,12 @@ do_install:append() {
     install -m 644 ${B}/abseil-cpp/absl/time/internal/cctz/src/*.h ${D}${includedir}/absl/time/internal/cctz/src
     install -m 644 ${B}/abseil-cpp/absl/types/*.h ${D}${includedir}/absl/types
     install -m 644 ${B}/abseil-cpp/absl/types/internal/*.h ${D}${includedir}/absl/types/internal
-    install -m 644 ${B}/abseil-cpp/absl/utility/*.h ${D}${includedir}/absl/utility
+    install -m 644 ${B}/abseil-cpp/absl/utility/*.h ${D}${includedir}/absl/utility    
 }
 
 FILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
 FILES:${PN} += "${libdir}/*.so"
+FILES:${PN} += "${datadir}/eigen3/*"
+FILES:${PN} += "${datadir}/cpuinfo/*"
+FILES:${PN} += "${libdir}/cmake/NEON_2_SSE/*"
+FILES:${PN} += "${libdir}/pkgconfig/libcpuinfo.pc"

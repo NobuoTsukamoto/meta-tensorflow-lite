@@ -1,16 +1,16 @@
 diff --git a/tensorflow/lite/CMakeLists.txt b/tensorflow/lite/CMakeLists.txt
-index 1fd4e95d20b..0e400a2b69a 100644
+index 073b29c4860..5b6ad5fae70 100644
 --- a/tensorflow/lite/CMakeLists.txt
 +++ b/tensorflow/lite/CMakeLists.txt
-@@ -505,6 +505,7 @@ add_library(tensorflow-lite
-   ${TFLITE_PROFILER_SRCS}
+@@ -507,6 +507,7 @@ set(_ALL_TFLITE_SRCS
    ${TFLITE_SOURCE_DIR}/kernels/internal/utils/sparsity_format_converter.cc
    ${TFLITE_SOURCE_DIR}/schema/schema_utils.cc
+   ${TFLITE_SOURCE_DIR}/schema/schema_generated.h
 +  ${TF_SOURCE_DIR}/core/profiler/lib/scoped_memory_debug_annotation.cc
  )
- target_include_directories(tensorflow-lite
-   PUBLIC
-@@ -529,6 +530,7 @@ target_link_libraries(tensorflow-lite
+ add_library(tensorflow-lite
+   ${_ALL_TFLITE_SRCS}
+@@ -535,6 +536,7 @@ target_link_libraries(tensorflow-lite
      ${TFLITE_TARGET_DEPENDENCIES}
  )
  
