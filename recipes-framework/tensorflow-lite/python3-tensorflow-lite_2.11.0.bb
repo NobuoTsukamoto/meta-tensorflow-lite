@@ -48,7 +48,7 @@ OECMAKE_CXX_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_INCLUDE} -I${NUMPY_IN
 CMAKE_VERBOSE = "VERBOSE=1"
 
 # Note:
-# XNNPack is valid only on 64bit. 
+# XNNPack is valid only on 64bit.
 # In the case of arm 32bit, it will be turned off because the build will be
 # an error depending on the combination of target CPUs.
 TENSORFLOW_TARGET_ARCH:raspberrypi = "armv6"
@@ -143,14 +143,13 @@ do_compile:append() {
 do_install() {
     echo "Generating pip package"
     cd "${TENSORFLOW_LITE_BUILD_DIR}"
-    
+
     install -d ${D}/${PYTHON_SITEPACKAGES_DIR}
 
     echo ${D}/${PYTHON_SITEPACKAGES_DIR}
 
     TAGING_INCDIR=${STAGING_INCDIR} \
     STAGING_LIBDIR=${STAGING_LIBDIR} \
-    PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
     ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} -m pip install --disable-pip-version-check -v \
     -t ${D}/${PYTHON_SITEPACKAGES_DIR} --no-cache-dir --no-deps \
     ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3/dist/tflite_runtime-${DPV}*.whl
