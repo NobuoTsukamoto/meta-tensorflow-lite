@@ -1,5 +1,5 @@
 diff --git a/tensorflow/lite/examples/label_image/CMakeLists.txt b/tensorflow/lite/examples/label_image/CMakeLists.txt
-index 1bf259aad10..2b99d0ed3e7 100644
+index f3edeb40a31..a517363f09b 100644
 --- a/tensorflow/lite/examples/label_image/CMakeLists.txt
 +++ b/tensorflow/lite/examples/label_image/CMakeLists.txt
 @@ -15,12 +15,23 @@
@@ -27,7 +27,7 @@ index 1bf259aad10..2b99d0ed3e7 100644
  list(APPEND TFLITE_LABEL_IMAGE_SRCS
 +  bitmap_helpers.cc
 +  label_image.cc
-   ${TF_SOURCE_DIR}/core/util/stats_calculator.cc
+   ${TF_SOURCE_DIR}/tsl/util/stats_calculator.cc
    ${TFLITE_SOURCE_DIR}/profiling/memory_info.cc
    ${TFLITE_SOURCE_DIR}/profiling/profile_summarizer.cc
 @@ -41,22 +52,16 @@ else()
@@ -66,7 +66,7 @@ index 1bf259aad10..2b99d0ed3e7 100644
 +  ${CMAKE_CURRENT_LIST_DIR}/../
 +)
 diff --git a/tensorflow/lite/examples/label_image/bitmap_helpers.cc b/tensorflow/lite/examples/label_image/bitmap_helpers.cc
-index f876d486477..4feb986975c 100644
+index f0602871540..2c83ae5bbf1 100644
 --- a/tensorflow/lite/examples/label_image/bitmap_helpers.cc
 +++ b/tensorflow/lite/examples/label_image/bitmap_helpers.cc
 @@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
@@ -78,15 +78,16 @@ index f876d486477..4feb986975c 100644
  
  #include <unistd.h>  // NOLINT(build/include_order)
  
-@@ -24,7 +24,7 @@ limitations under the License.
- #include <iostream>
+@@ -25,7 +25,7 @@ limitations under the License.
  #include <string>
  
+ #include "tensorflow/core/platform/ctstring_internal.h"
 -#include "tensorflow/lite/examples/label_image/log.h"
 +#include "label_image/log.h"
  
  namespace tflite {
  namespace label_image {
+
 diff --git a/tensorflow/lite/examples/label_image/bitmap_helpers.h b/tensorflow/lite/examples/label_image/bitmap_helpers.h
 index 1a05d80162d..ebfb006cedd 100644
 --- a/tensorflow/lite/examples/label_image/bitmap_helpers.h

@@ -6,19 +6,25 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "d5b57ca93e506df258271ea00fc29cf98383a374"
+SRCREV_tensorflow = "0d8efc960d2874c2f56eed8690d132763a92a33c"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-v2.11-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-v2.11-Add-CMAKE_SYSTEM_PROCESSOR.patch \
-    file://001-v2.11-Fix-CMAKE_Build_Error.patch \
-    file://001-v2.11-Fix-CMAKE_Build_Error_flatbuffers.patch \
+    file://001-v2.12-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-v2.12-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-v2.12-Fix-CMAKE_Build_Error.patch \
+    file://001-v2.12-Fix-CMAKE_Build_Error_flatbuffers.patch \
 "
 
 SRC_URI:append:riscv32 = " \
-    file://001-v2.11-RISCV32_pthreads.patch \
+    file://001-v2.12-RISCV32_pthreads.patch \
+    file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
 "
+
+SRC_URI:append:riscv64 = " \
+    file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+"
+
 
 inherit cmake
 
@@ -93,25 +99,41 @@ do_install:append() {
     if [ -e ${B}/_deps/cpuinfo-build/libcpuinfo.so ]; then
         install -m 0755 ${B}/_deps/cpuinfo-build/libcpuinfo.so ${D}/${libdir}
     fi
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/base/libabsl_base.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/base/libabsl_malloc_internal.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/base/libabsl_raw_logging_internal.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/base/libabsl_spinlock_wait.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/container/libabsl_raw_hash_set.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/debugging/libabsl_debugging_internal.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/debugging/libabsl_demangle_internal.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/debugging/libabsl_stacktrace.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/debugging/libabsl_symbolize.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/hash/libabsl_city.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/hash/libabsl_hash.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/hash/libabsl_low_level_hash.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
     install -m 0755 ${B}/_deps/abseil-cpp-build/absl/strings/libabsl_strings.so ${D}/${libdir}
     install -m 0755 ${B}/_deps/abseil-cpp-build/absl/strings/libabsl_strings_internal.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/base/libabsl_raw_logging_internal.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/synchronization/libabsl_synchronization.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/time/libabsl_time.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/time/libabsl_time_zone.so ${D}/${libdir}
 
-    if [ ${TENSORFLOW_TARGET_ARCH} = "armv6" ]; then
-        install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
-    elif [ ${TENSORFLOW_TARGET_ARCH} = "armv7" ]; then
-        install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
-    elif [ ${TENSORFLOW_TARGET_ARCH} = "riscv32" ]; then
-        install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
-    fi
-    
     install -d ${D}${includedir}/tensorflow/core/util
+    install -d ${D}${includedir}/tensorflow/core/platform
+    install -d ${D}${includedir}/tensorflow/tsl/platform
+    install -d ${D}${includedir}/tensorflow/tsl/util
     install -m 644 ${S}/tensorflow/core/util/*.h ${D}${includedir}/tensorflow/core/util
+    install -m 644 ${S}/tensorflow/core/platform/*.h ${D}${includedir}/tensorflow/core/platform
+    install -m 644 ${S}/tensorflow/tsl/platform/*.h ${D}${includedir}/tensorflow/tsl/platform
+    install -m 644 ${S}/tensorflow/tsl/util/*.h ${D}${includedir}/tensorflow/tsl/util
 
     install -d ${D}${includedir}/tensorflow/lite
     install -d ${D}${includedir}/tensorflow/lite/c
     install -d ${D}${includedir}/tensorflow/lite/core
+    install -d ${D}${includedir}/tensorflow/lite/core/c
     install -d ${D}${includedir}/tensorflow/lite/core/api
+    install -d ${D}${includedir}/tensorflow/lite/core/experimental/acceleration/configuration/c
+    install -d ${D}${includedir}/tensorflow/lite/core/kernels
     install -d ${D}${includedir}/tensorflow/lite/core/shims
     install -d ${D}${includedir}/tensorflow/lite/core/shims/c
     install -d ${D}${includedir}/tensorflow/lite/core/shims/c/experimental/acceleration/configuration
@@ -185,6 +207,8 @@ do_install:append() {
     install -d ${D}${includedir}/tensorflow/lite/objc/apps/TestApp/TestApp
     install -d ${D}${includedir}/tensorflow/lite/objc/sources
     install -d ${D}${includedir}/tensorflow/lite/profiling
+    install -d ${D}${includedir}/tensorflow/lite/profiling/telemetry
+    install -d ${D}${includedir}/tensorflow/lite/profiling/telemetry/c
     install -d ${D}${includedir}/tensorflow/lite/python/analyzer_wrapper
     install -d ${D}${includedir}/tensorflow/lite/python/interpreter_wrapper
     install -d ${D}${includedir}/tensorflow/lite/python/metrics/wrapper
@@ -220,7 +244,10 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/*.h ${D}${includedir}/tensorflow/lite
     install -m 644 ${S}/tensorflow/lite/c/*.h ${D}${includedir}/tensorflow/lite/c
     install -m 644 ${S}/tensorflow/lite/core/*.h ${D}${includedir}/tensorflow/lite/core
+    install -m 644 ${S}/tensorflow/lite/core/c/*.h ${D}${includedir}/tensorflow/lite/core/c
     install -m 644 ${S}/tensorflow/lite/core/api/*.h ${D}${includedir}/tensorflow/lite/core/api
+    install -m 644 ${S}/tensorflow/lite/core/experimental/acceleration/configuration/c/*.h ${D}${includedir}/tensorflow/lite/core/experimental/acceleration/configuration/c
+    install -m 644 ${S}/tensorflow/lite/core/kernels/*.h ${D}${includedir}/tensorflow/lite/core/kernels
     install -m 644 ${S}/tensorflow/lite/core/shims/*.inc ${D}${includedir}/tensorflow/lite/core/shims
     install -m 644 ${S}/tensorflow/lite/core/shims/c/*.h ${D}${includedir}/tensorflow/lite/core/shims/c
     install -m 644 ${S}/tensorflow/lite/core/shims/c/experimental/acceleration/configuration/*.h ${D}${includedir}/tensorflow/lite/core/shims/c/experimental/acceleration/configuration
@@ -294,6 +321,8 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/objc/apps/TestApp/TestApp/*.h ${D}${includedir}/tensorflow/lite/objc/apps/TestApp/TestApp
     install -m 644 ${S}/tensorflow/lite/objc/sources/*.h ${D}${includedir}/tensorflow/lite/objc/sources
     install -m 644 ${S}/tensorflow/lite/profiling/*.h ${D}${includedir}/tensorflow/lite/profiling
+    install -m 644 ${S}/tensorflow/lite/profiling/telemetry/*.h ${D}${includedir}/tensorflow/lite/profiling/telemetry
+    install -m 644 ${S}/tensorflow/lite/profiling/telemetry/c/*.h ${D}${includedir}/tensorflow/lite/profiling/telemetry/c
     install -m 644 ${S}/tensorflow/lite/python/analyzer_wrapper/*.h ${D}${includedir}/tensorflow/lite/python/analyzer_wrapper
     install -m 644 ${S}/tensorflow/lite/python/interpreter_wrapper/*.h ${D}${includedir}/tensorflow/lite/python/interpreter_wrapper
     install -m 644 ${S}/tensorflow/lite/python/metrics/wrapper/*.h ${D}${includedir}/tensorflow/lite/python/metrics/wrapper
