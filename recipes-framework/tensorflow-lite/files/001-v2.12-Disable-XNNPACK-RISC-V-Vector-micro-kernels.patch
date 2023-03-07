@@ -1,0 +1,14 @@
+diff --git a/tensorflow/lite/tools/cmake/modules/xnnpack.cmake b/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
+index 937ba133be6..e7b32774786 100644
+--- a/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
++++ b/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
+@@ -38,6 +38,9 @@ endif()
+ set(XNNPACK_BUILD_TESTS OFF CACHE BOOL "Disable XNNPACK test.")
+ set(XNNPACK_BUILD_BENCHMARKS OFF CACHE BOOL "Disable XNNPACK benchmarks.")
+ 
++# https://twitter.com/MaratDukhan/status/1632582746823446529
++set(XNNPACK_ENABLE_RISCV_VECTOR OFF CACHE BOOL "Disable Build XNNPACK with RISC-V Vector micro-kernels.")
++
+ # The following line adds project of PTHREADPOOL, FP16 and XNNPACK which are
+ # needed to compile XNNPACK delegate of TFLite.
+ add_subdirectory(
