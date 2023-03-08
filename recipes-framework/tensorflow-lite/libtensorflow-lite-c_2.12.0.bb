@@ -17,11 +17,11 @@ SRC_URI = " \
 
 SRC_URI:append:riscv32 = " \
     file://001-v2.12-RISCV32_pthreads.patch \
-    file:// 001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+    file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
 "
 
 SRC_URI:append:riscv32 = " \
-    file:// 001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+    file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
 "
 
 inherit cmake
@@ -30,13 +30,6 @@ S = "${WORKDIR}/git"
 
 DEPENDS = " \
     libgfortran \
-"
-
-DEPENDS:append:riscv32  = " \
-    clang \
-"
-DEPENDS:append:riscv64  = " \
-    llvm \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/c"
