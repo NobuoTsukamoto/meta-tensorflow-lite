@@ -20,7 +20,7 @@ SRC_URI:append:riscv32 = " \
     file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
 "
 
-SRC_URI:append:riscv32 = " \
+SRC_URI:append:riscv64 = " \
     file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
 "
 
