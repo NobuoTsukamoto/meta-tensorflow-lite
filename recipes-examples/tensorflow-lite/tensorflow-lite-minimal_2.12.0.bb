@@ -23,6 +23,13 @@ S = "${WORKDIR}/git"
 DEPENDS += "\
             libtensorflow-lite \
 "
+
+EXTRA_OECMAKE:append:raspberrypi0-2w-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi3-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi4-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:riscv32 = " -DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:riscv64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/examples/minimal"
 
 do_install() {
