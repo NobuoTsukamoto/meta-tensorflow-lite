@@ -49,7 +49,7 @@ index ef7d290..ef9fb40 100644
  	$(BUILDROOT)/tflite/edgetpu_delegate_for_custom_op_tflite_plugin.cc \
 -	$(TFROOT)/tensorflow/lite/util.cc
 +	$(TFROOT)/tensorflow/lite/util.cc \
-+	$(TFROOT)/tensorflow/lite/c/common.cc
++	$(TFROOT)/tensorflow/lite/core/c/common.cc
  LIBEDGETPU_CCOBJS := $(call TOBUILDDIR,$(patsubst %.cc,%.o,$(LIBEDGETPU_CCSRCS)))
  
  # In order to support direct and throttled mode - we need to compile two files

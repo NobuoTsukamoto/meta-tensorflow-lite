@@ -6,25 +6,31 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "d5b57ca93e506df258271ea00fc29cf98383a374"
+SRCREV_tensorflow = "0db597d0d758aba578783b5bf46c889700a45085"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-v2.11-Fix-CMAKE_Build_Error.patch \
-    file://001-v2.11-Fix-CMAKE_Build_Error_flatbuffers.patch \
-    file://001-v2.11-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-v2.11-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-v2.12-Fix-CMAKE_Build_Error_flatbuffers.patch \
+    file://001-v2.12-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-v2.12-Add-CMAKE_SYSTEM_PROCESSOR.patch \
 "
 
 SRC_URI:append:riscv32 = " \
-    file://001-v2.11-RISCV32_pthreads.patch \
+    file://001-v2.12-RISCV32_pthreads.patch \
+    file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+"
+
+SRC_URI:append:riscv64 = " \
+    file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
 "
 
 inherit cmake
 
 S = "${WORKDIR}/git"
 
-DEPENDS = "libgfortran"
+DEPENDS = " \
+    libgfortran \
+"
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/c"
 
