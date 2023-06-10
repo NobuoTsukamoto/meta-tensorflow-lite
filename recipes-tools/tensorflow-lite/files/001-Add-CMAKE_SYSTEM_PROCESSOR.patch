@@ -1,0 +1,15 @@
+diff --git a/tensorflow/lite/CMakeLists.txt b/tensorflow/lite/CMakeLists.txt
+index 1fd4e95d20b..3bc4470dcf4 100644
+--- a/tensorflow/lite/CMakeLists.txt
++++ b/tensorflow/lite/CMakeLists.txt
+@@ -79,6 +79,9 @@ if(TFLITE_KERNEL_TEST AND ${CMAKE_CROSSCOMPILING})
+   endif()
+ endif()
+ 
++set(CMAKE_SYSTEM_PROCESSOR ${TENSORFLOW_TARGET_ARCH})
++message(STATUS "CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
++
+ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ set(_TFLITE_ENABLE_RUY "${TFLITE_ENABLE_RUY}")
+ 
