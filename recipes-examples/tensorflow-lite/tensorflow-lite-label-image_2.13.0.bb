@@ -18,6 +18,10 @@ SRC_URI = " \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_1.0_224_frozen.tgz;name=label \
 "
 
+SRC_URI:append:riscv32 = " \
+    file://001-label-image_add_link_libatomic.patch \
+"
+
 inherit cmake
 
 S = "${WORKDIR}/git"

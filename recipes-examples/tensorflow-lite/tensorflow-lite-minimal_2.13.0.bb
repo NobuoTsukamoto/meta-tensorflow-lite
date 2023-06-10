@@ -16,6 +16,10 @@ SRC_URI = " \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
 
+SRC_URI:append:riscv32 = " \
+    file://001-minimal_cmake_add_link_libatomic.patch \
+"
+
 inherit cmake
 
 S = "${WORKDIR}/git"

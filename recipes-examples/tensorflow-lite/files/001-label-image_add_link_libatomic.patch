@@ -1,0 +1,12 @@
+diff --git a/tensorflow/lite/examples/label_image/CMakeLists.txt b/tensorflow/lite/examples/label_image/CMakeLists.txt
+index 84a0a30fd26..d657ad48b09 100644
+--- a/tensorflow/lite/examples/label_image/CMakeLists.txt
++++ b/tensorflow/lite/examples/label_image/CMakeLists.txt
+@@ -71,6 +71,7 @@ target_compile_options(label_image
+ )
+ target_link_libraries(label_image
+   tensorflow-lite
++  atomic
+ )
+ 
+ include_directories(label_image
