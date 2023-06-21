@@ -6,9 +6,9 @@ name: Bitbake raspberrypi
 on:
   # Triggers the workflow on push or pull request events but only for the kirkstone branch
   push:
-    branches: [ main ]
+    branches: [ mickledore ]
   pull_request:
-    branches: [ main ]
+    branches: [ mickledore ]
   schedule:
     - cron: '0 12 * * 5'
 
