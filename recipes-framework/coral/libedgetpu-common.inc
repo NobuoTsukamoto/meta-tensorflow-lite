@@ -13,6 +13,8 @@ SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.12;protocol=https \
     file://001-v2.12_libedgetpu_makefile.patch \
     file://001-v2.12_libedgetpu_allocated_buffer_header.patch \
+    file://001-v2.12-libedgetpu_hardware_structures_header.patch \
+    file://001-v2.12-Fix-spectrogram.cc-compile-error.patch;patchdir=../tensorflow \
 "
 
 S = "${WORKDIR}/git"
