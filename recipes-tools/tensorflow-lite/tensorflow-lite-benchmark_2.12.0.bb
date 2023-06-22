@@ -15,6 +15,7 @@ SRC_URI = " \
     file://001-v2.12-Disable-XNNPACKPack-CMakeFile.patch \
     file://001-v2.12-Add-CMAKE_SYSTEM_PROCESSOR.patch \
     file://001-v2.12-Fix-CMAKE_Build_Error_flatbuffers.patch \
+    file://001-v2.12-Fix-spectrogram.cc-compile-error.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
 
