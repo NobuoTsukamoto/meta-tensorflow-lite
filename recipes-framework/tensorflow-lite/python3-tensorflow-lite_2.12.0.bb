@@ -12,6 +12,7 @@ SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-v2.12-Disable-XNNPACKPack-CMakeFile.patch \
     file://001-v2.12-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-v2.12-Fix-spectrogram.cc-compile-error.patch \
 "
 
 SRC_URI:append:riscv32 = " \
