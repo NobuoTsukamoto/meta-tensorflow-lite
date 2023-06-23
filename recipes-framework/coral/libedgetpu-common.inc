@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 PV = "grouper"
 
 SRCREV_libedgetpu = "3164995622300286ef2bb14d7fdc2792dae045b7"
-SRCREV_tensorflow = "57633696be6c5cd93ae6832e81338a31b10428b8"
+SRCREV_tensorflow = "5b6abc8a9bb1bbef914a3e830c18e30e4477f036"
 
 SRC_URI = " \
     git://github.com/google-coral/libedgetpu.git;name=libedgetpu;branch="master";protocol=https \
