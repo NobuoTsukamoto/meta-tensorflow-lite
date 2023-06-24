@@ -1,0 +1,12 @@
+diff --git a/tensorflow/lite/CMakeLists.txt b/tensorflow/lite/CMakeLists.txt
+index 0d4265e9380..75a40a53c17 100644
+--- a/tensorflow/lite/CMakeLists.txt
++++ b/tensorflow/lite/CMakeLists.txt
+@@ -575,6 +575,7 @@ target_link_libraries(tensorflow-lite
+     pthreadpool
+     ${CMAKE_DL_LIBS}
+     ${TFLITE_TARGET_DEPENDENCIES}
++    atomic
+ )
+ 
+ if (NOT BUILD_SHARED_LIBS)

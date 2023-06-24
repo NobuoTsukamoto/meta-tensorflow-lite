@@ -20,6 +20,7 @@ SRC_URI = " \
 SRC_URI:append:riscv32 = " \
     file://001-v2.12-RISCV32_pthreads.patch \
     file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+    file://001-v2.12-Add-link_libatomic.patch \
 "
 
 SRC_URI:append:riscv64 = " \
