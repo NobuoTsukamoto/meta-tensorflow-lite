@@ -36,24 +36,59 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
+      # Check space before cleanup
+      # https://zenn.dev/pinto0309/scraps/c6413eb15a1b2a
+      - name: Check space before cleanup
+        run: |
+          docker images
+          sudo rm -rf "/opt/ghc" || true
+          sudo rm -rf "/usr/share/dotnet" || true
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY" || true
+          sudo rm -rf "/usr/local/lib/android" || true
+          sudo rm -rf "/usr/local/share/boost" || true
+          docker rmi $(docker image ls -q --filter "reference=node*")
+          docker rmi $(docker image ls -q --filter "reference=buildpack*")
+          docker rmi $(docker image ls -q --filter "reference=debian*")
+          docker rmi $(docker image ls -q --filter "reference=alpine*")
+          docker rmi $(docker image ls -q --filter "reference=ubuntu:18.04")
+          docker rmi $(docker image ls -q --filter "reference=ubuntu:20.04")
+          sudo apt purge \
+            ansible \
+            aria2 \
+            azure-cli \
+            bazel \
+            cabal* \
+            clang* \
+            dotnet-sdk* \
+            ghc* \
+            google-chrome-stable \
+            google-cloud-sdk \
+            heroku \
+            kubectl \
+            mysql* \
+            node* \
+            npm* \
+            php* \
+            powershell \
+            rpm \
+            ruby* \
+            subversion \
+            yarn \
+            -yq >/dev/null 2>&1 || true
+          sudo apt-get autoremove -y >/dev/null 2>&1 || true
+          sudo apt-get autoclean -y >/dev/null 2>&1 || true
+          df -h
+          
       # Install essential host packages
       - name: Install Pakages
         run: |
           sudo apt-get update
-          sudo apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint xterm zstd liblz4-tool
+          sudo apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib \
+            build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils \
+            debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev \
+            pylint xterm zstd liblz4-tool
           sudo apt-get clean
       
-      # Check space before cleanup
-      - name: Check space before cleanup
-        run: |
-          df -h
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /opt/ghc
-          df -h
-          
       # checkout repository
       - name: Clone repository
         run: |
@@ -77,5 +112,7 @@ jobs:
           PREFERRED_VERSION_libtensorflow-lite="${{ matrix.tensorflow_version }}"
           EOF
           cat conf/auto.conf
-          MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite libtensorflow-lite-c python3-tensorflow-lite-example tensorflow-lite-label-image tensorflow-lite-minimal tensorflow-lite-benchmark libedgetpu-std
+          MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite \
+            libtensorflow-lite-c python3-tensorflow-lite-example tensorflow-lite-label-image \
+            tensorflow-lite-minimal tensorflow-lite-benchmark libedgetpu-std
         working-directory: ../
