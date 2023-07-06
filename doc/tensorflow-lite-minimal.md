@@ -2,7 +2,7 @@
 
 ## Reference
 
-- [TensorFlow Lite C++ minimal example - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.12.0/tensorflow/lite/examples/minimal/README.md)
+- [TensorFlow Lite C++ minimal example - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.13.0/tensorflow/lite/examples/minimal/README.md)
 
 ## How to
 Build sample on Raspberry Pi 4 AArch64 (core-image-weston).

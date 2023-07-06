@@ -2,7 +2,7 @@
 
 ## Reference
 
-- [TFLite Model Benchmark Tool with C++ Binary - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.12.0/tensorflow/lite/tools/benchmark/README.md)
+- [TFLite Model Benchmark Tool with C++ Binary - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.13.0/tensorflow/lite/tools/benchmark/README.md)
 
 ## How to
 Build sample on qemueriscv64 (core-image-full-cmdline).
