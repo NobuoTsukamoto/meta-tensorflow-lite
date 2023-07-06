@@ -2,7 +2,7 @@
 
 ## Reference
 
-- [TensorFlow Lite Python image classification demo - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.12.0/tensorflow/lite/examples/python/README.md)
+- [TensorFlow Lite Python image classification demo - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.12.1/tensorflow/lite/examples/python/README.md)
 
 ## How to
 Build sample on Raspberry Pi 4 AArch64 (core-image-weston).

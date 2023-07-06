@@ -1,4 +1,4 @@
-DESCRIPTION = "TFLite Model Benchmark Tool with C++ Binary"
+DESCRIPTION = "TensorFlow Lite C"
 LICENSE = "Apache-2.0"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
@@ -6,30 +6,34 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "0db597d0d758aba578783b5bf46c889700a45085"
-
-SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b"
+SRCREV_tensorflow = "8e2b6655c0c488290179ab90a0daed0f6d3006f7"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
+    file://001-v2.12-Fix-CMAKE_Build_Error_flatbuffers.patch \
     file://001-v2.12-Disable-XNNPACKPack-CMakeFile.patch \
     file://001-v2.12-Add-CMAKE_SYSTEM_PROCESSOR.patch \
-    file://001-v2.12-Fix-CMAKE_Build_Error_flatbuffers.patch \
     file://001-v2.12-Fix-spectrogram.cc-compile-error.patch \
-    https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
 
 SRC_URI:append:riscv32 = " \
     file://001-v2.12-RISCV32_pthreads.patch \
-    file://001-v2.12-Add-link-atomic.patch \
+    file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+"
+
+SRC_URI:append:riscv64 = " \
+    file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
 "
 
 inherit cmake
 
 S = "${WORKDIR}/git"
 
-OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
-OECMAKE_TARGET_COMPILE = "benchmark_model"
+DEPENDS = " \
+    libgfortran \
+"
+
+OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/c"
 
 # Note:
 # XNNPack is valid only on 64bit. 
@@ -74,10 +78,15 @@ do_configure:append() {
     fi
 }
 
-do_install() {
-    install -d ${D}${datadir}/tensorflow/lite/tools/benchmark/
-    install -m 755 ${B}/tools/benchmark/benchmark_model ${D}${datadir}/tensorflow/lite/tools/benchmark/benchmark_model
-    install -m 644 ${WORKDIR}/mobilenet_v1_1.0_224.tflite ${D}${datadir}/tensorflow/lite/tools/benchmark/
+do_install:append() {
+    install -d ${D}/${libdir}
+    install -m 0755 ${B}/libtensorflowlite_c.so ${D}/${libdir}/
+
+    install -d ${D}${includedir}/tensorflow/lite/c
+    install -m 644 ${S}/tensorflow/lite/c/c_api.h ${D}${includedir}/tensorflow/lite/c/
+    install -m 644 ${S}/tensorflow/lite/c/common.h ${D}${includedir}/tensorflow/lite/c/
+    install -m 644 ${S}/tensorflow/lite/c/c_api_experimental.h ${D}${includedir}/tensorflow/lite/c/
 }
 
-FILES:${PN} += "${datadir}/tensorflow/lite/tools/benchmark/*"
+FILES:${PN}-dev = "${includedir}"
+FILES:${PN} += "${libdir}/libtensorflowlite_c.so"
