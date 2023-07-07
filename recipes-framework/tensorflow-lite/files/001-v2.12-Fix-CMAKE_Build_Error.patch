@@ -1,8 +1,8 @@
 diff --git a/tensorflow/lite/CMakeLists.txt b/tensorflow/lite/CMakeLists.txt
-index c71a3925ac6..76bf9184674 100644
+index f1c6f6e7a71..0d4265e9380 100644
 --- a/tensorflow/lite/CMakeLists.txt
 +++ b/tensorflow/lite/CMakeLists.txt
-@@ -431,6 +431,10 @@ if(TFLITE_ENABLE_XNNPACK)
+@@ -434,6 +434,10 @@ if(TFLITE_ENABLE_XNNPACK)
      TFLITE_DELEGATES_XNNPACK_SRCS
      FILTER ".*(_test|_tester)\\.(cc|h)"
    )
@@ -13,15 +13,7 @@ index c71a3925ac6..76bf9184674 100644
    list(APPEND TFLITE_TARGET_DEPENDENCIES
      XNNPACK
    )
-@@ -493,6 +497,7 @@ set(TFLITE_PROFILER_SRCS
-   ${TFLITE_SOURCE_DIR}/profiling/root_profiler.h
-   ${TFLITE_SOURCE_DIR}/profiling/root_profiler.cc
-   ${TFLITE_SOURCE_DIR}/profiling/telemetry/profiler.cc
-+  ${TFLITE_SOURCE_DIR}/profiling/telemetry/telemetry.cc
- )
- if(CMAKE_SYSTEM_NAME MATCHES "Android")
-   list(APPEND TFLITE_PROFILER_SRCS
-@@ -654,4 +659,4 @@ target_link_libraries(_pywrap_tensorflow_interpreter_wrapper
+@@ -658,4 +662,4 @@ target_link_libraries(_pywrap_tensorflow_interpreter_wrapper
  target_compile_options(_pywrap_tensorflow_interpreter_wrapper
    PUBLIC ${TFLITE_TARGET_PUBLIC_OPTIONS}
    PRIVATE ${TFLITE_TARGET_PRIVATE_OPTIONS}
