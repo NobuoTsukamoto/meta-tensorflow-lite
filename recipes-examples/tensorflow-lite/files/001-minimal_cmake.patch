@@ -1,8 +1,8 @@
 diff --git a/tensorflow/lite/examples/minimal/CMakeLists.txt b/tensorflow/lite/examples/minimal/CMakeLists.txt
-index 7f8301162bb..ac969e9317e 100644
+index 7f8301162bb..4dafbfc63de 100644
 --- a/tensorflow/lite/examples/minimal/CMakeLists.txt
 +++ b/tensorflow/lite/examples/minimal/CMakeLists.txt
-@@ -19,26 +19,28 @@
+@@ -19,26 +19,29 @@
  cmake_minimum_required(VERSION 3.16)
  project(minimal C CXX)
  
@@ -37,6 +37,7 @@ index 7f8301162bb..ac969e9317e 100644
 +    ${TFLITE_SOURCE_DIR}/tools/delegates/delegate_provider.cc
 +    ${TFLITE_SOURCE_DIR}/tools/evaluation/utils.cc
 +    ${TFLITE_SOURCE_DIR}/tools/tool_params.cc
++    ${TFLITE_SOURCE_DIR}/core/acceleration/configuration/c/xnnpack_plugin.cc
 +  )
 +else()
 +  add_executable(minimal

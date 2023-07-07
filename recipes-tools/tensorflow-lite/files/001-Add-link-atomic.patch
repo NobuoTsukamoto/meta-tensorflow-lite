@@ -1,0 +1,10 @@
+diff --git a/tensorflow/lite/tools/benchmark/CMakeLists.txt b/tensorflow/lite/tools/benchmark/CMakeLists.txt
+index a9f75078298..0167cef7b7d 100644
+--- a/tensorflow/lite/tools/benchmark/CMakeLists.txt
++++ b/tensorflow/lite/tools/benchmark/CMakeLists.txt
+@@ -93,4 +93,5 @@ target_compile_options(benchmark_model
+ )
+ target_link_libraries(benchmark_model
+     ${TFLITE_BENCHMARK_LIBS}
++    atomic
+ )

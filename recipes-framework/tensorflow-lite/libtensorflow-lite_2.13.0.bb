@@ -6,23 +6,22 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "0db597d0d758aba578783b5bf46c889700a45085"
+SRCREV_tensorflow = "1cb1a030a62b169d90d34c747ab9b09f332bf905"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-v2.12-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-v2.12-Add-CMAKE_SYSTEM_PROCESSOR.patch \
-    file://001-v2.12-Fix-CMAKE_Build_Error.patch \
-    file://001-v2.12-Fix-CMAKE_Build_Error_flatbuffers.patch \
+    file://001-Disable-XNNPACKPack-CMakeFile.patch \
+    file://001-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-Fix-spectrogram.cc-compile-error.patch \
 "
 
 SRC_URI:append:riscv32 = " \
-    file://001-v2.12-RISCV32_pthreads.patch \
-    file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+    file://001-RISCV32_pthreads.patch \
+    file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
 "
 
 SRC_URI:append:riscv64 = " \
-    file://001-v2.12-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+    file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
 "
 
 
@@ -128,20 +127,20 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/tsl/util/*.h ${D}${includedir}/tensorflow/tsl/util
 
     install -d ${D}${includedir}/tensorflow/lite
+    install -d ${D}${includedir}/tensorflow/lite/acceleration/configuration
+    install -d ${D}${includedir}/tensorflow/lite/acceleration/configuration/c
     install -d ${D}${includedir}/tensorflow/lite/c
     install -d ${D}${includedir}/tensorflow/lite/core
     install -d ${D}${includedir}/tensorflow/lite/core/c
+    install -d ${D}${includedir}/tensorflow/lite/core/acceleration/configuration
+    install -d ${D}${includedir}/tensorflow/lite/core/acceleration/configuration/c
     install -d ${D}${includedir}/tensorflow/lite/core/api
+    install -d ${D}${includedir}/tensorflow/lite/core/async
+    install -d ${D}${includedir}/tensorflow/lite/core/async/c
+    install -d ${D}${includedir}/tensorflow/lite/core/async/interop
+    install -d ${D}${includedir}/tensorflow/lite/core/async/interop/c
     install -d ${D}${includedir}/tensorflow/lite/core/experimental/acceleration/configuration/c
     install -d ${D}${includedir}/tensorflow/lite/core/kernels
-    install -d ${D}${includedir}/tensorflow/lite/core/shims
-    install -d ${D}${includedir}/tensorflow/lite/core/shims/c
-    install -d ${D}${includedir}/tensorflow/lite/core/shims/c/experimental/acceleration/configuration
-    install -d ${D}${includedir}/tensorflow/lite/core/shims/cc
-    install -d ${D}${includedir}/tensorflow/lite/core/shims/cc/experimental/acceleration/configuration
-    install -d ${D}${includedir}/tensorflow/lite/core/shims/cc/kernels
-    install -d ${D}${includedir}/tensorflow/lite/core/shims/cc/tools
-    install -d ${D}${includedir}/tensorflow/lite/core/shims/jni
     install -d ${D}${includedir}/tensorflow/lite/delegates
     install -d ${D}${includedir}/tensorflow/lite/delegates/coreml
     install -d ${D}${includedir}/tensorflow/lite/delegates/coreml/builders
@@ -242,20 +241,20 @@ do_install:append() {
     install -d ${D}${includedir}/tensorflow/lite/tools/strip_buffers
     install -d ${D}${includedir}/tensorflow/lite/tools/versioning
     install -m 644 ${S}/tensorflow/lite/*.h ${D}${includedir}/tensorflow/lite
+    install -m 644 ${S}/tensorflow/lite/acceleration/configuration/*.h ${D}${includedir}/tensorflow/lite/acceleration/configuration
+    install -m 644 ${S}/tensorflow/lite/acceleration/configuration/c/*.h ${D}${includedir}/tensorflow/lite/acceleration/configuration/c
     install -m 644 ${S}/tensorflow/lite/c/*.h ${D}${includedir}/tensorflow/lite/c
     install -m 644 ${S}/tensorflow/lite/core/*.h ${D}${includedir}/tensorflow/lite/core
     install -m 644 ${S}/tensorflow/lite/core/c/*.h ${D}${includedir}/tensorflow/lite/core/c
+    install -m 644 ${S}/tensorflow/lite/core/acceleration/configuration/*.h ${D}${includedir}/tensorflow/lite/core/acceleration/configuration
+    install -m 644 ${S}/tensorflow/lite/core/acceleration/configuration/c/*.h ${D}${includedir}/tensorflow/lite/core/acceleration/configuration/c
     install -m 644 ${S}/tensorflow/lite/core/api/*.h ${D}${includedir}/tensorflow/lite/core/api
+    install -m 644 ${S}/tensorflow/lite/core/async/*.h ${D}${includedir}/tensorflow/lite/core/async
+    install -m 644 ${S}/tensorflow/lite/core/async/c/*.h ${D}${includedir}/tensorflow/lite/core/async/c
+    install -m 644 ${S}/tensorflow/lite/core/async/interop/*.h ${D}${includedir}/tensorflow/lite/core/async/interop
+    install -m 644 ${S}/tensorflow/lite/core/async/interop/c/*.h ${D}${includedir}/tensorflow/lite/core/async/interop/c
     install -m 644 ${S}/tensorflow/lite/core/experimental/acceleration/configuration/c/*.h ${D}${includedir}/tensorflow/lite/core/experimental/acceleration/configuration/c
     install -m 644 ${S}/tensorflow/lite/core/kernels/*.h ${D}${includedir}/tensorflow/lite/core/kernels
-    install -m 644 ${S}/tensorflow/lite/core/shims/*.inc ${D}${includedir}/tensorflow/lite/core/shims
-    install -m 644 ${S}/tensorflow/lite/core/shims/c/*.h ${D}${includedir}/tensorflow/lite/core/shims/c
-    install -m 644 ${S}/tensorflow/lite/core/shims/c/experimental/acceleration/configuration/*.h ${D}${includedir}/tensorflow/lite/core/shims/c/experimental/acceleration/configuration
-    install -m 644 ${S}/tensorflow/lite/core/shims/cc/*.h ${D}${includedir}/tensorflow/lite/core/shims/cc
-    install -m 644 ${S}/tensorflow/lite/core/shims/cc/experimental/acceleration/configuration/*.h ${D}${includedir}/tensorflow/lite/core/shims/cc/experimental/acceleration/configuration
-    install -m 644 ${S}/tensorflow/lite/core/shims/cc/kernels/*.h ${D}${includedir}/tensorflow/lite/core/shims/cc/kernels
-    install -m 644 ${S}/tensorflow/lite/core/shims/cc/tools/*.h ${D}${includedir}/tensorflow/lite/core/shims/cc/tools
-    install -m 644 ${S}/tensorflow/lite/core/shims/jni/*.h ${D}${includedir}/tensorflow/lite/core/shims/jni
     install -m 644 ${S}/tensorflow/lite/delegates/*.h ${D}${includedir}/tensorflow/lite/delegates
     install -m 644 ${S}/tensorflow/lite/delegates/coreml/*.h ${D}${includedir}/tensorflow/lite/delegates/coreml
     install -m 644 ${S}/tensorflow/lite/delegates/coreml/builders/*.h ${D}${includedir}/tensorflow/lite/delegates/coreml/builders
@@ -446,5 +445,7 @@ FILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
 FILES:${PN} += "${libdir}/*.so"
 FILES:${PN} += "${datadir}/eigen3/*"
 FILES:${PN} += "${datadir}/cpuinfo/*"
+FILES:${PN} += "${libdir}/cmake/flatbuffers/*"
 FILES:${PN} += "${libdir}/cmake/NEON_2_SSE/*"
 FILES:${PN} += "${libdir}/pkgconfig/libcpuinfo.pc"
+FILES:${PN} += "${libdir}/pkgconfig/flatbuffers.pc"

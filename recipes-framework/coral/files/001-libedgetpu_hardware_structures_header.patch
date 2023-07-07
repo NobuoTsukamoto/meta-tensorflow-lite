@@ -1,0 +1,12 @@
+diff --git a/driver/hardware_structures.h b/driver/hardware_structures.h
+index d17c678..17051a5 100644
+--- a/driver/hardware_structures.h
++++ b/driver/hardware_structures.h
+@@ -19,6 +19,7 @@
+ 
+ #include <stddef.h>
+ #include <algorithm>
++#include <stdint.h>
+ 
+ #include "port/integral_types.h"
+ #include "port/macros.h"
