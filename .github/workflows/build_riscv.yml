@@ -46,6 +46,7 @@ jobs:
           sudo rm -rf "$AGENT_TOOLSDIRECTORY" || true
           sudo rm -rf "/usr/local/lib/android" || true
           sudo rm -rf "/usr/local/share/boost" || true
+          sudo rm -rf /opt/hostedtoolcache/CodeQL || true
           docker rmi $(docker image ls -q --filter "reference=node*")
           docker rmi $(docker image ls -q --filter "reference=buildpack*")
           docker rmi $(docker image ls -q --filter "reference=debian*")
