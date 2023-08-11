@@ -58,6 +58,7 @@ jobs:
             ghc* \
             google-chrome-stable \
             google-cloud-sdk \
+            firefox* \
             heroku \
             kubectl \
             mysql* \
@@ -69,6 +70,17 @@ jobs:
             ruby* \
             subversion \
             yarn \
+            mono-complete \
+            postgresql* \
+            apache2 \
+            nginx \
+            esl-erlang \
+            hhvm \
+            powershell \
+            bindgen-cli \
+            cbindgen \
+            cargo-audit \
+            cargo-outdated \
             -yq >/dev/null 2>&1 || true
           sudo apt-get autoremove -y >/dev/null 2>&1 || true
           sudo apt-get autoclean -y >/dev/null 2>&1 || true
