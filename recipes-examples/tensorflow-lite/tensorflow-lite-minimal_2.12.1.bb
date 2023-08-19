@@ -21,7 +21,8 @@ inherit cmake
 S = "${WORKDIR}/git"
 
 DEPENDS += "\
-            libtensorflow-lite \
+    libtensorflow-lite \
+    flatbuffers \
 "
 
 EXTRA_OECMAKE:append:raspberrypi0-2w-64 = " -DTFLITE_ENABLE_XNNPACK=ON"

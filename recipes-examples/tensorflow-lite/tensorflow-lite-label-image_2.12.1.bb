@@ -23,7 +23,8 @@ inherit cmake
 S = "${WORKDIR}/git"
 
 DEPENDS += "\
-            libtensorflow-lite \
+    libtensorflow-lite \
+    flatbuffers \
 "
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/examples/label_image"
 
