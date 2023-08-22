@@ -14,24 +14,16 @@ SRC_URI = " \
     file://001-libedgetpu_makefile.patch \
     file://001-libedgetpu_allocated_buffer_header.patch \
     file://001-libedgetpu_hardware_structures_header.patch \
+    file://001-add_driver_options_generated.h.patch \
+    file://001-add_executable_generated.h.patch \
     file://001-Fix-spectrogram.cc-compile-error.patch;patchdir=../tensorflow \
-    file://001-tensorflow_lite_schema_generated_header.patch;patchdir=../tensorflow \
 "
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/git/makefile_build"
 
 DEPENDS = " \
-    flatbuffers-native \
-    vim-native \
-    flatbuffers \
-    abseil-cpp \
-    libusb1 \
-"
-
-RDEPENDS:${PN} += " \
-    flatbuffers \
-    abseil-cpp \
+    libtensorflow-lite \
     libusb1 \
 "
 
