@@ -14,6 +14,8 @@ SRC_URI = " \
     file://001-v2.12_libedgetpu_makefile.patch \
     file://001-v2.12_libedgetpu_allocated_buffer_header.patch \
     file://001-v2.12-libedgetpu_hardware_structures_header.patch \
+    file://001-v2.12_add_driver_options_generated.h.patch \
+    file://001-v2.12_add_executable_generated.h.patch \    
     file://001-v2.12-Fix-spectrogram.cc-compile-error.patch;patchdir=../tensorflow \
 "
 
@@ -21,19 +23,10 @@ S = "${WORKDIR}/git"
 B = "${WORKDIR}/git/makefile_build"
 
 DEPENDS = " \
-    flatbuffers-native \
     vim-native \
-    flatbuffers \
-    abseil-cpp \
+    libtensorflow-lite \
     libusb1 \
 "
-
-RDEPENDS:${PN} += " \
-    flatbuffers \
-    abseil-cpp \
-    libusb1 \
-"
-
 EXTRA_OEMAKE = " libedgetpu"
 
 do_configure:prepend () {
