@@ -15,6 +15,8 @@ SRC_URI = " \
     file://001-v2.12-Fix-CMAKE_Build_Error.patch \
     file://001-v2.12-Fix-CMAKE_Build_Error_flatbuffers.patch \
     file://001-v2.12-Fix-spectrogram.cc-compile-error.patch \
+    file://001-v2.12-Remove-find_eigen3_cmake.patch \
+    file://001-v2.12-Remove-find_absl_cmake.patch \
 "
 
 SRC_URI:append:riscv32 = " \
@@ -34,6 +36,8 @@ S = "${WORKDIR}/git"
 
 DEPENDS = " \
     libgfortran \
+    libeigen \
+    abseil-cpp \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
@@ -101,24 +105,6 @@ do_install:append() {
     if [ -e ${B}/_deps/cpuinfo-build/libcpuinfo.so ]; then
         install -m 0755 ${B}/_deps/cpuinfo-build/libcpuinfo.so ${D}/${libdir}
     fi
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/base/libabsl_base.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/base/libabsl_malloc_internal.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/base/libabsl_raw_logging_internal.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/base/libabsl_spinlock_wait.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/container/libabsl_raw_hash_set.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/debugging/libabsl_debugging_internal.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/debugging/libabsl_demangle_internal.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/debugging/libabsl_stacktrace.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/debugging/libabsl_symbolize.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/hash/libabsl_city.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/hash/libabsl_hash.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/hash/libabsl_low_level_hash.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/numeric/libabsl_int128.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/strings/libabsl_strings.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/strings/libabsl_strings_internal.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/synchronization/libabsl_synchronization.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/time/libabsl_time.so ${D}/${libdir}
-    install -m 0755 ${B}/_deps/abseil-cpp-build/absl/time/libabsl_time_zone.so ${D}/${libdir}
 
     install -d ${D}${includedir}/tensorflow/core/util
     install -d ${D}${includedir}/tensorflow/core/platform
@@ -363,90 +349,16 @@ do_install:append() {
     install -d ${D}${includedir}/flatbuffers/pch
     install -m 644 ${B}/flatbuffers/include/flatbuffers/pch/*.h ${D}${includedir}/flatbuffers/pch/
     install -d ${D}${includedir}/flatbuffers/pch
+    install -m 0755 ${B}/_deps/flatbuffers-build/libflatbuffers.a ${D}/${libdir}
 
-    install -d ${D}${includedir}/absl/algorithm
-    install -d ${D}${includedir}/absl/base
-    install -d ${D}${includedir}/absl/base/internal
-    install -d ${D}${includedir}/absl/base/internal
-    install -d ${D}${includedir}/absl/cleanup
-    install -d ${D}${includedir}/absl/cleanup/internal
-    install -d ${D}${includedir}/absl/container
-    install -d ${D}${includedir}/absl/container/internal
-    install -d ${D}${includedir}/absl/debugging
-    install -d ${D}${includedir}/absl/debugging
-    install -d ${D}${includedir}/absl/debugging/internal
-    install -d ${D}${includedir}/absl/debugging/internal
-    install -d ${D}${includedir}/absl/flags
-    install -d ${D}${includedir}/absl/flags/internal
-    install -d ${D}${includedir}/absl/functional
-    install -d ${D}${includedir}/absl/functional/internal
-    install -d ${D}${includedir}/absl/hash
-    install -d ${D}${includedir}/absl/hash/internal
-    install -d ${D}${includedir}/absl/memory
-    install -d ${D}${includedir}/absl/meta
-    install -d ${D}${includedir}/absl/numeric
-    install -d ${D}${includedir}/absl/numeric
-    install -d ${D}${includedir}/absl/numeric/internal
-    install -d ${D}${includedir}/absl/random
-    install -d ${D}${includedir}/absl/random/internal
-    install -d ${D}${includedir}/absl/status
-    install -d ${D}${includedir}/absl/status/internal
-    install -d ${D}${includedir}/absl/strings
-    install -d ${D}${includedir}/absl/strings/internal
-    install -d ${D}${includedir}/absl/strings/internal/str_format
-    install -d ${D}${includedir}/absl/synchronization
-    install -d ${D}${includedir}/absl/synchronization/internal
-    install -d ${D}${includedir}/absl/time
-    install -d ${D}${includedir}/absl/time/internal
-    install -d ${D}${includedir}/absl/time/internal/cctz/include/cctz
-    install -d ${D}${includedir}/absl/time/internal/cctz/src
-    install -d ${D}${includedir}/absl/types
-    install -d ${D}${includedir}/absl/types/internal
-    install -d ${D}${includedir}/absl/utility
-    install -m 644 ${B}/abseil-cpp/absl/algorithm/*.h ${D}${includedir}/absl/algorithm
-    install -m 644 ${B}/abseil-cpp/absl/base/*.h ${D}${includedir}/absl/base
-    install -m 644 ${B}/abseil-cpp/absl/base/internal/*.h ${D}${includedir}/absl/base/internal
-    install -m 644 ${B}/abseil-cpp/absl/base/internal/*.inc ${D}${includedir}/absl/base/internal
-    install -m 644 ${B}/abseil-cpp/absl/cleanup/*.h ${D}${includedir}/absl/cleanup
-    install -m 644 ${B}/abseil-cpp/absl/cleanup/internal/*.h ${D}${includedir}/absl/cleanup/internal
-    install -m 644 ${B}/abseil-cpp/absl/container/*.h ${D}${includedir}/absl/container
-    install -m 644 ${B}/abseil-cpp/absl/container/internal/*.h ${D}${includedir}/absl/container/internal
-    install -m 644 ${B}/abseil-cpp/absl/debugging/*.h ${D}${includedir}/absl/debugging
-    install -m 644 ${B}/abseil-cpp/absl/debugging/*.inc ${D}${includedir}/absl/debugging
-    install -m 644 ${B}/abseil-cpp/absl/debugging/internal/*.h ${D}${includedir}/absl/debugging/internal
-    install -m 644 ${B}/abseil-cpp/absl/debugging/internal/*.inc ${D}${includedir}/absl/debugging/internal
-    install -m 644 ${B}/abseil-cpp/absl/flags/*.h ${D}${includedir}/absl/flags
-    install -m 644 ${B}/abseil-cpp/absl/flags/internal/*.h ${D}${includedir}/absl/flags/internal
-    install -m 644 ${B}/abseil-cpp/absl/functional/*.h ${D}${includedir}/absl/functional
-    install -m 644 ${B}/abseil-cpp/absl/functional/internal/*.h ${D}${includedir}/absl/functional/internal
-    install -m 644 ${B}/abseil-cpp/absl/hash/*.h ${D}${includedir}/absl/hash
-    install -m 644 ${B}/abseil-cpp/absl/hash/internal/*.h ${D}${includedir}/absl/hash/internal
-    install -m 644 ${B}/abseil-cpp/absl/memory/*.h ${D}${includedir}/absl/memory
-    install -m 644 ${B}/abseil-cpp/absl/meta/*.h ${D}${includedir}/absl/meta
-    install -m 644 ${B}/abseil-cpp/absl/numeric/*.h ${D}${includedir}/absl/numeric
-    install -m 644 ${B}/abseil-cpp/absl/numeric/*.inc ${D}${includedir}/absl/numeric
-    install -m 644 ${B}/abseil-cpp/absl/numeric/internal/*.h ${D}${includedir}/absl/numeric/internal
-    install -m 644 ${B}/abseil-cpp/absl/random/*.h ${D}${includedir}/absl/random
-    install -m 644 ${B}/abseil-cpp/absl/random/internal/*.h ${D}${includedir}/absl/random/internal
-    install -m 644 ${B}/abseil-cpp/absl/status/*.h ${D}${includedir}/absl/status
-    install -m 644 ${B}/abseil-cpp/absl/status/internal/*.h ${D}${includedir}/absl/status/internal
-    install -m 644 ${B}/abseil-cpp/absl/strings/*.h ${D}${includedir}/absl/strings
-    install -m 644 ${B}/abseil-cpp/absl/strings/internal/*.h ${D}${includedir}/absl/strings/internal
-    install -m 644 ${B}/abseil-cpp/absl/strings/internal/str_format/*.h ${D}${includedir}/absl/strings/internal/str_format
-    install -m 644 ${B}/abseil-cpp/absl/synchronization/*.h ${D}${includedir}/absl/synchronization
-    install -m 644 ${B}/abseil-cpp/absl/synchronization/internal/*.h ${D}${includedir}/absl/synchronization/internal
-    install -m 644 ${B}/abseil-cpp/absl/time/*.h ${D}${includedir}/absl/time
-    install -m 644 ${B}/abseil-cpp/absl/time/internal/*.inc ${D}${includedir}/absl/time/internal
-    install -m 644 ${B}/abseil-cpp/absl/time/internal/cctz/include/cctz/*.h ${D}${includedir}/absl/time/internal/cctz/include/cctz
-    install -m 644 ${B}/abseil-cpp/absl/time/internal/cctz/src/*.h ${D}${includedir}/absl/time/internal/cctz/src
-    install -m 644 ${B}/abseil-cpp/absl/types/*.h ${D}${includedir}/absl/types
-    install -m 644 ${B}/abseil-cpp/absl/types/internal/*.h ${D}${includedir}/absl/types/internal
-    install -m 644 ${B}/abseil-cpp/absl/utility/*.h ${D}${includedir}/absl/utility    
+    rm -rf ${D}${datadir}/cpuinfo/cpuinfo-config.cmake
+    rm -rf ${D}${datadir}/cpuinfo/cpuinfo-targets-release.cmake
+    rm -rf ${D}${datadir}/cpuinfo/cpuinfo-targets.cmake
+    rm -rf ${D}${datadir}/cpuinfo
+    rm -rf ${D}${datadir}
 }
 
 FILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
 FILES:${PN} += "${libdir}/*.so"
-FILES:${PN} += "${datadir}/eigen3/*"
-FILES:${PN} += "${datadir}/cpuinfo/*"
 FILES:${PN} += "${libdir}/cmake/NEON_2_SSE/*"
 FILES:${PN} += "${libdir}/pkgconfig/libcpuinfo.pc"

@@ -1,5 +1,5 @@
 diff --git a/makefile_build/Makefile b/makefile_build/Makefile
-index ef7d290..ef9fb40 100644
+index ef7d290..60e9d4a 100644
 --- a/makefile_build/Makefile
 +++ b/makefile_build/Makefile
 @@ -10,8 +10,6 @@ BUILDROOT ?= $(MAKEFILE_DIR)/..
@@ -27,15 +27,24 @@ index ef7d290..ef9fb40 100644
  	-lflatbuffers \
  	-labsl_flags \
  	-labsl_flags_internal \
-@@ -40,6 +38,7 @@ LIBEDGETPU_LDFLAGS := \
+@@ -40,12 +38,12 @@ LIBEDGETPU_LDFLAGS := \
  	-labsl_hashtablez_sampler \
  	-labsl_raw_hash_set \
  	-labsl_str_format_internal \
 +	-labsl_bad_optional_access \
  	-lusb-1.0
  
- LIBEDGETPU_FLATC_SRCS := \
-@@ -59,7 +58,6 @@ LIBEDGETPU_INCLUDES := \
+-LIBEDGETPU_FLATC_SRCS := \
+-	$(BUILDROOT)/executable/executable.fbs \
+-	$(BUILDROOT)/api/driver_options.fbs
+-LIBEDGETPU_FLATC_OBJS := $(call TOBUILDDIR,$(patsubst %.fbs,%_generated.h,$(LIBEDGETPU_FLATC_SRCS)))
++LLIBEDGETPU_FLATC_OBJS := \
++	$(BUILDROOT)/temp/driver_options_generated.h \
++	$(BUILDROOT)/temp/executable_generated.h
+ 
+ LIBEDGETPU_FW_SRCS := \
+ 	$(BUILDROOT)/driver/usb/apex_latest_single_ep.bin \
+@@ -59,7 +57,6 @@ LIBEDGETPU_INCLUDES := \
  	$(BUILDDIR)/$(BUILDROOT)
  LIBEDGETPU_INCLUDES := $(addprefix -I,$(LIBEDGETPU_INCLUDES))
  
@@ -43,7 +52,7 @@ index ef7d290..ef9fb40 100644
  LIBEDGETPU_COBJS := $(call TOBUILDDIR,$(patsubst %.c,%.o,$(LIBEDGETPU_CSRCS)))
  
  LIBEDGETPU_CCSRCS := \
-@@ -140,7 +138,8 @@ LIBEDGETPU_CCSRCS := \
+@@ -140,7 +137,8 @@ LIBEDGETPU_CCSRCS := \
  	$(BUILDROOT)/tflite/edgetpu_c.cc \
  	$(BUILDROOT)/tflite/edgetpu_delegate_for_custom_op.cc \
  	$(BUILDROOT)/tflite/edgetpu_delegate_for_custom_op_tflite_plugin.cc \
@@ -53,7 +62,18 @@ index ef7d290..ef9fb40 100644
  LIBEDGETPU_CCOBJS := $(call TOBUILDDIR,$(patsubst %.cc,%.o,$(LIBEDGETPU_CCSRCS)))
  
  # In order to support direct and throttled mode - we need to compile two files
-@@ -181,11 +180,6 @@ firmware:
+@@ -162,10 +160,6 @@ all: libedgetpu libedgetpu-throttled
+ clean:
+ 	rm -rf $(BUILDDIR)
+ 
+-$(LIBEDGETPU_FLATC_OBJS) : $(BUILDDIR)/%_generated.h: %.fbs
+-	@$(MKDIR)
+-	@$(FLATC) --cpp --gen-object-api --force-empty --gen-mutable -o $(dir $@) $<
+-
+ firmware:
+ 	@mkdir -p $(dir $(LIBEDGETPU_FW_OUTPUT))
+ 	@echo "namespace {" > $(LIBEDGETPU_FW_OUTPUT)
+@@ -181,11 +175,6 @@ firmware:
  	@echo "} // namespace" >> $(LIBEDGETPU_FW_OUTPUT)
  
  
@@ -65,12 +85,13 @@ index ef7d290..ef9fb40 100644
  $(LIBEDGETPU_CCOBJS) : $(BUILDDIR)/%.o: %.cc
  	@$(MKDIR)
  	@echo "Compiling $<"
-@@ -201,14 +195,14 @@ $(LIBEDGETPU_STD_CCOBJS) : $(BUILDDIR)/%-throttled.o: %.cc
+@@ -201,14 +190,15 @@ $(LIBEDGETPU_STD_CCOBJS) : $(BUILDDIR)/%-throttled.o: %.cc
  	@echo "Compiling $<"
  	@$(CXX) -DTHROTTLE_EDGE_TPU $(LIBEDGETPU_CXXFLAGS) $(LIBEDGETPU_INCLUDES) -c $< -MD -MT $@ -MF $(@:%o=%d) -o $@
  
 -libedgetpu: | firmware $(LIBEDGETPU_FLATC_OBJS) $(LIBEDGETPU_COBJS) $(LIBEDGETPU_CCOBJS) $(LIBEDGETPU_MAX_CCOBJS)
 +libedgetpu: | firmware $(LIBEDGETPU_FLATC_OBJS) $(LIBEDGETPU_CCOBJS) $(LIBEDGETPU_MAX_CCOBJS)
++	@echo $(LIBEDGETPU_FLATC_OBJS)
  	@mkdir -p $(BUILDDIR)/direct/k8
  	@echo "Building libedgetpu.so"
 -	@$(CXX) $(LIBEDGETPU_CCFLAGS) $(LIBEDGETPU_LDFLAGS) $(LIBEDGETPU_COBJS) $(LIBEDGETPU_CCOBJS) $(LIBEDGETPU_MAX_CCOBJS) -o $(BUILDDIR)/direct/k8/libedgetpu.so.1.0
