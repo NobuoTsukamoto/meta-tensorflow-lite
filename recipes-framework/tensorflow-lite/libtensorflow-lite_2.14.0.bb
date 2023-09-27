@@ -6,13 +6,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "1cb1a030a62b169d90d34c747ab9b09f332bf905"
+SRCREV_tensorflow = "4dacf3f368eb7965e9b5c3bbdd5193986081c3b2"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Disable-XNNPACKPack-CMakeFile.patch \
     file://001-Add-CMAKE_SYSTEM_PROCESSOR.patch \
-    file://001-Fix-spectrogram.cc-compile-error.patch \
     file://001-Remove-find_eigen3_cmake.patch \
     file://001-Remove-find_absl_cmake.patch \
 "
@@ -341,11 +340,6 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/tools/strip_buffers/*.h ${D}${includedir}/tensorflow/lite/tools/strip_buffers
     install -m 644 ${S}/tensorflow/lite/tools/versioning/*.h ${D}${includedir}/tensorflow/lite/tools/versioning
 
-    # rm -rf ${D}${includedir}/flatbuffers
-    # rm -rf ${D}${libdir}/cmake/flatbuffers
-    # rm -rf ${D}${libdir}/pkgconfig/flatbuffers.pc
-    # rm -rf ${D}${libdir}/libflatbuffers.a
-    # rm -rf ${D}${bindir}/flatc
 }
 
 FILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
@@ -356,3 +350,4 @@ FILES:${PN} += "${libdir}/cmake/flatbuffers/*"
 FILES:${PN} += "${libdir}/cmake/NEON_2_SSE/*"
 FILES:${PN} += "${libdir}/pkgconfig/libcpuinfo.pc"
 FILES:${PN} += "${libdir}/pkgconfig/flatbuffers.pc"
+FILES:${PN} += "${libdir}/cmake/gemmlowp/*"

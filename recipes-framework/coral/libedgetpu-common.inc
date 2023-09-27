@@ -7,23 +7,22 @@ PV = "grouper"
 SRCREV_FORMAT = "libedgetpu_tensorflow"
 
 SRCREV_libedgetpu = "3164995622300286ef2bb14d7fdc2792dae045b7"
-SRCREV_tensorflow = "1cb1a030a62b169d90d34c747ab9b09f332bf905"
+SRCREV_tensorflow = "4dacf3f368eb7965e9b5c3bbdd5193986081c3b2"
 
 SRC_URI = " \
     git://github.com/google-coral/libedgetpu.git;name=libedgetpu;branch="master";protocol=https \
-    git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.13;protocol=https \
+    git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.14;protocol=https \
     file://001-libedgetpu_makefile.patch \
     file://001-libedgetpu_allocated_buffer_header.patch \
     file://001-libedgetpu_hardware_structures_header.patch \
-    file://001-add_driver_options_generated.h.patch \
-    file://001-add_executable_generated.h.patch \
-    file://001-Fix-spectrogram.cc-compile-error.patch;patchdir=../tensorflow \
 "
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/git/makefile_build"
 
 DEPENDS = " \
+    flatbuffers-native \
+    vim-native \
     libtensorflow-lite \
     libusb1 \
 "
