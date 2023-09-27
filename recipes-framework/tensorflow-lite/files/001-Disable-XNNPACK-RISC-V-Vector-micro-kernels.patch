@@ -1,5 +1,5 @@
 diff --git a/tensorflow/lite/tools/cmake/modules/xnnpack.cmake b/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
-index 937ba133be6..e7b32774786 100644
+index eeb86758d63..ba133f9b71c 100644
 --- a/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
 +++ b/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
 @@ -38,6 +38,9 @@ endif()
@@ -11,4 +11,4 @@ index 937ba133be6..e7b32774786 100644
 +
  # The following line adds project of PTHREADPOOL, FP16 and XNNPACK which are
  # needed to compile XNNPACK delegate of TFLite.
- add_subdirectory(
+ # Note, we introduce an intermediate subdirectory, see ${TFLITE_SOURCE_DIR}/tools/cmake/modules/xnnpack/CMakeLists.txt
