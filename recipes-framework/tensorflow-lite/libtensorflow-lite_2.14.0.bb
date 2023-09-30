@@ -28,7 +28,6 @@ inherit cmake
 S = "${WORKDIR}/git"
 
 DEPENDS = " \
-    libgfortran \
     libeigen \
     abseil-cpp \
 "
