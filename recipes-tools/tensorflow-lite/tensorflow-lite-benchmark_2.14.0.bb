@@ -19,6 +19,7 @@ SRC_URI = " \
 SRC_URI:append:riscv32 = " \
     file://001-RISCV32_pthreads.patch \
     file://001-Add-link-atomic.patch \
+    file://001-Fix-neon-sse-file-name-filter.patch \
 "
 
 inherit cmake
