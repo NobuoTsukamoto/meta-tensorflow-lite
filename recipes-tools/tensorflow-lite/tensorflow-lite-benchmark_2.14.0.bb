@@ -13,13 +13,13 @@ SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Disable-XNNPACK-CMakeFile.patch \
+    file://001-Fix-neon-sse-file-name-filter.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
 
 SRC_URI:append:riscv32 = " \
     file://001-RISCV32_pthreads.patch \
     file://001-Add-link-atomic.patch \
-    file://001-Fix-neon-sse-file-name-filter.patch \
 "
 
 inherit cmake
