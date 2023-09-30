@@ -12,8 +12,7 @@ SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-Disable-XNNPACK-CMakeFile.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
 
@@ -25,6 +24,12 @@ SRC_URI:append:riscv32 = " \
 inherit cmake
 
 S = "${WORKDIR}/git"
+
+DEPENDS = " \
+    libgfortran \
+    libeigen \
+    abseil-cpp \
+"
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
 OECMAKE_TARGET_COMPILE = "benchmark_model"
@@ -61,9 +66,14 @@ EXTRA_OECMAKE:append:riscv64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 # Note:
 # Download the submodule using FetchContent_Populate.
 # Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
-EXTRA_OECMAKE:append = " -DFETCHCONTENT_FULLY_DISCONNECTED=OFF -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH}"
+EXTRA_OECMAKE:append = " -DFETCHCONTENT_FULLY_DISCONNECTED=OFF -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} -DCMAKE_SYSTEM_PROCESSOR=${TENSORFLOW_TARGET_ARCH}"
 
 do_configure[network] = "1"
+
+do_configure:prepend() {
+    rm -rf ${S}/tensorflow/lite/tools/cmake/modules/Findabsl.cmake
+    rm -rf ${S}/tensorflow/lite/tools/cmake/modules/FindEigen3.cmake
+}
 
 do_configure:append() {
     if [ -e ${S}/tensorflow/lite/tools/pip_package/riscv32_pthread.patch ]; then

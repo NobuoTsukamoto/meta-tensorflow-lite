@@ -10,8 +10,8 @@ SRCREV_tensorflow = "4dacf3f368eb7965e9b5c3bbdd5193986081c3b2"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-Disable-XNNPACKPack-CMakeFile.patch \
-    file://001-Add-CMAKE_SYSTEM_PROCESSOR.patch \
+    file://001-Disable-XNNPACK-CMakeFile.patch \
+    file://001-Fix-neon-sse-file-name-filter.patch \
 "
 
 SRC_URI:append:riscv32 = " \
@@ -29,6 +29,8 @@ S = "${WORKDIR}/git"
 
 DEPENDS = " \
     libgfortran \
+    libeigen \
+    abseil-cpp \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/c"
@@ -65,9 +67,14 @@ EXTRA_OECMAKE:append:riscv64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 # Note:
 # Download the submodule using FetchContent_Populate.
 # Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
-EXTRA_OECMAKE:append = " -DFETCHCONTENT_FULLY_DISCONNECTED=OFF -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH}"
+EXTRA_OECMAKE:append = " -DFETCHCONTENT_FULLY_DISCONNECTED=OFF -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} -DCMAKE_SYSTEM_PROCESSOR=${TENSORFLOW_TARGET_ARCH}"
 
 do_configure[network] = "1"
+
+do_configure:prepend() {
+    rm -rf ${S}/tensorflow/lite/tools/cmake/modules/Findabsl.cmake
+    rm -rf ${S}/tensorflow/lite/tools/cmake/modules/FindEigen3.cmake
+}
 
 do_configure:append() {
     if [ -e ${S}/tensorflow/lite/tools/pip_package/riscv32_pthread.patch ]; then
