@@ -56,6 +56,18 @@ jobs:
           sudo rm -rf "/usr/local/share/phantomjs*" || true
           sudo rm -rf "/usr/share/sbt" || true
           sudo rm -rf "/usr/local/sqlpackage" || true
+          sudo rm -rf "/usr/bin/yq" || true
+          sudo rm -rf "/usr/local/share/vcpkg" || true
+          sudo rm -rf "/usr/local/bin/terraform" || true
+          sudo rm -rf "/usr/local/bin/stack" || true
+          sudo rm -rf "/usr/local/bin/aliyun" || true
+          sudo rm -rf "/usr/local/bin/pulumi*" || true
+          sudo rm -rf "/usr/local/bin/azcopy" || true
+          sudo rm -rf "/usr/local/aws-cli" || true
+          sudo rm -rf "/usr/local/bin/bicep" || true
+          sudo rm -rf "/usr/local/bin/rebar3" || true
+          sudo rm -rf "/usr/local/bin/phpunit" || true
+          sudo rm -rf "/usr/local/bin/packer" || true
           sudo docker image prune --all --force
           sudo npm uninstall bazel
           rustup self uninstall -y
@@ -94,6 +106,21 @@ jobs:
             libpq-dev \
             r-base \
             sphinxsearch \
+            linux-cloud-tools* \
+            linux-azure-6.2-* \
+            hicolor-icon-theme \
+            gcc-9 \
+            gcc-10 \
+            gcc-11 \
+            gcc-12 \
+            cloud-initramfs* \
+            x11-* \
+            bind9-* \
+            cloud-* \
+            gir1.2-* \
+            golang-github-* \
+            libjs-* \
+            libllvm* \
             -yq >/dev/null 2>&1 || true
           sudo apt-get autoremove -y >/dev/null 2>&1 || true
           sudo apt-get autoclean -y >/dev/null 2>&1 || true
