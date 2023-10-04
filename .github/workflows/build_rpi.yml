@@ -121,6 +121,19 @@ jobs:
             golang-github-* \
             libjs-* \
             libllvm* \
+            swig \
+            tcl \
+            temurin-* \
+            skopeo \
+            imagemagick-* \
+            mssql-tools* \
+            unixodbc-dev \
+            ubuntu-advantage-tools \
+            docker-* \
+            fonts-* \
+            llvm-* \
+            javascript-common \
+            openjdk-11-jre-headless \
             -yq >/dev/null 2>&1 || true
           sudo apt-get autoremove -y >/dev/null 2>&1 || true
           sudo apt-get autoclean -y >/dev/null 2>&1 || true
