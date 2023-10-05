@@ -80,7 +80,6 @@ jobs:
             dotnet-sdk* \
             ghc* \
             google-chrome-stable \
-            google-cloud-sdk \
             kubectl \
             mysql* \
             node* \
@@ -106,6 +105,19 @@ jobs:
             libpq-dev \
             r-base \
             sphinxsearch \
+            swig \
+            tcl \
+            temurin-* \
+            skopeo \
+            imagemagick-* \
+            mssql-tools* \
+            unixodbc-dev \
+            ubuntu-advantage-tools \
+            docker-* \
+            fonts-* \
+            llvm-* \
+            javascript-common \
+            openjdk-11-jre-headless \
             linux-cloud-tools* \
             linux-azure-6.2-* \
             hicolor-icon-theme \
@@ -121,19 +133,8 @@ jobs:
             golang-github-* \
             libjs-* \
             libllvm* \
-            swig \
-            tcl \
-            temurin-* \
-            skopeo \
-            imagemagick-* \
-            mssql-tools* \
-            unixodbc-dev \
-            ubuntu-advantage-tools \
-            docker-* \
-            fonts-* \
-            llvm-* \
-            javascript-common \
-            openjdk-11-jre-headless \
+            nano \
+            python3-* \
             -yq >/dev/null 2>&1 || true
           sudo apt-get autoremove -y >/dev/null 2>&1 || true
           sudo apt-get autoclean -y >/dev/null 2>&1 || true
@@ -175,4 +176,5 @@ jobs:
           MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite \
             libtensorflow-lite-c python3-tensorflow-lite-example tensorflow-lite-label-image \
             tensorflow-lite-minimal tensorflow-lite-benchmark libedgetpu-std
+          df -h
         working-directory: ../
