@@ -2,7 +2,7 @@
 
 ## Reference
 
-- [TensorFlow Lite C++ image classification demo - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.14.0/tensorflow/lite/examples/label_image/README.md)
+- [TensorFlow Lite C++ image classification demo - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.15.0/tensorflow/lite/examples/label_image/README.md)
 
 ## How to
 Build sample on qemueriscv64 (core-image-full-cmdline).
@@ -73,6 +73,6 @@ The original sample CMake statically links tensorflow-lite.
 In this recipe, we will modify CMake to link the shared library (libtensorflow-lite.so) and change the include path of the header file so that it can be built independently.  
 
 For more information about the changes in CMake and source, please refer to the following patch.
-- [001-v2.12_label_image_cpp.patch](../recipes-examples/tensorflow-lite/files/001-v2.12_label_image_cpp.patch)
+- [001-v2.15_label_image_cpp.patch](../recipes-examples/tensorflow-lite/files/001-v2.15_label_image_cpp.patch)
 
-See [libtensorflow-lite](../recipes-framework/tensorflow-lite/libtensorflow-lite_2.12.0.bb) for a recipe to build a shared library for libtensorflow-lite.so.
+See [libtensorflow-lite](../recipes-framework/tensorflow-lite/libtensorflow-lite_2.15.0.bb) for a recipe to build a shared library for libtensorflow-lite.so.

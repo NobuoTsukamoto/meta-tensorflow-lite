@@ -17,7 +17,7 @@ on:
 
 env:
   TARGET_VERSION: master
-  TARGET_BITBAKE_VERSION: master
+  TARGET_BITBAKE_VERSION: 2.6
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -26,7 +26,7 @@ jobs:
     strategy:
       matrix:
         target_machine: [qemuriscv64, qemuriscv32]
-        tensorflow_version: [2.14.0]
+        tensorflow_version: [2.15.0]
         
     # The type of runner that the job will run on
     runs-on: ubuntu-latest

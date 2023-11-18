@@ -2,7 +2,7 @@
 
 ## Reference
 
-- [TensorFlow Lite Python image classification demo - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.14.0/tensorflow/lite/examples/python/README.md)
+- [TensorFlow Lite Python image classification demo - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.15.0/tensorflow/lite/examples/python/README.md)
 
 ## How to
 Build sample on Raspberry Pi 4 AArch64 (core-image-weston).
@@ -68,4 +68,4 @@ time: 369.129ms
 ## Code changes
 The original code imports `tensorflow`. I am changing this to import `tflite_runtime.interpreter`. This has been modified to work with TensorFlow Lite.  
 See below for changes to the original code.
-- [001-v2.12_label_image_py.patch](recipes-examples/tensorflow-lite/python/files/001-v2.12_label_image_py.patch)
+- [001-v2.15_label_image_py.patch](recipes-examples/tensorflow-lite/python/files/001-v2.15_label_image_py.patch)

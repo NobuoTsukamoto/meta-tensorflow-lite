@@ -1,8 +1,8 @@
 diff --git a/tensorflow/lite/examples/label_image/CMakeLists.txt b/tensorflow/lite/examples/label_image/CMakeLists.txt
-index f3edeb40a31..84a0a30fd26 100644
+index 797a64e1e82..cb2b9455cb6 100644
 --- a/tensorflow/lite/examples/label_image/CMakeLists.txt
 +++ b/tensorflow/lite/examples/label_image/CMakeLists.txt
-@@ -15,12 +15,23 @@
+@@ -15,12 +15,27 @@
  
  
  # The label_image example for Tensorflow Lite.
@@ -12,6 +12,7 @@ index f3edeb40a31..84a0a30fd26 100644
 +
 +set(TF_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../../")
 +set(TFLITE_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../")
++set(TSL_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../../../third_party/xla/third_party/tsl/")
 +
 +message(STATUS, “TF_SOURCE_DIR = ${TF_SOURCE_DIR}”)
 +message(STATUS, “TFLITE_SOURCE_DIR = ${TFLITE_SOURCE_DIR}”)
@@ -19,6 +20,9 @@ index f3edeb40a31..84a0a30fd26 100644
 +include(CMakeDependentOption)
 +option(TFLITE_ENABLE_GPU "Enable GPU" OFF)
 +option(TFLITE_ENABLE_XNNPACK "Enable XNNPACK backend" OFF)
++
++set(CMAKE_CXX_STANDARD 17)
++set(CMAKE_CXX_STANDARD_REQUIRED ON)
  
 -populate_source_vars("${TFLITE_SOURCE_DIR}/examples/label_image"
 -  TFLITE_LABEL_IMAGE_SRCS
@@ -27,16 +31,10 @@ index f3edeb40a31..84a0a30fd26 100644
  list(APPEND TFLITE_LABEL_IMAGE_SRCS
 +  bitmap_helpers.cc
 +  label_image.cc
-   ${TF_SOURCE_DIR}/tsl/util/stats_calculator.cc
+   ${TSL_SOURCE_DIR}/tsl/util/stats_calculator.cc
    ${TFLITE_SOURCE_DIR}/profiling/memory_info.cc
    ${TFLITE_SOURCE_DIR}/profiling/profile_summarizer.cc
-@@ -36,27 +47,22 @@ list(APPEND TFLITE_LABEL_IMAGE_SRCS
- if(TFLITE_ENABLE_XNNPACK)
-   list(APPEND TFLITE_LABEL_IMAGE_SRCS
-     ${TFLITE_SOURCE_DIR}/tools/delegates/xnnpack_delegate_provider.cc
-+    ${TFLITE_SOURCE_DIR}/core/acceleration/configuration/c/xnnpack_plugin.cc
-   )
- else()
+@@ -42,14 +57,6 @@ else()
    set(TFLITE_LABEL_IMAGE_CC_OPTIONS "-DTFLITE_WITHOUT_XNNPACK")
  endif()  # TFLITE_ENABLE_XNNPACK
  
@@ -51,18 +49,15 @@ index f3edeb40a31..84a0a30fd26 100644
  if(TFLITE_ENABLE_GPU)
    list(APPEND TFLITE_LABEL_IMAGE_SRCS
      ${TFLITE_SOURCE_DIR}/tools/delegates/gpu_delegate_provider.cc
-   )
+@@ -57,7 +64,6 @@ if(TFLITE_ENABLE_GPU)
  endif()  # TFLITE_ENABLE_GPU
  
-+set(CMAKE_CXX_STANDARD 17)  # Some components require C++17.
-+set(CMAKE_CXX_STANDARD_REQUIRED ON)
-+
  add_executable(label_image
 -  EXCLUDE_FROM_ALL
    ${TFLITE_LABEL_IMAGE_SRCS}
  )
  target_compile_options(label_image
-@@ -66,3 +72,8 @@ target_compile_options(label_image
+@@ -67,3 +73,9 @@ target_compile_options(label_image
  target_link_libraries(label_image
    tensorflow-lite
  )
@@ -70,6 +65,7 @@ index f3edeb40a31..84a0a30fd26 100644
 +include_directories(label_image
 +  PUBLIC
 +  ${CMAKE_CURRENT_LIST_DIR}/../
++  ${TSL_SOURCE_DIR}
 +)
 diff --git a/tensorflow/lite/examples/label_image/bitmap_helpers.cc b/tensorflow/lite/examples/label_image/bitmap_helpers.cc
 index f0602871540..2c83ae5bbf1 100644
