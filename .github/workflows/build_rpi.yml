@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 env:
-  TARGET_VERSION: master
+  TARGET_VERSION: nanbield
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:

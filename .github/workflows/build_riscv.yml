@@ -16,8 +16,8 @@ on:
   workflow_dispatch:
 
 env:
-  TARGET_VERSION: master
-  TARGET_BITBAKE_VERSION: 2.6
+  TARGET_VERSION: nanbield
+  TARGET_BITBAKE_VERSION: 2.6.1
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -113,7 +113,7 @@ jobs:
       # checkout repository
       - name: Clone repository
         run: |
-          git clone -b ${TARGET_VERSION} https://github.com/riscv/meta-riscv.git
+          git clone  https://github.com/riscv/meta-riscv.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/openembedded-core.git
           git clone -b ${TARGET_BITBAKE_VERSION} https://github.com/openembedded/bitbake.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/meta-openembedded.git
