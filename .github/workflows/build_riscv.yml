@@ -113,7 +113,7 @@ jobs:
       # checkout repository
       - name: Clone repository
         run: |
-          git clone  https://github.com/riscv/meta-riscv.git
+          git clone https://github.com/riscv/meta-riscv.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/openembedded-core.git
           git clone -b ${TARGET_BITBAKE_VERSION} https://github.com/openembedded/bitbake.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/meta-openembedded.git
