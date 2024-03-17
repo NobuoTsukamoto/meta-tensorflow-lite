@@ -24,11 +24,11 @@ Please note that it is not official support.
 ## Available recipes
 - framework
   - python3-tensorflow-lite  
-    [Python3 interpreter](recipes-framework/tensorflow-lite/python3-tensorflow-lite_2.15.0.bb)
+    [Python3 interpreter](recipes-framework/tensorflow-lite/python3-tensorflow-lite_2.15.1.bb)
   - libtensorflow-lite  
-    [C++ API shared library](recipes-framework/tensorflow-lite/libtensorflow-lite_2.15.0.bb)
+    [C++ API shared library](recipes-framework/tensorflow-lite/libtensorflow-lite_2.15.1.bb)
   - libtensorflow-lite-c  
-    [C API shared library](recipes-framework/tensorflow-lite/libtensorflow-lite-c_2.15.0.bb)
+    [C API shared library](recipes-framework/tensorflow-lite/libtensorflow-lite-c_2.15.1.bb)
   - libedgetpu-max / libedgetpu-std  
     [bitbake with libedgetpu](./doc/coral_libedgetpu.md)
 - examples

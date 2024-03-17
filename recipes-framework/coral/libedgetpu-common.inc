@@ -7,7 +7,7 @@ PV = "grouper"
 SRCREV_FORMAT = "libedgetpu_tensorflow"
 
 SRCREV_libedgetpu = "3164995622300286ef2bb14d7fdc2792dae045b7"
-SRCREV_tensorflow = "6887368d6d46223f460358323c4b76d61d1558a8"
+SRCREV_tensorflow = "63f5a65c7cd7b6241bede8d2e0082058566ea364"
 
 SRC_URI = " \
     git://github.com/google-coral/libedgetpu.git;name=libedgetpu;branch="master";protocol=https \
