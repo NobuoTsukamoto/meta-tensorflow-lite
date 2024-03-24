@@ -40,6 +40,7 @@ jobs:
       - name: Check space before cleanup
         run: |
           docker images
+          sudo rm -rf "~/work/*" || true
           sudo rm -rf "/opt/*" || true
           sudo rm -rf "/usr/share/dotnet" || true
           sudo rm -rf "$AGENT_TOOLSDIRECTORY" || true
@@ -61,18 +62,36 @@ jobs:
           sudo rm -rf "/usr/local/bin/terraform" || true
           sudo rm -rf "/usr/local/bin/stack" || true
           sudo rm -rf "/usr/local/bin/aliyun" || true
-          sudo rm -rf "/usr/local/bin/pulumi*" || true
+          sudo rm -rf "/usr/local/bin/pulumi" || true
+          sudo rm -rf "/usr/local/bin/pulumi-language-dotnet" || true
           sudo rm -rf "/usr/local/bin/azcopy" || true
           sudo rm -rf "/usr/local/aws-cli" || true
           sudo rm -rf "/usr/local/bin/bicep" || true
           sudo rm -rf "/usr/local/bin/rebar3" || true
           sudo rm -rf "/usr/local/bin/phpunit" || true
           sudo rm -rf "/usr/local/bin/packer" || true
+          sudo rm -rf "/usr/local/bin/bicep" || true
+          sudo rm -rf "/usr/local/bin/docker-compose" || true
+          sudo rm -rf "$HOME/.dotnet/tools" || true
+          sudo rm -rf "/etc/skel/.dotnet/tools" || true
+          sudo rm -rf "/usr/local/bin/minikube" || true
+          sudo rm -rf "/usr/local/bin/kustomize" || true
+          sudo rm -rf "/usr/local/bin/kubectl" || true
+          sudo rm -rf "/usr/local/bin/kind" || true
+          sudo rm -rf "/usr/local/bin/helm" || true
+          sudo rm -rf "/home/linuxbrew" || true
+          sudo rm -rf "/usr/share/apache-maven-*" || true
+          sudo rm -rf "/usr/share/gradle-*" || true
+          sudo rm -rf "/usr/local/share/phantomjs-*" || true
+          sudo rm -rf "/usr/local/bin/azcopy*" || true
+          sudo rm -rf "/usr/local/bin/bicep" || true
+          sudo rm -rf "/usr/local/bin/.ghcup" || true
           sudo docker image prune --all --force
-          sudo npm uninstall bazel
+          sudo npm uninstall bazel || true
+          sudo npm uninstall bazelisk || true
           rustup self uninstall -y
           sudo apt purge \
-            ansible \
+           ansible \
             aria2 \
             azure-cli \
             cabal* \
@@ -135,6 +154,24 @@ jobs:
             libllvm* \
             nano \
             python3-* \
+            podman \
+            buildah \
+            skopeo \
+            temurin-* \
+            ant \
+            ant-optional \
+            libmysqlclient-dev \
+            libxft-dev \
+            libfreetype6-dev \
+            libfontconfig1-dev \
+            libpq-dev \
+            tcl* \
+            p7zip* \
+            gfortran-13 \
+            gcc-12-* \
+            gcc-11-* \
+            google-cloud-cli \
+            heroku \
             -yq >/dev/null 2>&1 || true
           sudo apt-get autoremove -y >/dev/null 2>&1 || true
           sudo apt-get autoclean -y >/dev/null 2>&1 || true
@@ -149,6 +186,7 @@ jobs:
             debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev \
             pylint xterm zstd liblz4-tool
           sudo apt-get clean
+          sudo apt-get autoclean -y
           
       # checkout repository
       - name: Clone poky, meta-raspberrypi, meta-openembedded
