@@ -86,12 +86,33 @@ jobs:
           sudo rm -rf "/usr/local/bin/azcopy*" || true
           sudo rm -rf "/usr/local/bin/bicep" || true
           sudo rm -rf "/usr/local/bin/.ghcup" || true
+          sudo rm -rf "/home/.nvm" || true
+          sudo rm -rf "/usr/bin/composer" || true
+          sudo rm -rf "/usr/local/bin/phpunit" || true
+          sudo rm -rf "/usr/local/bin/pulumi-analyzer-policy" || true
+          sudo rm -rf "/usr/local/bin/pulumi-analyzer-policy-python" || true
+          sudo rm -rf "/usr/local/bin/pulumi-language-java" || true
+          sudo rm -rf "/usr/local/bin/pulumi-language-nodejs" || true
+          sudo rm -rf "/usr/local/bin/pulumi-language-go" || true
+          sudo rm -rf "/usr/local/bin/pulumi-language-python" || true
+          sudo rm -rf "/usr/local/bin/pulumi-language-python-exec" || true
+          sudo rm -rf "/usr/local/bin/pulumi-language-yaml" || true
+          sudo rm -rf "/usr/local/bin/pulumi-resource-pulumi-nodejs" || true
+          sudo rm -rf "/usr/local/bin/pulumi-resource-pulumi-python" || true
+          sudo rm -rf "/usr/local/bin/pulumi-watch" || true
+          sudo rm -rf "/usr/local/bin/oc" || true
+          sudo rm -rf "/usr/local/bin/ctest" || true
+          sudo rm -rf "/usr/local/bin/cmake-gui" || true
+          sudo rm -rf "/usr/local/bin/ccmake" || true
+          sudo rm -rf "/usr/local/bin/cpack" || true
+          sudo rm -rf "/usr/local/bin/oras" || true
+          sudo rm -rf "/usr/local/share/chromium" | true
           sudo docker image prune --all --force
           sudo npm uninstall bazel || true
           sudo npm uninstall bazelisk || true
           rustup self uninstall -y
           sudo apt purge \
-           ansible \
+            ansible \
             aria2 \
             azure-cli \
             cabal* \
@@ -172,7 +193,10 @@ jobs:
             gcc-11-* \
             google-cloud-cli \
             heroku \
+            snmp \
+            liblz4-dev \
             -yq >/dev/null 2>&1 || true
+          sudo dpkg -r packages-microsoft-prod　> /dev/null 2>&1 || true
           sudo apt-get autoremove -y >/dev/null 2>&1 || true
           sudo apt-get autoclean -y >/dev/null 2>&1 || true
           df -h
