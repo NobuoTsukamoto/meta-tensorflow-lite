@@ -80,10 +80,10 @@ jobs:
           sudo rm -rf "/usr/local/bin/kind" || true
           sudo rm -rf "/usr/local/bin/helm" || true
           sudo rm -rf "/home/linuxbrew" || true
-          sudo rm -rf "/usr/share/apache-maven-*" || true
+          sudo rm -rf "/usr/share/apache-maven-3.8.8" || true
           sudo rm -rf "/usr/share/gradle-*" || true
-          sudo rm -rf "/usr/local/share/phantomjs-*" || true
-          sudo rm -rf "/usr/local/bin/azcopy*" || true
+          sudo rm -rf "/usr/local/share/phantomjs-8.6" || true
+          sudo rm -rf "/usr/local/bin/azcopy_11.3.1" || true
           sudo rm -rf "/usr/local/bin/bicep" || true
           sudo rm -rf "/usr/local/bin/.ghcup" || true
           sudo rm -rf "/home/.nvm" || true
@@ -107,6 +107,8 @@ jobs:
           sudo rm -rf "/usr/local/bin/cpack" || true
           sudo rm -rf "/usr/local/bin/oras" || true
           sudo rm -rf "/usr/local/share/chromium" | true
+          sudo rm -rf "/usr/local/share/powershell" | true
+          sudo rm -rf "/usr/local/share/doc" | true
           sudo docker image prune --all --force
           sudo npm uninstall bazel || true
           sudo npm uninstall bazelisk || true
@@ -195,6 +197,7 @@ jobs:
             heroku \
             snmp \
             liblz4-dev \
+            man-db \
             -yq >/dev/null 2>&1 || true
           sudo dpkg -r packages-microsoft-prod　> /dev/null 2>&1 || true
           sudo apt-get autoremove -y >/dev/null 2>&1 || true
