@@ -39,6 +39,7 @@ jobs:
       # https://zenn.dev/pinto0309/scraps/c6413eb15a1b2a
       - name: Check space before cleanup
         run: |
+          docker images
           sudo rm -rf "/home/work/*" || true
           sudo rm -rf "/opt/*" || true
           sudo rm -rf "/usr/share/dotnet" || true
@@ -85,6 +86,7 @@ jobs:
           sudo rm -rf "/usr/local/bin/azcopy_11.3.1" || true
           sudo rm -rf "/usr/local/bin/bicep" || true
           sudo rm -rf "/usr/local/bin/.ghcup" || true
+          sudo rm -rf "/usr/local/.ghcup" || true
           sudo rm -rf "/home/.nvm" || true
           sudo rm -rf "/usr/bin/composer" || true
           sudo rm -rf "/usr/local/bin/phpunit" || true
@@ -105,10 +107,17 @@ jobs:
           sudo rm -rf "/usr/local/bin/ccmake" || true
           sudo rm -rf "/usr/local/bin/cpack" || true
           sudo rm -rf "/usr/local/bin/oras" || true
+          sudo rm -rf "/usr/local/share/emacs" || true
+          sudo rm -rf "/usr/local/share/fonts" || true
+          sudo rm -rf "/usr/local/share/icons" || true
+          sudo rm -rf "/usr/local/share/man" || true
           sudo rm -rf "/usr/local/share/chromium" || true
           sudo rm -rf "/usr/local/share/powershell" || true
           sudo rm -rf "/usr/local/share/doc" || true
           sudo rm -rf "/home/perflog" || true
+          sudo rm -rf "/usr/libexec/docker/cli-plugins" || true
+          sudo rm -rf "/usr/bin/docker-credential-ecr-login" || true
+          sudo rm -rf "/usr/local/lib/lein" || true
           sudo docker image prune --all --force
           sudo npm uninstall bazel || true
           sudo npm uninstall bazelisk || true
@@ -201,6 +210,7 @@ jobs:
             packages-microsoft-prod \
             perl \
             *-dev \
+            linux-headers-* \
             manpages \
             -yq >/dev/null 2>&1 || true
           sudo dpkg -r packages-microsoft-prod　> /dev/null 2>&1 || true
