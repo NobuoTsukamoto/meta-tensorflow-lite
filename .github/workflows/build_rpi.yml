@@ -39,8 +39,7 @@ jobs:
       # https://zenn.dev/pinto0309/scraps/c6413eb15a1b2a
       - name: Check space before cleanup
         run: |
-          docker images
-          sudo rm -rf "~/work/*" || true
+          sudo rm -rf "/home/work/*" || true
           sudo rm -rf "/opt/*" || true
           sudo rm -rf "/usr/share/dotnet" || true
           sudo rm -rf "$AGENT_TOOLSDIRECTORY" || true
@@ -72,7 +71,7 @@ jobs:
           sudo rm -rf "/usr/local/bin/packer" || true
           sudo rm -rf "/usr/local/bin/bicep" || true
           sudo rm -rf "/usr/local/bin/docker-compose" || true
-          sudo rm -rf "$HOME/.dotnet/tools" || true
+          sudo rm -rf "/home/.dotnet/tools" || true
           sudo rm -rf "/etc/skel/.dotnet/tools" || true
           sudo rm -rf "/usr/local/bin/minikube" || true
           sudo rm -rf "/usr/local/bin/kustomize" || true
@@ -81,7 +80,7 @@ jobs:
           sudo rm -rf "/usr/local/bin/helm" || true
           sudo rm -rf "/home/linuxbrew" || true
           sudo rm -rf "/usr/share/apache-maven-3.8.8" || true
-          sudo rm -rf "/usr/share/gradle-*" || true
+          sudo rm -rf "/usr/share/gradle-8.7" || true
           sudo rm -rf "/usr/local/share/phantomjs-8.6" || true
           sudo rm -rf "/usr/local/bin/azcopy_11.3.1" || true
           sudo rm -rf "/usr/local/bin/bicep" || true
@@ -106,9 +105,10 @@ jobs:
           sudo rm -rf "/usr/local/bin/ccmake" || true
           sudo rm -rf "/usr/local/bin/cpack" || true
           sudo rm -rf "/usr/local/bin/oras" || true
-          sudo rm -rf "/usr/local/share/chromium" | true
-          sudo rm -rf "/usr/local/share/powershell" | true
-          sudo rm -rf "/usr/local/share/doc" | true
+          sudo rm -rf "/usr/local/share/chromium" || true
+          sudo rm -rf "/usr/local/share/powershell" || true
+          sudo rm -rf "/usr/local/share/doc" || true
+          sudo rm -rf "/home/perflog" || true
           sudo docker image prune --all --force
           sudo npm uninstall bazel || true
           sudo npm uninstall bazelisk || true
@@ -198,6 +198,10 @@ jobs:
             snmp \
             liblz4-dev \
             man-db \
+            packages-microsoft-prod \
+            perl \
+            *-dev \
+            manpages \
             -yq >/dev/null 2>&1 || true
           sudo dpkg -r packages-microsoft-prod　> /dev/null 2>&1 || true
           sudo apt-get autoremove -y >/dev/null 2>&1 || true
