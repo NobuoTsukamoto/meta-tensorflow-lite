@@ -52,12 +52,12 @@ jobs:
           git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
           git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/meta-raspberrypi
           git clone -b ${TARGET_VERSION} git://git.openembedded.org/meta-openembedded
-          pwd
         working-directory: /home/runner/work/
 
       # Run bitbake
       - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite ${{ matrix.tensorflow_version }}
         run: |
+          sudo chown runner /mnt
           source /home/runner/work/poky/oe-init-build-env rpi-build
           bitbake-layers add-layer /home/runner/work/meta-openembedded/meta-oe/
           bitbake-layers add-layer /home/runner/work/meta-openembedded/meta-python/
