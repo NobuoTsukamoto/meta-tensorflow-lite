@@ -1,5 +1,5 @@
 diff --git a/makefile_build/Makefile b/makefile_build/Makefile
-index ef7d290..4f4b502 100644
+index ef7d290..abd8487 100644
 --- a/makefile_build/Makefile
 +++ b/makefile_build/Makefile
 @@ -10,8 +10,6 @@ BUILDROOT ?= $(MAKEFILE_DIR)/..
@@ -11,14 +11,26 @@ index ef7d290..4f4b502 100644
  FLATC=flatc
  
  LIBEDGETPU_CFLAGS := \
-@@ -30,7 +28,6 @@ LIBEDGETPU_LDFLAGS := \
+@@ -22,7 +20,7 @@ LIBEDGETPU_CFLAGS := \
+ LIBEDGETPU_CXXFLAGS := \
+ 	-fPIC \
+ 	-Wall \
+-	-std=c++14 \
++	-std=c++17 \
+ 	-DDARWINN_PORT_DEFAULT
+ 
+ LIBEDGETPU_LDFLAGS := \
+@@ -30,9 +28,8 @@ LIBEDGETPU_LDFLAGS := \
  	-shared \
  	-Wl,--soname,libedgetpu.so.1 \
  	-Wl,--version-script=$(BUILDROOT)/tflite/public/libedgetpu.lds \
 -	-fuse-ld=gold \
  	-lflatbuffers \
- 	-labsl_flags \
+-	-labsl_flags \
++	-labsl_flags_commandlineflag \
  	-labsl_flags_internal \
+ 	-labsl_flags_reflection \
+ 	-labsl_flags_marshalling \
 @@ -40,6 +37,7 @@ LIBEDGETPU_LDFLAGS := \
  	-labsl_hashtablez_sampler \
  	-labsl_raw_hash_set \
@@ -27,7 +39,28 @@ index ef7d290..4f4b502 100644
  	-lusb-1.0
  
  LIBEDGETPU_FLATC_SRCS := \
-@@ -181,11 +179,6 @@ firmware:
+@@ -59,9 +57,6 @@ LIBEDGETPU_INCLUDES := \
+ 	$(BUILDDIR)/$(BUILDROOT)
+ LIBEDGETPU_INCLUDES := $(addprefix -I,$(LIBEDGETPU_INCLUDES))
+ 
+-LIBEDGETPU_CSRCS := $(TFROOT)/tensorflow/lite/c/common.c
+-LIBEDGETPU_COBJS := $(call TOBUILDDIR,$(patsubst %.c,%.o,$(LIBEDGETPU_CSRCS)))
+-
+ LIBEDGETPU_CCSRCS := \
+ 	$(BUILDROOT)/api/allocated_buffer.cc \
+ 	$(BUILDROOT)/api/buffer.cc \
+@@ -140,7 +135,9 @@ LIBEDGETPU_CCSRCS := \
+ 	$(BUILDROOT)/tflite/edgetpu_c.cc \
+ 	$(BUILDROOT)/tflite/edgetpu_delegate_for_custom_op.cc \
+ 	$(BUILDROOT)/tflite/edgetpu_delegate_for_custom_op_tflite_plugin.cc \
+-	$(TFROOT)/tensorflow/lite/util.cc
++	$(TFROOT)/tensorflow/lite/core/c/common.cc \
++	$(TFROOT)/tensorflow/lite/util.cc \
++	$(TFROOT)/tensorflow/lite/array.cc
+ LIBEDGETPU_CCOBJS := $(call TOBUILDDIR,$(patsubst %.cc,%.o,$(LIBEDGETPU_CCSRCS)))
+ 
+ # In order to support direct and throttled mode - we need to compile two files
+@@ -181,11 +178,6 @@ firmware:
  	@echo "} // namespace" >> $(LIBEDGETPU_FW_OUTPUT)
  
  
@@ -39,7 +72,7 @@ index ef7d290..4f4b502 100644
  $(LIBEDGETPU_CCOBJS) : $(BUILDDIR)/%.o: %.cc
  	@$(MKDIR)
  	@echo "Compiling $<"
-@@ -201,14 +194,14 @@ $(LIBEDGETPU_STD_CCOBJS) : $(BUILDDIR)/%-throttled.o: %.cc
+@@ -201,14 +193,14 @@ $(LIBEDGETPU_STD_CCOBJS) : $(BUILDDIR)/%-throttled.o: %.cc
  	@echo "Compiling $<"
  	@$(CXX) -DTHROTTLE_EDGE_TPU $(LIBEDGETPU_CXXFLAGS) $(LIBEDGETPU_INCLUDES) -c $< -MD -MT $@ -MF $(@:%o=%d) -o $@
  

@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "6887368d6d46223f460358323c4b76d61d1558a8"
+SRCREV_tensorflow = "5bc9d26649cca274750ad3625bd93422617eed4b"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
@@ -17,10 +17,12 @@ SRC_URI = " \
 SRC_URI:append:riscv32 = " \
     file://001-RISCV32_pthreads.patch \
     file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+    file://001-Fix-RISCV-cpuinfo.patch \
 "
 
 SRC_URI:append:riscv64 = " \
     file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+    file://001-Fix-RISCV-cpuinfo.patch \
 "
 
 inherit cmake
@@ -59,6 +61,9 @@ EXTRA_OECMAKE:append:raspberrypi3-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 TENSORFLOW_TARGET_ARCH:raspberrypi4-64 = "aarch64"
 TUNE_CCARGS:raspberrypi4-64 = ""
 EXTRA_OECMAKE:append:raspberrypi4-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+TENSORFLOW_TARGET_ARCH:raspberrypi5 = "aarch64"
+TUNE_CCARGS:raspberrypi5 = ""
+EXTRA_OECMAKE:append:raspberrypi5 = " -DTFLITE_ENABLE_XNNPACK=ON"
 
 TENSORFLOW_TARGET_ARCH:riscv32 = "riscv32"
 EXTRA_OECMAKE:append:riscv32 = " -DTFLITE_ENABLE_XNNPACK=ON"
@@ -340,14 +345,17 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/tools/strip_buffers/*.h ${D}${includedir}/tensorflow/lite/tools/strip_buffers
     install -m 644 ${S}/tensorflow/lite/tools/versioning/*.h ${D}${includedir}/tensorflow/lite/tools/versioning
 
+    rm -rf ${D}/${libdir}/libflatbuffers.a
+    rm -rf ${D}${includedir}/flatbuffers
+    rm -rf ${D}/${libdir}/cmake/flatbuffers
+    rm -rf ${D}/${libdir}/pkgconfig/flatbuffers.pc
+
 }
 
 FILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
 FILES:${PN} += "${libdir}/*.so"
 FILES:${PN} += "${datadir}/eigen3/*"
 FILES:${PN} += "${datadir}/cpuinfo/*"
-FILES:${PN} += "${libdir}/cmake/flatbuffers/*"
 FILES:${PN} += "${libdir}/cmake/NEON_2_SSE/*"
 FILES:${PN} += "${libdir}/pkgconfig/libcpuinfo.pc"
-FILES:${PN} += "${libdir}/pkgconfig/flatbuffers.pc"
 FILES:${PN} += "${libdir}/cmake/gemmlowp/*"
