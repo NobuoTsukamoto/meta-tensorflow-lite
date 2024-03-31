@@ -35,189 +35,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      # Check space before cleanup
-      # https://zenn.dev/pinto0309/scraps/c6413eb15a1b2a
-      - name: Check space before cleanup
-        run: |
-          docker images
-          sudo rm -rf "/home/work/*" || true
-          sudo rm -rf "/opt/*" || true
-          sudo rm -rf "/usr/share/dotnet" || true
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY" || true
-          sudo rm -rf "/usr/local/lib/android" || true
-          sudo rm -rf "/usr/local/share/boost" || true
-          sudo rm -rf "/usr/lib/jvm" || true
-          sudo rm -rf "/usr/share/swift" || true
-          sudo rm -rf "/usr/local/julia*" || true
-          sudo rm -rf "/usr/share/kotlinc" || true
-          sudo rm -rf "/usr/local/share/edge_driver" || true
-          sudo rm -rf "/usr/local/share/chromedriver-linux64" || true
-          sudo rm -rf "/usr/local/share/gecko_driver" || true
-          sudo rm -rf "/usr/share/miniconda" || true
-          sudo rm -rf "/usr/local/share/phantomjs*" || true
-          sudo rm -rf "/usr/share/sbt" || true
-          sudo rm -rf "/usr/local/sqlpackage" || true
-          sudo rm -rf "/usr/bin/yq" || true
-          sudo rm -rf "/usr/local/share/vcpkg" || true
-          sudo rm -rf "/usr/local/bin/terraform" || true
-          sudo rm -rf "/usr/local/bin/stack" || true
-          sudo rm -rf "/usr/local/bin/aliyun" || true
-          sudo rm -rf "/usr/local/bin/pulumi" || true
-          sudo rm -rf "/usr/local/bin/pulumi-language-dotnet" || true
-          sudo rm -rf "/usr/local/bin/azcopy" || true
-          sudo rm -rf "/usr/local/aws-cli" || true
-          sudo rm -rf "/usr/local/bin/bicep" || true
-          sudo rm -rf "/usr/local/bin/rebar3" || true
-          sudo rm -rf "/usr/local/bin/phpunit" || true
-          sudo rm -rf "/usr/local/bin/packer" || true
-          sudo rm -rf "/usr/local/bin/bicep" || true
-          sudo rm -rf "/usr/local/bin/docker-compose" || true
-          sudo rm -rf "/home/.dotnet/tools" || true
-          sudo rm -rf "/etc/skel/.dotnet/tools" || true
-          sudo rm -rf "/usr/local/bin/minikube" || true
-          sudo rm -rf "/usr/local/bin/kustomize" || true
-          sudo rm -rf "/usr/local/bin/kubectl" || true
-          sudo rm -rf "/usr/local/bin/kind" || true
-          sudo rm -rf "/usr/local/bin/helm" || true
-          sudo rm -rf "/home/linuxbrew" || true
-          sudo rm -rf "/usr/share/apache-maven-3.8.8" || true
-          sudo rm -rf "/usr/share/gradle-8.7" || true
-          sudo rm -rf "/usr/local/share/phantomjs-8.6" || true
-          sudo rm -rf "/usr/local/bin/azcopy_11.3.1" || true
-          sudo rm -rf "/usr/local/bin/bicep" || true
-          sudo rm -rf "/usr/local/bin/.ghcup" || true
-          sudo rm -rf "/usr/local/.ghcup" || true
-          sudo rm -rf "/home/.nvm" || true
-          sudo rm -rf "/usr/bin/composer" || true
-          sudo rm -rf "/usr/local/bin/phpunit" || true
-          sudo rm -rf "/usr/local/bin/pulumi-analyzer-policy" || true
-          sudo rm -rf "/usr/local/bin/pulumi-analyzer-policy-python" || true
-          sudo rm -rf "/usr/local/bin/pulumi-language-java" || true
-          sudo rm -rf "/usr/local/bin/pulumi-language-nodejs" || true
-          sudo rm -rf "/usr/local/bin/pulumi-language-go" || true
-          sudo rm -rf "/usr/local/bin/pulumi-language-python" || true
-          sudo rm -rf "/usr/local/bin/pulumi-language-python-exec" || true
-          sudo rm -rf "/usr/local/bin/pulumi-language-yaml" || true
-          sudo rm -rf "/usr/local/bin/pulumi-resource-pulumi-nodejs" || true
-          sudo rm -rf "/usr/local/bin/pulumi-resource-pulumi-python" || true
-          sudo rm -rf "/usr/local/bin/pulumi-watch" || true
-          sudo rm -rf "/usr/local/bin/oc" || true
-          sudo rm -rf "/usr/local/bin/ctest" || true
-          sudo rm -rf "/usr/local/bin/cmake-gui" || true
-          sudo rm -rf "/usr/local/bin/ccmake" || true
-          sudo rm -rf "/usr/local/bin/cpack" || true
-          sudo rm -rf "/usr/local/bin/oras" || true
-          sudo rm -rf "/usr/local/share/emacs" || true
-          sudo rm -rf "/usr/local/share/fonts" || true
-          sudo rm -rf "/usr/local/share/icons" || true
-          sudo rm -rf "/usr/local/share/man" || true
-          sudo rm -rf "/usr/local/share/chromium" || true
-          sudo rm -rf "/usr/local/share/powershell" || true
-          sudo rm -rf "/usr/local/share/doc" || true
-          sudo rm -rf "/home/perflog" || true
-          sudo rm -rf "/usr/libexec/docker/cli-plugins" || true
-          sudo rm -rf "/usr/bin/docker-credential-ecr-login" || true
-          sudo rm -rf "/usr/local/lib/lein" || true
-          sudo docker image prune --all --force
-          sudo npm uninstall bazel || true
-          sudo npm uninstall bazelisk || true
-          rustup self uninstall -y
-          sudo apt purge \
-            ansible \
-            aria2 \
-            azure-cli \
-            cabal* \
-            clang* \
-            dotnet-sdk* \
-            ghc* \
-            google-chrome-stable \
-            kubectl \
-            mysql* \
-            node* \
-            npm* \
-            php* \
-            powershell \
-            rpm \
-            ruby* \
-            subversion \
-            yarn \
-            firefox \
-            mono-complete \
-            nuget \
-            apache2 \
-            moby-engine \
-            moby-cli \
-            moby-buildx \
-            moby-compose \
-            microsoft-edge-stable \
-            mongodb* \
-            nginx \
-            postgresql* \
-            libpq-dev \
-            r-base \
-            sphinxsearch \
-            swig \
-            tcl \
-            temurin-* \
-            skopeo \
-            imagemagick-* \
-            mssql-tools* \
-            unixodbc-dev \
-            ubuntu-advantage-tools \
-            docker-* \
-            fonts-* \
-            llvm-* \
-            javascript-common \
-            openjdk-11-jre-headless \
-            linux-cloud-tools* \
-            linux-azure-6.2-* \
-            hicolor-icon-theme \
-            gcc-9 \
-            gcc-10 \
-            gcc-11 \
-            gcc-12 \
-            cloud-initramfs* \
-            x11-* \
-            bind9-* \
-            cloud-* \
-            gir1.2-* \
-            golang-github-* \
-            libjs-* \
-            libllvm* \
-            nano \
-            python3-* \
-            podman \
-            buildah \
-            skopeo \
-            temurin-* \
-            ant \
-            ant-optional \
-            libmysqlclient-dev \
-            libxft-dev \
-            libfreetype6-dev \
-            libfontconfig1-dev \
-            libpq-dev \
-            tcl* \
-            p7zip* \
-            gfortran-13 \
-            gcc-12-* \
-            gcc-11-* \
-            google-cloud-cli \
-            heroku \
-            snmp \
-            liblz4-dev \
-            man-db \
-            packages-microsoft-prod \
-            perl \
-            *-dev \
-            linux-headers-* \
-            manpages \
-            -yq >/dev/null 2>&1 || true
-          sudo dpkg -r packages-microsoft-prod　> /dev/null 2>&1 || true
-          sudo apt-get autoremove -y >/dev/null 2>&1 || true
-          sudo apt-get autoclean -y >/dev/null 2>&1 || true
-          df -h
-          
       # Install essential host packages
       - name: Install Pakages
         run: |
@@ -232,10 +49,11 @@ jobs:
       # checkout repository
       - name: Clone poky, meta-raspberrypi, meta-openembedded
         run: |
+          sudo chown runner /mnt
           git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
           git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/meta-raspberrypi
           git clone -b ${TARGET_VERSION} git://git.openembedded.org/meta-openembedded
-        working-directory: ../
+        working-directory: /mnt
 
       # Run bitbake
       - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite ${{ matrix.tensorflow_version }}
@@ -243,7 +61,7 @@ jobs:
           source poky/oe-init-build-env rpi-build
           bitbake-layers add-layer ../meta-openembedded/meta-oe/
           bitbake-layers add-layer ../meta-openembedded/meta-python/
-          bitbake-layers add-layer ../meta-tensorflow-lite/
+          bitbake-layers add-layer /home/runner/work/meta-tensorflow-lite/meta-tensorflow-lite/
           bitbake-layers add-layer ../meta-raspberrypi/
           cat <<EOF> conf/auto.conf
           FORTRAN:forcevariable = ",fortran"
@@ -256,4 +74,4 @@ jobs:
             libtensorflow-lite-c python3-tensorflow-lite-example tensorflow-lite-label-image \
             tensorflow-lite-minimal tensorflow-lite-benchmark libedgetpu-std
           df -h
-        working-directory: ../
+        working-directory: /mnt
