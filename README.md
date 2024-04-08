@@ -42,6 +42,13 @@ Please note that it is not official support.
   - tensorflow-lite-benchmark  
     [TFLite Model Benchmark Tool with C++ Binary](./doc/tensorflow-lite-benchmark.md)
 
+### Support version
+| Recipe          | Version |
+| :--             | :--     |
+| TensorFlow Lite | v2.6.1  |
+| libedgetpu      | e35aed18fea2e2d25d98352e5a5bd357c170bd4d |
+| FlatBuffers     | v23.5.26 |
+
 ## How to
 
 ### Quick start for the Raspberry Pi AArch64 (core-image-weston)
