@@ -6,9 +6,9 @@ name: Bitbake qemuriscv
 on:
   # Triggers the workflow on push or pull request events but only for the kirkstone branch
   push:
-    branches: [ main ]
+    branches: [ nanbield ]
   pull_request:
-    branches: [ main ]
+    branches: [ nanbield ]
   schedule:
     - cron: '0 12 * * 5'
 
