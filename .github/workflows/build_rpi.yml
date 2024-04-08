@@ -39,27 +39,20 @@ jobs:
       - name: Install Pakages
         run: |
           sudo apt-get update
-          sudo apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint3 xterm
+          sudo apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib \
+            build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils \
+            debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev \
+            pylint xterm zstd liblz4-tool
           sudo apt-get clean
       
-      # Check space before cleanup
-      - name: Check space before cleanup
-        run: |
-          df -h
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /opt/ghc
-          df -h
-          
       # checkout repository
       - name: Clone poky, meta-raspberrypi, meta-openembedded
         run: |
+          sudo chown runner /mnt
           git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
           git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/meta-raspberrypi
           git clone -b ${TARGET_VERSION} git://git.openembedded.org/meta-openembedded
-        working-directory: ../
+        working-directory: /mnt
 
       # Run bitbake
       - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite ${{ matrix.tensorflow_version }}
@@ -67,7 +60,7 @@ jobs:
           source poky/oe-init-build-env rpi-build
           bitbake-layers add-layer ../meta-openembedded/meta-oe/
           bitbake-layers add-layer ../meta-openembedded/meta-python/
-          bitbake-layers add-layer ../meta-tensorflow-lite/
+          bitbake-layers add-layer /home/runner/work/meta-tensorflow-lite/meta-tensorflow-lite/
           bitbake-layers add-layer ../meta-raspberrypi/
           cat <<EOF> conf/auto.conf
           FORTRAN:forcevariable = ",fortran"
@@ -77,4 +70,4 @@ jobs:
           EOF
           cat conf/auto.conf
           MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite libtensorflow-lite-c python3-tensorflow-lite-example tensorflow-lite-label-image tensorflow-lite-minimal tensorflow-lite-benchmark libedgetpu-max
-        working-directory: ../
+        working-directory: /mnt
