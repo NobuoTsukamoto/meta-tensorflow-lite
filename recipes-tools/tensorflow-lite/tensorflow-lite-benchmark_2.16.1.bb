@@ -18,6 +18,7 @@ SRC_URI = " \
 "
 
 SRC_URI:append:riscv32 = " \
+    file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
     file://001-RISCV32_pthreads.patch \
     file://001-Add-link-atomic.patch \
     file://001-Fix-RISCV-cpuinfo.patch \
