@@ -51,7 +51,7 @@ jobs:
         run: |
           sudo chown runner /mnt
           git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
-          git clone -b ${TARGET_VERSION} https://github.com/riscv/meta-riscv.git
+          git clone -b master https://github.com/riscv/meta-riscv.git
           git clone -b ${TARGET_VERSION} git://git.openembedded.org/meta-openembedded
         working-directory: /mnt
 
