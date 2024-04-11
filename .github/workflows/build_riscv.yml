@@ -58,7 +58,7 @@ jobs:
       # Run bitbake
       - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite ${{ matrix.tensorflow_version }}
         run: |
-          source poky/oe-init-build-env rpi-build
+          source /home/runner/work/poky/oe-init-build-env rpi-build
           bitbake-layers add-layer /home/runner/work/meta-openembedded/meta-oe/
           bitbake-layers add-layer /home/runner/work/meta-openembedded/meta-python/
           bitbake-layers add-layer /home/runner/work/meta-tensorflow-lite/meta-tensorflow-lite/
