@@ -47,27 +47,25 @@ jobs:
           sudo apt-get clean
       
       # checkout repository
-      - name: Clone repository
+      - name: Clone meta-riscv, openembedded-core, bitbake, meta-openembedded
         run: |
           sudo chown runner /mnt
           git clone  https://github.com/riscv/meta-riscv.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/openembedded-core.git
           git clone -b ${TARGET_BITBAKE_VERSION} https://github.com/openembedded/bitbake.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/meta-openembedded.git
-        working-directory: /mnt
+        working-directory: /home/runner/work
 
       # Run bitbake
-      - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite Python ${{ matrix.tensorflow_version }}
+      - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite version ${{ matrix.tensorflow_version }}
         run: |
-          source openembedded-core/oe-init-build-env build
-          bitbake-layers add-layer ../meta-openembedded/meta-oe
-          bitbake-layers add-layer ../meta-openembedded/meta-python
+          source /home/runner/work/openembedded-core/oe-init-build-env build
+          bitbake-layers add-layer /home/runner/work/meta-openembedded/meta-oe
+          bitbake-layers add-layer /home/runner/work/meta-openembedded/meta-python
           bitbake-layers add-layer /home/runner/work/meta-tensorflow-lite/meta-tensorflow-lite
-          bitbake-layers add-layer ../meta-riscv
+          bitbake-layers add-layer /home/runner/work/meta-riscv
           cat <<EOF> conf/auto.conf
           FORTRAN:forcevariable = ",fortran"
-          PREFERRED_VERSION_python3-tensorflow-lite="${{ matrix.tensorflow_version }}"
-          PREFERRED_VERSION_libtensorflow-lite="${{ matrix.tensorflow_version }}"
           EOF
           cat conf/auto.conf
           MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite \
