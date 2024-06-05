@@ -45,8 +45,8 @@ do_install() {
     install -d ${D}${datadir}/tensorflow/lite/examples/label_image
     install -m 755 ${B}/label_image ${D}${datadir}/tensorflow/lite/examples/label_image/
     install -m 644 ${S}/tensorflow/lite/examples/label_image/testdata/grace_hopper.bmp ${D}${datadir}/tensorflow/lite/examples/label_image/
-    install -m 644 ${WORKDIR}/mobilenet_v1_1.0_224.tflite ${D}${datadir}/tensorflow/lite/examples/label_image/
-    install -m 644 ${WORKDIR}/mobilenet_v1_1.0_224/labels.txt ${D}${datadir}/tensorflow/lite/examples/label_image/
+    install -m 644 ${UNPACKDIR}/mobilenet_v1_1.0_224.tflite ${D}${datadir}/tensorflow/lite/examples/label_image/
+    install -m 644 ${UNPACKDIR}/mobilenet_v1_1.0_224/labels.txt ${D}${datadir}/tensorflow/lite/examples/label_image/
 }
 
 FILES:${PN} += "${datadir}/tensorflow/lite/examples/label_image/*"

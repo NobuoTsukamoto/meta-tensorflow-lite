@@ -29,11 +29,11 @@ DEPENDS = " \
 EXTRA_OEMAKE = " libedgetpu"
 
 do_configure:prepend () {
-    export TFROOT=${WORKDIR}/tensorflow
+    export TFROOT=${UNPACKDIR}/tensorflow
 }
 
 do_compile:prepend() {
-    export TFROOT=${WORKDIR}/tensorflow
+    export TFROOT=${UNPACKDIR}/tensorflow
 }
 
 BBCLASSEXTEND = "native nativesdk"
