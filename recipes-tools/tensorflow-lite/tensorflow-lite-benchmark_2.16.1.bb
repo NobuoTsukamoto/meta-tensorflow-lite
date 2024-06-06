@@ -95,7 +95,7 @@ do_configure:append() {
 do_install() {
     install -d ${D}${datadir}/tensorflow/lite/tools/benchmark/
     install -m 755 ${B}/tools/benchmark/benchmark_model ${D}${datadir}/tensorflow/lite/tools/benchmark/benchmark_model
-    install -m 644 ${WORKDIR}/mobilenet_v1_1.0_224.tflite ${D}${datadir}/tensorflow/lite/tools/benchmark/
+    install -m 644 ${UNPACKDIR}/mobilenet_v1_1.0_224.tflite ${D}${datadir}/tensorflow/lite/tools/benchmark/
 }
 
 FILES:${PN} += "${datadir}/tensorflow/lite/tools/benchmark/*"

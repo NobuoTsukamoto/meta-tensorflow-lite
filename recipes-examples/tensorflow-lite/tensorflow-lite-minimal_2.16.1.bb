@@ -41,7 +41,7 @@ OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/examples/minimal"
 do_install() {
     install -d ${D}${datadir}/tensorflow/lite/examples/minimal
     install -m 755 ${B}/minimal ${D}${datadir}/tensorflow/lite/examples/minimal/
-    install -m 644 ${WORKDIR}/mobilenet_v1_1.0_224.tflite ${D}${datadir}/tensorflow/lite/examples/minimal/
+    install -m 644 ${UNPACKDIR}/mobilenet_v1_1.0_224.tflite ${D}${datadir}/tensorflow/lite/examples/minimal/
 }
 
 FILES:${PN} += "${datadir}/tensorflow/lite/examples/minimal/*"
