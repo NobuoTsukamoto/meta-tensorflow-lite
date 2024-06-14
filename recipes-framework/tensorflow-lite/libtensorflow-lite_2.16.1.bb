@@ -341,6 +341,7 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/tools/strip_buffers/*.h ${D}${includedir}/tensorflow/lite/tools/strip_buffers
     install -m 644 ${S}/tensorflow/lite/tools/versioning/*.h ${D}${includedir}/tensorflow/lite/tools/versioning
 
+    rm -rf ${D}/${bindir}
     rm -rf ${D}/${libdir}/libflatbuffers.a
     rm -rf ${D}${includedir}/flatbuffers
     rm -rf ${D}/${libdir}/cmake/flatbuffers
