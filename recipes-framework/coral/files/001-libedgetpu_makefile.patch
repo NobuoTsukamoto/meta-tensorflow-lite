@@ -1,3 +1,5 @@
+Upstream-Status: Submitted [https://github.com/google-coral/libedgetpu/pull/66]
+
 diff --git a/makefile_build/Makefile b/makefile_build/Makefile
 index ef7d290..abd8487 100644
 --- a/makefile_build/Makefile

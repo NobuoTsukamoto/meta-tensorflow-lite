@@ -1,3 +1,5 @@
+Upstream-Status: Pending
+
 diff --git a/tensorflow/lite/examples/minimal/CMakeLists.txt b/tensorflow/lite/examples/minimal/CMakeLists.txt
 index 4dafbfc63de..237592a505a 100644
 --- a/tensorflow/lite/examples/minimal/CMakeLists.txt

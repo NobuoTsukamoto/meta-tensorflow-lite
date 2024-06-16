@@ -1,3 +1,5 @@
+Upstream-Status: Pending
+
 diff --git a/tensorflow/lite/tools/benchmark/CMakeLists.txt b/tensorflow/lite/tools/benchmark/CMakeLists.txt
 index a9f75078298..0167cef7b7d 100644
 --- a/tensorflow/lite/tools/benchmark/CMakeLists.txt

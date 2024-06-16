@@ -1,3 +1,5 @@
+Upstream-Status: Inappropriate [https://twitter.com/MaratDukhan/status/1632582746823446529]
+
 diff --git a/tensorflow/lite/tools/cmake/modules/xnnpack.cmake b/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
 index eeb86758d63..ba133f9b71c 100644
 --- a/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
