@@ -40,23 +40,17 @@ DEPENDS = " \
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
 OECMAKE_TARGET_COMPILE = "benchmark_model"
+EXTRA_OECMAKE = " \
+  -DBUILD_SHARED_LIBS=ON \
+  -DTFLITE_ENABLE_XNNPACK=OFF \
+"
 
 # Note:
-# XNNPack is valid only on 64bit. 
+# XNNPack is valid only on aarch64 and RISC-V .
 # In the case of arm 32bit, it will be turned off because the build will be
 # an error depending on the combination of target CPUs.
-EXTRA_OECMAKE:append:raspberrypi0 = " -DTFLITE_ENABLE_XNNPACK=OFF"
-EXTRA_OECMAKE:append:raspberrypi0-wifi = " -DTFLITE_ENABLE_XNNPACK=OFF"
-EXTRA_OECMAKE:append:raspberrypi0-2w-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
-EXTRA_OECMAKE:append:raspberrypi-cm = " -DTFLITE_ENABLE_XNNPACK=OFF"
-EXTRA_OECMAKE:append:raspberrypi-cm3 = " -DTFLITE_ENABLE_XNNPACK=OFF"
-EXTRA_OECMAKE:append:raspberrypi = " -DTFLITE_ENABLE_XNNPACK=OFF"
-EXTRA_OECMAKE:append:raspberrypi2 = " -DTFLITE_ENABLE_XNNPACK=OFF"
-EXTRA_OECMAKE:append:raspberrypi3 = " -DTFLITE_ENABLE_XNNPACK=OFF"
-EXTRA_OECMAKE:append:raspberrypi3-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
-EXTRA_OECMAKE:append:raspberrypi4 = " -DTFLITE_ENABLE_XNNPACK=OFF"
-EXTRA_OECMAKE:append:raspberrypi4-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
-EXTRA_OECMAKE:append:raspberrypi5 = " -DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:aarch64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:riscv = " -DTFLITE_ENABLE_XNNPACK=ON"
 
 TENSORFLOW_TARGET_ARCH:raspberrypi = "armv6"
 TENSORFLOW_TARGET_ARCH:raspberrypi0 = "armv6"
@@ -66,10 +60,7 @@ TENSORFLOW_TARGET_ARCH:raspberrypi2 = "armv7"
 TENSORFLOW_TARGET_ARCH:raspberrypi3 = "armv7"
 TENSORFLOW_TARGET_ARCH:raspberrypi4 = "armv7"
 TENSORFLOW_TARGET_ARCH:raspberrypi-cm3 = "armv7"
-TENSORFLOW_TARGET_ARCH:raspberrypi0-2w-64 = "aarch64"
-TENSORFLOW_TARGET_ARCH:raspberrypi3-64 = "aarch64"
-TENSORFLOW_TARGET_ARCH:raspberrypi4-64 = "aarch64"
-TENSORFLOW_TARGET_ARCH:raspberrypi5 = "aarch64"
+TENSORFLOW_TARGET_ARCH:aarch64 = "aarch64"
 TENSORFLOW_TARGET_ARCH:riscv32 = "riscv32"
 TENSORFLOW_TARGET_ARCH:riscv64 = "riscv64"
 
@@ -79,7 +70,7 @@ TENSORFLOW_TARGET_ARCH:riscv64 = "riscv64"
 EXTRA_OECMAKE:append = " \
   -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
   -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} \
-"
+ "
 
 do_configure[network] = "1"
 
