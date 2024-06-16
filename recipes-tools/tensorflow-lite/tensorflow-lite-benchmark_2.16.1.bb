@@ -12,6 +12,7 @@ SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
+    file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
     file://001-Fix-neon-sse-file-name-filter.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
@@ -44,20 +45,40 @@ OECMAKE_TARGET_COMPILE = "benchmark_model"
 # XNNPack is valid only on 64bit. 
 # In the case of arm 32bit, it will be turned off because the build will be
 # an error depending on the combination of target CPUs.
-EXTRA_OECMAKE:append:raspberrypi = " -DTFLITE_ENABLE_XNNPACK=OFF"
 EXTRA_OECMAKE:append:raspberrypi0 = " -DTFLITE_ENABLE_XNNPACK=OFF"
 EXTRA_OECMAKE:append:raspberrypi0-wifi = " -DTFLITE_ENABLE_XNNPACK=OFF"
+EXTRA_OECMAKE:append:raspberrypi0-2w-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append:raspberrypi-cm = " -DTFLITE_ENABLE_XNNPACK=OFF"
+EXTRA_OECMAKE:append:raspberrypi-cm3 = " -DTFLITE_ENABLE_XNNPACK=OFF"
+EXTRA_OECMAKE:append:raspberrypi = " -DTFLITE_ENABLE_XNNPACK=OFF"
 EXTRA_OECMAKE:append:raspberrypi2 = " -DTFLITE_ENABLE_XNNPACK=OFF"
 EXTRA_OECMAKE:append:raspberrypi3 = " -DTFLITE_ENABLE_XNNPACK=OFF"
+EXTRA_OECMAKE:append:raspberrypi3-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append:raspberrypi4 = " -DTFLITE_ENABLE_XNNPACK=OFF"
-EXTRA_OECMAKE:append:raspberrypi-cm3 = " -DTFLITE_ENABLE_XNNPACK=OFF"
+EXTRA_OECMAKE:append:raspberrypi4-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi5 = " -DTFLITE_ENABLE_XNNPACK=ON"
+
+TENSORFLOW_TARGET_ARCH:raspberrypi = "armv6"
+TENSORFLOW_TARGET_ARCH:raspberrypi0 = "armv6"
+TENSORFLOW_TARGET_ARCH:raspberrypi0-wifi = "armv6"
+TENSORFLOW_TARGET_ARCH:raspberrypi-cm = "armv6"
+TENSORFLOW_TARGET_ARCH:raspberrypi2 = "armv7"
+TENSORFLOW_TARGET_ARCH:raspberrypi3 = "armv7"
+TENSORFLOW_TARGET_ARCH:raspberrypi4 = "armv7"
+TENSORFLOW_TARGET_ARCH:raspberrypi-cm3 = "armv7"
+TENSORFLOW_TARGET_ARCH:raspberrypi0-2w-64 = "aarch64"
+TENSORFLOW_TARGET_ARCH:raspberrypi3-64 = "aarch64"
+TENSORFLOW_TARGET_ARCH:raspberrypi4-64 = "aarch64"
+TENSORFLOW_TARGET_ARCH:raspberrypi5 = "aarch64"
+TENSORFLOW_TARGET_ARCH:riscv32 = "riscv32"
+TENSORFLOW_TARGET_ARCH:riscv64 = "riscv64"
 
 # Note:
 # Download the submodule using FetchContent_Populate.
 # Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
 EXTRA_OECMAKE:append = " \
   -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
+  -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} \
 "
 
 do_configure[network] = "1"
