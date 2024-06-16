@@ -56,14 +56,18 @@ CMAKE_VERBOSE = "VERBOSE=1"
 # XNNPack is valid only on 64bit.
 # In the case of arm 32bit, it will be turned off because the build will be
 # an error depending on the combination of target CPUs.
-EXTRA_OECMAKE:append:raspberrypi = " -DTFLITE_ENABLE_XNNPACK=OFF"
 EXTRA_OECMAKE:append:raspberrypi0 = " -DTFLITE_ENABLE_XNNPACK=OFF"
 EXTRA_OECMAKE:append:raspberrypi0-wifi = " -DTFLITE_ENABLE_XNNPACK=OFF"
+EXTRA_OECMAKE:append:raspberrypi0-2w-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append:raspberrypi-cm = " -DTFLITE_ENABLE_XNNPACK=OFF"
+EXTRA_OECMAKE:append:raspberrypi-cm3 = " -DTFLITE_ENABLE_XNNPACK=OFF"
+EXTRA_OECMAKE:append:raspberrypi = " -DTFLITE_ENABLE_XNNPACK=OFF"
 EXTRA_OECMAKE:append:raspberrypi2 = " -DTFLITE_ENABLE_XNNPACK=OFF"
 EXTRA_OECMAKE:append:raspberrypi3 = " -DTFLITE_ENABLE_XNNPACK=OFF"
+EXTRA_OECMAKE:append:raspberrypi3-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append:raspberrypi4 = " -DTFLITE_ENABLE_XNNPACK=OFF"
-EXTRA_OECMAKE:append:raspberrypi-cm3 = " -DTFLITE_ENABLE_XNNPACK=OFF"
+EXTRA_OECMAKE:append:raspberrypi4-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:raspberrypi5 = " -DTFLITE_ENABLE_XNNPACK=ON"
 
 # Note:
 # Download the submodule using FetchContent_Populate.
