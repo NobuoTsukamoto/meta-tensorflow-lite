@@ -33,9 +33,7 @@ inherit cmake
 S = "${WORKDIR}/git"
 
 DEPENDS = " \
-    libgfortran \
-    libeigen \
-    abseil-cpp \
+    libtensorflow-lite \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
@@ -60,7 +58,10 @@ TENSORFLOW_TARGET_ARCH:raspberrypi2 = "armv7"
 TENSORFLOW_TARGET_ARCH:raspberrypi3 = "armv7"
 TENSORFLOW_TARGET_ARCH:raspberrypi4 = "armv7"
 TENSORFLOW_TARGET_ARCH:raspberrypi-cm3 = "armv7"
-TENSORFLOW_TARGET_ARCH:aarch64 = "aarch64"
+TENSORFLOW_TARGET_ARCH:raspberrypi0-2w-64 = "aarch64"
+TENSORFLOW_TARGET_ARCH:raspberrypi3-64 = "aarch64"
+TENSORFLOW_TARGET_ARCH:raspberrypi4-64 = "aarch64"
+TENSORFLOW_TARGET_ARCH:raspberrypi5 = "aarch64"
 TENSORFLOW_TARGET_ARCH:riscv32 = "riscv32"
 TENSORFLOW_TARGET_ARCH:riscv64 = "riscv64"
 
