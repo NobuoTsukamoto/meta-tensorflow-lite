@@ -33,13 +33,14 @@ inherit cmake
 S = "${WORKDIR}/git"
 
 DEPENDS = " \
-    libtensorflow-lite \
+    libgfortran \
+    libeigen \
+    abseil-cpp \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
 OECMAKE_TARGET_COMPILE = "benchmark_model"
 EXTRA_OECMAKE = " \
-  -DBUILD_SHARED_LIBS=ON \
   -DTFLITE_ENABLE_XNNPACK=OFF \
 "
 

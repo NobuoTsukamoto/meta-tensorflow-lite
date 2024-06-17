@@ -37,7 +37,6 @@ DEPENDS = " \
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/c"
 EXTRA_OECMAKE = " \
-  -DBUILD_SHARED_LIBS=ON \
   -DTFLITE_ENABLE_XNNPACK=OFF \
 "
 
