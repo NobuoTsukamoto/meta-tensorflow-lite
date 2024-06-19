@@ -10,7 +10,7 @@ SRCREV_tensorflow = "5bc9d26649cca274750ad3625bd93422617eed4b"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-Disable-XNNPACK-CMakeFile.patch \
+    file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
     file://001-Fix-neon-sse-file-name-filter.patch \
 "
 
@@ -36,39 +36,39 @@ DEPENDS = " \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/c"
+EXTRA_OECMAKE = " \
+  -DTFLITE_ENABLE_XNNPACK=OFF \
+"
 
 # Note:
-# XNNPack is valid only on 64bit. 
+# XNNPack is valid only on aarch64 and RISC-V .
 # In the case of arm 32bit, it will be turned off because the build will be
 # an error depending on the combination of target CPUs.
+EXTRA_OECMAKE:append:aarch64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:riscv = " -DTFLITE_ENABLE_XNNPACK=ON"
+
 TENSORFLOW_TARGET_ARCH:raspberrypi = "armv6"
 TENSORFLOW_TARGET_ARCH:raspberrypi0 = "armv6"
 TENSORFLOW_TARGET_ARCH:raspberrypi0-wifi = "armv6"
 TENSORFLOW_TARGET_ARCH:raspberrypi-cm = "armv6"
-
 TENSORFLOW_TARGET_ARCH:raspberrypi2 = "armv7"
 TENSORFLOW_TARGET_ARCH:raspberrypi3 = "armv7"
 TENSORFLOW_TARGET_ARCH:raspberrypi4 = "armv7"
 TENSORFLOW_TARGET_ARCH:raspberrypi-cm3 = "armv7"
-
 TENSORFLOW_TARGET_ARCH:raspberrypi0-2w-64 = "aarch64"
-EXTRA_OECMAKE:append:raspberrypi0-2w-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 TENSORFLOW_TARGET_ARCH:raspberrypi3-64 = "aarch64"
-EXTRA_OECMAKE:append:raspberrypi3-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 TENSORFLOW_TARGET_ARCH:raspberrypi4-64 = "aarch64"
-EXTRA_OECMAKE:append:raspberrypi4-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 TENSORFLOW_TARGET_ARCH:raspberrypi5 = "aarch64"
-EXTRA_OECMAKE:append:raspberrypi5 = " -DTFLITE_ENABLE_XNNPACK=ON"
-
 TENSORFLOW_TARGET_ARCH:riscv32 = "riscv32"
-EXTRA_OECMAKE:append:riscv32 = " -DTFLITE_ENABLE_XNNPACK=ON"
 TENSORFLOW_TARGET_ARCH:riscv64 = "riscv64"
-EXTRA_OECMAKE:append:riscv64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 
 # Note:
 # Download the submodule using FetchContent_Populate.
 # Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
-EXTRA_OECMAKE:append = " -DFETCHCONTENT_FULLY_DISCONNECTED=OFF -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} -DCMAKE_SYSTEM_PROCESSOR=${TENSORFLOW_TARGET_ARCH}"
+EXTRA_OECMAKE:append = " \
+  -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
+  -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} \
+ "
 
 do_configure[network] = "1"
 

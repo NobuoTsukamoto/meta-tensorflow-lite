@@ -1,3 +1,5 @@
+Upstream-Status: Pending
+
 diff --git a/tensorflow/lite/tools/pip_package/riscv32_pthread.patch b/tensorflow/lite/tools/pip_package/riscv32_pthread.patch
 new file mode 100644
 index 00000000000..becc7d70131
