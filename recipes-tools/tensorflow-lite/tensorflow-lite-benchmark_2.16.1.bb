@@ -33,7 +33,9 @@ inherit cmake
 S = "${WORKDIR}/git"
 
 DEPENDS = " \
-    libtensorflow-lite \
+    libgfortran \
+    libeigen \
+    abseil-cpp \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
@@ -71,6 +73,7 @@ TENSORFLOW_TARGET_ARCH:riscv64 = "riscv64"
 EXTRA_OECMAKE:append = " \
   -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
   -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} \
+  -DTFLITE_ENABLE_GPU=ON \
  "
 
 do_configure[network] = "1"
