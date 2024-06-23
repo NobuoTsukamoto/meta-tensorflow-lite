@@ -41,7 +41,6 @@ DEPENDS = " \
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
 OECMAKE_TARGET_COMPILE = "benchmark_model"
 EXTRA_OECMAKE = " \
-  -DBUILD_SHARED_LIBS=ON \
   -DTFLITE_ENABLE_XNNPACK=OFF \
 "
 
