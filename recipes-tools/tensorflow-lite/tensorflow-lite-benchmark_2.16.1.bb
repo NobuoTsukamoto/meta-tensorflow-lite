@@ -25,6 +25,7 @@ SRC_URI:append:riscv32 = " \
 "
 
 SRC_URI:append:riscv64 = " \
+    file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
     file://001-Fix-RISCV-cpuinfo.patch \
 "
 
