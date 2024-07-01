@@ -11,7 +11,7 @@ SRCREV_tensorflow = "c12935684083ee1f182530d417afde060a60a7a5"
 
 SRC_URI = " \
     git://github.com/google-coral/libedgetpu.git;name=libedgetpu;branch="master";protocol=https \
-    git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.16;protocol=https \
+    git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.17;protocol=https \
     file://001-libedgetpu_makefile.patch \
 "
 

@@ -12,6 +12,7 @@ SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
     file://001-Fix-neon-sse-file-name-filter.patch \
+    file://001-protobuf.cmake.patch \
 "
 
 SRC_URI:append:riscv32 = " \
@@ -33,6 +34,7 @@ DEPENDS = " \
     libgfortran \
     libeigen \
     abseil-cpp \
+    protobuf-native \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/c"

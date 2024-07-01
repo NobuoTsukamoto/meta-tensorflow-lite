@@ -27,11 +27,12 @@ SRC_URI:append:riscv64 = " \
 S = "${WORKDIR}/git"
 
 DEPENDS += "\
-            python3-pip-native \
-            python3-wheel-native \
-            python3-numpy \
-            python3-pybind11 \
-            libgfortran \
+    python3-pip-native \
+    python3-wheel-native \
+    python3-numpy \
+    python3-pybind11 \
+    libgfortran \
+    protobuf-native \
 "
 
 RDEPENDS:${PN} += " \

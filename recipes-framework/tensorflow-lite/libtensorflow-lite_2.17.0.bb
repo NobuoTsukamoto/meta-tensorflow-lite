@@ -12,6 +12,7 @@ SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
     file://001-Fix-neon-sse-file-name-filter.patch \
+    file://001-protobuf.cmake.patch \
 "
 
 SRC_URI:append:riscv32 = " \
@@ -33,6 +34,7 @@ DEPENDS = " \
     libgfortran \
     libeigen \
     abseil-cpp \
+    protobuf-native \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
@@ -89,6 +91,7 @@ do_configure:append() {
 do_install:append() {
     install -d ${D}/${libdir}
     install -m 0755 ${B}/libtensorflow-lite.so  ${D}/${libdir}/
+    install -m 0755 ${B}/tensorflow/lite/profiling/proto/libprofiling_info_proto.so ${D}/${libdir}
  
     install -m 0755 ${B}/_deps/farmhash-build/libfarmhash.so ${D}/${libdir}
     install -m 0755 ${B}/_deps/fft2d-build/libfft2d_fftsg2d.so ${D}/${libdir}
@@ -159,9 +162,6 @@ do_install:append() {
     install -d ${D}${includedir}/tensorflow/lite/delegates/utils
     install -d ${D}${includedir}/tensorflow/lite/delegates/utils/dummy_delegate
     install -d ${D}${includedir}/tensorflow/lite/delegates/xnnpack
-    install -d ${D}${includedir}/tensorflow/lite/examples/ios/camera
-    install -d ${D}${includedir}/tensorflow/lite/examples/ios/simple
-    install -d ${D}${includedir}/tensorflow/lite/examples/label_image
     install -d ${D}${includedir}/tensorflow/lite/experimental/acceleration/compatibility
     install -d ${D}${includedir}/tensorflow/lite/experimental/acceleration/configuration
     install -d ${D}${includedir}/tensorflow/lite/experimental/acceleration/configuration/c
@@ -195,6 +195,7 @@ do_install:append() {
     install -d ${D}${includedir}/tensorflow/lite/profiling
     install -d ${D}${includedir}/tensorflow/lite/profiling/telemetry
     install -d ${D}${includedir}/tensorflow/lite/profiling/telemetry/c
+    install -d ${D}${includedir}/tensorflow/lite/profiling/proto
     install -d ${D}${includedir}/tensorflow/lite/python/analyzer_wrapper
     install -d ${D}${includedir}/tensorflow/lite/python/interpreter_wrapper
     install -d ${D}${includedir}/tensorflow/lite/python/metrics/wrapper
@@ -227,6 +228,9 @@ do_install:append() {
     install -d ${D}${includedir}/tensorflow/lite/tools/signature
     install -d ${D}${includedir}/tensorflow/lite/tools/strip_buffers
     install -d ${D}${includedir}/tensorflow/lite/tools/versioning
+    install -d ${D}${includedir}/tsl/platform
+    install -d ${D}${includedir}/xla/tsl/util
+
     install -m 644 ${S}/tensorflow/lite/*.h ${D}${includedir}/tensorflow/lite
     install -m 644 ${S}/tensorflow/lite/acceleration/configuration/*.h ${D}${includedir}/tensorflow/lite/acceleration/configuration
     install -m 644 ${S}/tensorflow/lite/acceleration/configuration/c/*.h ${D}${includedir}/tensorflow/lite/acceleration/configuration/c
@@ -273,9 +277,6 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/delegates/utils/*.h ${D}${includedir}/tensorflow/lite/delegates/utils
     install -m 644 ${S}/tensorflow/lite/delegates/utils/dummy_delegate/*.h ${D}${includedir}/tensorflow/lite/delegates/utils/dummy_delegate
     install -m 644 ${S}/tensorflow/lite/delegates/xnnpack/*.h ${D}${includedir}/tensorflow/lite/delegates/xnnpack
-    install -m 644 ${S}/tensorflow/lite/examples/ios/camera/*.h ${D}${includedir}/tensorflow/lite/examples/ios/camera
-    install -m 644 ${S}/tensorflow/lite/examples/ios/simple/*.h ${D}${includedir}/tensorflow/lite/examples/ios/simple
-    install -m 644 ${S}/tensorflow/lite/examples/label_image/*.h ${D}${includedir}/tensorflow/lite/examples/label_image
     install -m 644 ${S}/tensorflow/lite/experimental/acceleration/compatibility/*.h ${D}${includedir}/tensorflow/lite/experimental/acceleration/compatibility
     install -m 644 ${S}/tensorflow/lite/experimental/acceleration/configuration/*.h ${D}${includedir}/tensorflow/lite/experimental/acceleration/configuration
     install -m 644 ${S}/tensorflow/lite/experimental/acceleration/configuration/c/*.h ${D}${includedir}/tensorflow/lite/experimental/acceleration/configuration/c
@@ -309,6 +310,7 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/profiling/*.h ${D}${includedir}/tensorflow/lite/profiling
     install -m 644 ${S}/tensorflow/lite/profiling/telemetry/*.h ${D}${includedir}/tensorflow/lite/profiling/telemetry
     install -m 644 ${S}/tensorflow/lite/profiling/telemetry/c/*.h ${D}${includedir}/tensorflow/lite/profiling/telemetry/c
+    install -m 644 ${B}/tensorflow/lite/profiling/proto/profiling_info.pb.h ${D}${includedir}/tensorflow/lite/profiling/proto
     install -m 644 ${S}/tensorflow/lite/python/analyzer_wrapper/*.h ${D}${includedir}/tensorflow/lite/python/analyzer_wrapper
     install -m 644 ${S}/tensorflow/lite/python/interpreter_wrapper/*.h ${D}${includedir}/tensorflow/lite/python/interpreter_wrapper
     install -m 644 ${S}/tensorflow/lite/python/metrics/wrapper/*.h ${D}${includedir}/tensorflow/lite/python/metrics/wrapper
@@ -341,6 +343,8 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/tools/signature/*.h ${D}${includedir}/tensorflow/lite/tools/signature
     install -m 644 ${S}/tensorflow/lite/tools/strip_buffers/*.h ${D}${includedir}/tensorflow/lite/tools/strip_buffers
     install -m 644 ${S}/tensorflow/lite/tools/versioning/*.h ${D}${includedir}/tensorflow/lite/tools/versioning
+    install -m 644 ${S}/third_party/xla/third_party/tsl/tsl/platform/*.h ${D}${includedir}/tsl/platform
+    install -m 644 ${S}/third_party/xla/xla/tsl/util/*.h ${D}${includedir}/xla/tsl/util
 
     rm -rf ${D}/${bindir}
     rm -rf ${D}/${libdir}/libflatbuffers.a

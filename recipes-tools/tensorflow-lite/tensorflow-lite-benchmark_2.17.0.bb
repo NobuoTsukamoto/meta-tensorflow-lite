@@ -14,6 +14,7 @@ SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
     file://001-Fix-neon-sse-file-name-filter.patch \
+    file://001-protobuf.cmake.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
 
@@ -36,6 +37,7 @@ DEPENDS = " \
     libgfortran \
     libeigen \
     abseil-cpp \
+    protobuf-native \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
