@@ -45,7 +45,7 @@ Please note that it is not official support.
 ### Support version
 | Recipe          | Version |
 | :--             | :--     |
-| TensorFlow Lite | v2.6.1  |
+| TensorFlow Lite | v2.7.0  |
 | libedgetpu      | e35aed18fea2e2d25d98352e5a5bd357c170bd4d |
 | FlatBuffers     | v23.5.26 |
 

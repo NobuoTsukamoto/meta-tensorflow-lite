@@ -1,0 +1,15 @@
+Upstream-Status: Pending
+
+diff --git a/tensorflow/lite/tools/cmake/modules/protobuf.cmake b/tensorflow/lite/tools/cmake/modules/protobuf.cmake
+index de09cdeda9c..fb8c36188d8 100644
+--- a/tensorflow/lite/tools/cmake/modules/protobuf.cmake
++++ b/tensorflow/lite/tools/cmake/modules/protobuf.cmake
+@@ -19,7 +19,7 @@ OverridableFetchContent_Declare(
+   protobuf
+   GIT_REPOSITORY https://github.com/protocolbuffers/protobuf
+   # Sync with tensorflow/third_party/protobuf/protobuf.patch
+-  GIT_TAG 90b73ac3f0b10320315c2ca0d03a5a9b095d2f66
++  GIT_TAG 4a2aef570deb2bfb8927426558701e8bfc26f2a4
+   GIT_PROGRESS TRUE
+   PREFIX "${CMAKE_BINARY_DIR}"
+   SOURCE_DIR "${CMAKE_BINARY_DIR}/protobuf"
