@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "5bc9d26649cca274750ad3625bd93422617eed4b"
+SRCREV_tensorflow = "ad6d8cc177d0c868982e39e0823d0efbfb95f04c"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
@@ -27,11 +27,12 @@ SRC_URI:append:riscv64 = " \
 S = "${WORKDIR}/git"
 
 DEPENDS += "\
-            python3-pip-native \
-            python3-wheel-native \
-            python3-numpy \
-            python3-pybind11 \
-            libgfortran \
+    python3-pip-native \
+    python3-wheel-native \
+    python3-numpy \
+    python3-pybind11 \
+    libgfortran \
+    protobuf-native \
 "
 
 RDEPENDS:${PN} += " \

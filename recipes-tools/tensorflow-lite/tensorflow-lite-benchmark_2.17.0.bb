@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "5bc9d26649cca274750ad3625bd93422617eed4b"
+SRCREV_tensorflow = "ad6d8cc177d0c868982e39e0823d0efbfb95f04c"
 
 SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b"
 
@@ -14,6 +14,7 @@ SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
     file://001-Fix-neon-sse-file-name-filter.patch \
+    file://001-protobuf.cmake.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
 
@@ -37,6 +38,7 @@ DEPENDS = " \
     libgfortran \
     libeigen \
     abseil-cpp \
+    protobuf-native \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"

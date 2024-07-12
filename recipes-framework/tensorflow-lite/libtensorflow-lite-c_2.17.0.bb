@@ -6,12 +6,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "5bc9d26649cca274750ad3625bd93422617eed4b"
+SRCREV_tensorflow = "ad6d8cc177d0c868982e39e0823d0efbfb95f04c"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
     file://001-Fix-neon-sse-file-name-filter.patch \
+    file://001-protobuf.cmake.patch \
 "
 
 SRC_URI:append:riscv32 = " \
@@ -33,6 +34,7 @@ DEPENDS = " \
     libgfortran \
     libeigen \
     abseil-cpp \
+    protobuf-native \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/c"
