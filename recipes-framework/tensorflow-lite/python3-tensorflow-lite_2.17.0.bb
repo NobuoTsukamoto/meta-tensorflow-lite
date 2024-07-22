@@ -162,6 +162,5 @@ do_install() {
 }
 
 FILES:${PN}-dev = ""
-INSANE_SKIP:${PN} += "dev-so \
-                     "
+INSANE_SKIP:${PN} += "dev-so buildpaths"
 FILES:${PN} += "${libdir}/* ${datadir}/*"
