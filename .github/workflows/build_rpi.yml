@@ -75,7 +75,7 @@ jobs:
       # Run bitbake
       - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite version ${{ matrix.tensorflow_version }}
         run: |
-          source ${WORKING_DIR}/openembedded-core/oe-init-build-env ${BUILD_DIR}
+          source ${WORKING_DIR}/poky/oe-init-build-env ${BUILD_DIR}
           bitbake-layers add-layer ${WORKING_DIR}/meta-openembedded/meta-oe/
           bitbake-layers add-layer ${WORKING_DIR}/meta-openembedded/meta-python/
           bitbake-layers add-layer ${WORKING_DIR}/meta-tensorflow-lite/meta-tensorflow-lite/
