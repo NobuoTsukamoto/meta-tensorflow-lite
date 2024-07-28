@@ -4,11 +4,9 @@ name: Bitbake raspberrypi
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the kirkstone branch
+  # Triggers the workflow on push or pull request events
   push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
   schedule:
     - cron: '0 12 * * 5'
 
@@ -17,7 +15,11 @@ on:
 
 env:
   TARGET_VERSION: master
-
+  WORKING_DIR: /home/runner/work
+  BUILD_DIR: /mnt/build
+  DOWNLOAD_DIR: /mnt/build/downloads
+  SSTATE_DIR: /mnt/build/sstate-cache
+  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   bitbake-raspberrypi:
@@ -26,9 +28,10 @@ jobs:
       matrix:
         target_machine: [raspberrypi-cm, raspberrypi-cm3, raspberrypi, raspberrypi0-2w-64, raspberrypi0-wifi, raspberrypi0, raspberrypi2, raspberrypi3-64, raspberrypi3, raspberrypi4-64, raspberrypi4, raspberrypi5]
         tensorflow_version: [2.16.1]
+      fail-fast: false
 
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -36,36 +39,51 @@ jobs:
       - uses: actions/checkout@v2
       
       # Install essential host packages
-      - name: Install Pakages
+      - name: Install Packages
         run: |
           sudo apt-get update
-          sudo apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib \
-            build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils \
-            debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev \
-            pylint xterm zstd liblz4-tool
+          sudo apt-get -y install gawk wget git diffstat unzip texinfo gcc build-essential \
+            chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils \
+            iputils-ping python3-git python3-jinja2 python3-subunit zstd liblz4-tool file \
+            locales libacl1
           sudo apt-get clean
           sudo apt-get autoclean -y
-          
+          sudo locale-gen en_US.UTF-8
+
+      - name: Prepare build directory
+        run: |
+          sudo mkdir -p ${BUILD_DIR}
+          sudo chown runner ${BUILD_DIR}
+      - name: Restore cache
+        id: ccache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ${{ env.DOWNLOAD_DIR }}
+            ${{ env.SSTATE_DIR }}
+          key: cache-${{ matrix.target_machine }}-${{ env.TARGET_VERSION }}
+
       # checkout repository
       - name: Clone poky, meta-raspberrypi, meta-openembedded
         run: |
           sudo chown runner /mnt
-          git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
-          git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/meta-raspberrypi
-          git clone -b ${TARGET_VERSION} git://git.openembedded.org/meta-openembedded
+          git clone --depth 1 -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
+          git clone --depth 1 -b ${TARGET_VERSION} git://git.yoctoproject.org/meta-raspberrypi
+          git clone --depth 1 -b ${TARGET_VERSION} git://git.openembedded.org/meta-openembedded
         working-directory: /home/runner/work
 
       # Run bitbake
       - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite version ${{ matrix.tensorflow_version }}
         run: |
-          source /home/runner/work/poky/oe-init-build-env rpi-build
-          bitbake-layers add-layer /home/runner/work/meta-openembedded/meta-oe/
-          bitbake-layers add-layer /home/runner/work/meta-openembedded/meta-python/
-          bitbake-layers add-layer /home/runner/work/meta-tensorflow-lite/meta-tensorflow-lite/
-          bitbake-layers add-layer /home/runner/work/meta-raspberrypi/
+          source ${WORKING_DIR}/openembedded-core/oe-init-build-env ${BUILD_DIR}
+          bitbake-layers add-layer ${WORKING_DIR}/meta-openembedded/meta-oe/
+          bitbake-layers add-layer ${WORKING_DIR}/meta-openembedded/meta-python/
+          bitbake-layers add-layer ${WORKING_DIR}/meta-tensorflow-lite/meta-tensorflow-lite/
+          bitbake-layers add-layer ${WORKING_DIR}/meta-raspberrypi/
           cat <<EOF> conf/auto.conf
           FORTRAN:forcevariable = ",fortran"
           LICENSE_FLAGS_ACCEPTED = "synaptics-killswitch"
+          BB_NUMBER_THREADS = "8"
           EOF
           cat conf/auto.conf
           MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite \
@@ -73,3 +91,16 @@ jobs:
             tensorflow-lite-minimal tensorflow-lite-benchmark libedgetpu-std
           df -h
         working-directory: /mnt
+
+      # Remove all files that hasn't been access in 10 days
+      - name: Clean SState Cache
+        run: |
+          find ${SSTATE_DIR} -type f -mtime +10 -delete
+      - name: Save cache
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: |
+            ${{ env.DOWNLOAD_DIR }}
+            ${{ env.SSTATE_DIR }}
+          key: ${{ steps.ccache-restore.outputs.cache-primary-key }}
