@@ -6,7 +6,9 @@ name: Bitbake qemuriscv
 on:
   # Triggers the workflow on push or pull request events
   push:
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
   schedule:
     - cron: '0 12 * * 5'
 
