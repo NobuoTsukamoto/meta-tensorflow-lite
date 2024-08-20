@@ -52,7 +52,7 @@ EXTRA_OECMAKE:append = " -DFETCHCONTENT_FULLY_DISCONNECTED=OFF -DTENSORFLOW_TARG
 
 do_configure[network] = "1"
 
-do_install:append() {
+do_install() {
     install -d ${D}/${libdir}
     install -m 0755 ${B}/libtensorflow-lite.so  ${D}/${libdir}/
 
