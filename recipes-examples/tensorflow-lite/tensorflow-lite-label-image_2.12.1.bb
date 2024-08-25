@@ -24,7 +24,10 @@ S = "${WORKDIR}/git"
 
 DEPENDS += "\
     libtensorflow-lite \
+    flatbuffers \
+    protobuf \
 "
+
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/examples/label_image"
 
 EXTRA_OECMAKE:append:raspberrypi0-2w-64 = "-DTFLITE_ENABLE_XNNPACK=ON"

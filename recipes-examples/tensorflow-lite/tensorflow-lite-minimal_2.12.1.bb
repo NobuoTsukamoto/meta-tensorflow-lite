@@ -22,6 +22,7 @@ S = "${WORKDIR}/git"
 
 DEPENDS += "\
     libtensorflow-lite \
+    flatbuffers \
 "
 
 EXTRA_OECMAKE:append:raspberrypi0-2w-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
