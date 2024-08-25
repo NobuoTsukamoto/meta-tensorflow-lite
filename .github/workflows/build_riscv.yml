@@ -63,7 +63,7 @@ jobs:
           source /home/runner/work/openembedded-core/oe-init-build-env build
           bitbake-layers add-layer /home/runner/work/meta-openembedded/meta-oe
           bitbake-layers add-layer /home/runner/work/meta-openembedded/meta-python
-          bitbake-layers add-layer /home/runner/work/meta-tensorflow-lite
+          bitbake-layers add-layer /home/runner/work/meta-tensorflow-lite/meta-tensorflow-lite
           bitbake-layers add-layer /home/runner/work/meta-riscv
           cat <<EOF> conf/auto.conf
           FORTRAN:forcevariable = ",fortran"
