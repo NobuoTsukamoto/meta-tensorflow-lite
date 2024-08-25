@@ -29,58 +29,15 @@ jobs:
         tensorflow_version: [2.12.1]
         
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      # Check space before cleanup
-      # https://zenn.dev/pinto0309/scraps/c6413eb15a1b2a
-      - name: Check space before cleanup
-        run: |
-          docker images
-          sudo rm -rf "/opt/ghc" || true
-          sudo rm -rf "/usr/share/dotnet" || true
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY" || true
-          sudo rm -rf "/usr/local/lib/android" || true
-          sudo rm -rf "/usr/local/share/boost" || true
-          docker rmi $(docker image ls -q --filter "reference=node*")
-          docker rmi $(docker image ls -q --filter "reference=buildpack*")
-          docker rmi $(docker image ls -q --filter "reference=debian*")
-          docker rmi $(docker image ls -q --filter "reference=alpine*")
-          docker rmi $(docker image ls -q --filter "reference=ubuntu:18.04")
-          docker rmi $(docker image ls -q --filter "reference=ubuntu:20.04")
-          sudo apt purge \
-            ansible \
-            aria2 \
-            azure-cli \
-            bazel \
-            cabal* \
-            clang* \
-            dotnet-sdk* \
-            ghc* \
-            google-chrome-stable \
-            google-cloud-sdk \
-            heroku \
-            kubectl \
-            mysql* \
-            node* \
-            npm* \
-            php* \
-            powershell \
-            rpm \
-            ruby* \
-            subversion \
-            yarn \
-            -yq >/dev/null 2>&1 || true
-          sudo apt-get autoremove -y >/dev/null 2>&1 || true
-          sudo apt-get autoclean -y >/dev/null 2>&1 || true
-          df -h
-          
       # Install essential host packages
-      - name: Install Pakages
+      - name: Install Packages
         run: |
           sudo apt-get update
           sudo apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib \
@@ -88,15 +45,17 @@ jobs:
             debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev \
             pylint xterm zstd liblz4-tool
           sudo apt-get clean
+          sudo apt-get autoclean -y
       
       # checkout repository
-      - name: Clone repository
+      - name: Clone meta-riscv, openembedded-core, bitbake, meta-openembedded
         run: |
+          sudo chown runner /mnt
           git clone https://github.com/riscv/meta-riscv.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/openembedded-core.git
           git clone -b ${TARGET_BITBAKE_VERSION} https://github.com/openembedded/bitbake.git
           git clone -b ${TARGET_VERSION} https://github.com/openembedded/meta-openembedded.git
-        working-directory: ../
+        working-directory: /home/runner/work
 
       # Run bitbake
       - name: Bitbake MACHINE=${{ matrix.target_machine }}, TensorFlow-Lite Python ${{ matrix.tensorflow_version }}
@@ -115,4 +74,4 @@ jobs:
           MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite \
             libtensorflow-lite-c python3-tensorflow-lite-example tensorflow-lite-label-image \
             tensorflow-lite-minimal tensorflow-lite-benchmark libedgetpu-std
-        working-directory: ../
+        working-directory: /mnt
