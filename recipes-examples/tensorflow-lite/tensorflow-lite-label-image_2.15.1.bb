@@ -28,6 +28,7 @@ S = "${WORKDIR}/git"
 
 DEPENDS += "\
     libtensorflow-lite \
+    flatbuffers \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/examples/label_image"
