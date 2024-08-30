@@ -70,6 +70,12 @@ IMAGE_INSTALL:append = " python3-tensorflow-lite libtensorflow-lite"
 $ bitbake core-image-weston
 ```
 
+### Support version
+| Recipe          | Version |
+| :--             | :--     |
+| TensorFlow Lite | v2.15.1  |
+| libedgetpu      | 3164995622300286ef2bb14d7fdc2792dae045b7 |
+
 ### Quick start for the qemuriscv64
 ```
 # Clone repositories and oe-init-build-env
