@@ -89,7 +89,7 @@ do_configure:append() {
     fi
 }
 
-do_install:append() {
+do_install() {
     install -d ${D}/${libdir}
     install -m 0755 ${B}/libtensorflow-lite.so  ${D}/${libdir}/
  

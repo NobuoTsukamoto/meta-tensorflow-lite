@@ -26,6 +26,7 @@ jobs:
       matrix:
         target_machine: [raspberrypi-cm, raspberrypi-cm3, raspberrypi, raspberrypi0-2w-64, raspberrypi0-wifi, raspberrypi0, raspberrypi2, raspberrypi3-64, raspberrypi3, raspberrypi4-64, raspberrypi4, raspberrypi5]
         tensorflow_version: [2.16.2]
+        fail-fast: false
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
