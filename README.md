@@ -15,8 +15,8 @@ Yocto layer for the TensorFlow Lite interpreter with Python / C++.
 Please note that it is not official support.
 | BSP                                                              | Build status                                                                                                   |
 | :--------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
-| [meta-raspberrypi](https://github.com/agherzan/meta-raspberrypi) | [![Bitbake raspberrypi](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml/badge.svg?branch=main)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml) |
-| [meta-riscv](https://github.com/riscv/meta-riscv)                | [![Bitbake qemuriscv](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml/badge.svg?branch=main)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml) |
+| [meta-raspberrypi](https://github.com/agherzan/meta-raspberrypi) | [![Bitbake raspberrypi](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml/badge.svg?branch=kirkstone)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml?query=branch%3Akirkstone) |
+| [meta-riscv](https://github.com/riscv/meta-riscv)                | [![Bitbake qemuriscv](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml/badge.svg?branch=kirkstone)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml?query=branch%3Akirkstone) |
 
 ## Available recipes
 - framework
@@ -32,6 +32,11 @@ Please note that it is not official support.
 - tools
   - tensorflow-lite-benchmark  
     [TFLite Model Benchmark Tool with C++ Binary](./doc/tensorflow-lite-benchmark.md)
+
+### Support version
+| Recipe          | Version |
+| :--             | :--     |
+| TensorFlow Lite | v2.8.4  |
 
 ## How to
 
