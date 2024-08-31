@@ -18,8 +18,8 @@ Yocto layer for the TensorFlow Lite interpreter with Python / C++.
 Please note that it is not official support.
 | BSP                                                              | Build status                                                                                                   |
 | :--------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
-| [meta-raspberrypi](https://github.com/agherzan/meta-raspberrypi) | [![Bitbake raspberrypi](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml/badge.svg?branch=main)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml) |
-| [meta-riscv](https://github.com/riscv/meta-riscv)                | [![Bitbake qemuriscv](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml/badge.svg?branch=main)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml) |
+| [meta-raspberrypi](https://github.com/agherzan/meta-raspberrypi) | [![Bitbake raspberrypi](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml/badge.svg?branch=nanbield)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml?query=branch%3Ananbield) |
+| [meta-riscv](https://github.com/riscv/meta-riscv)                | [![Bitbake qemuriscv](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml/badge.svg?branch=nanbield)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml?query=branch%3Ananbield) |
 
 ## Available recipes
 - framework
@@ -69,6 +69,12 @@ IMAGE_INSTALL:append = " python3-tensorflow-lite libtensorflow-lite"
 # Build
 $ bitbake core-image-weston
 ```
+
+### Support version
+| Recipe          | Version |
+| :--             | :--     |
+| TensorFlow Lite | v2.15.1  |
+| libedgetpu      | 3164995622300286ef2bb14d7fdc2792dae045b7 |
 
 ### Quick start for the qemuriscv64
 ```
