@@ -23,6 +23,8 @@ S = "${WORKDIR}/git"
 B = "${WORKDIR}/git/makefile_build"
 
 DEPENDS = " \
+    flatbuffers-native \
+    flatbuffers \
     vim-native \
     libtensorflow-lite \
     libusb1 \

@@ -86,7 +86,7 @@ do_configure:append() {
     fi
 }
 
-do_install:append() {
+do_install() {
     install -d ${D}/${libdir}
     install -m 0755 ${B}/libtensorflow-lite.so  ${D}/${libdir}/
  
@@ -343,13 +343,6 @@ do_install:append() {
     install -m 644 ${S}/tensorflow/lite/tools/signature/*.h ${D}${includedir}/tensorflow/lite/tools/signature
     install -m 644 ${S}/tensorflow/lite/tools/strip_buffers/*.h ${D}${includedir}/tensorflow/lite/tools/strip_buffers
     install -m 644 ${S}/tensorflow/lite/tools/versioning/*.h ${D}${includedir}/tensorflow/lite/tools/versioning
-
-    install -d ${D}${includedir}/flatbuffers
-    install -m 644 ${B}/flatbuffers/include/flatbuffers/*.h ${D}${includedir}/flatbuffers/
-    install -d ${D}${includedir}/flatbuffers/pch
-    install -m 644 ${B}/flatbuffers/include/flatbuffers/pch/*.h ${D}${includedir}/flatbuffers/pch/
-    install -d ${D}${includedir}/flatbuffers/pch
-    install -m 0755 ${B}/_deps/flatbuffers-build/libflatbuffers.a ${D}/${libdir}
 
     rm -rf ${D}${datadir}/cpuinfo/cpuinfo-config.cmake
     rm -rf ${D}${datadir}/cpuinfo/cpuinfo-targets-release.cmake
