@@ -6,24 +6,23 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "ad6d8cc177d0c868982e39e0823d0efbfb95f04c"
+SRCREV_tensorflow = "6550e4bd80223cdb8be6c3afd1f81e86a4d433c3"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
     file://001-Fix-neon-sse-file-name-filter.patch \
     file://001-protobuf.cmake.patch \
+    file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
 "
 
 SRC_URI:append:riscv32 = " \
     file://001-RISCV32_pthreads.patch \
     file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
-    file://001-Fix-RISCV-cpuinfo.patch \
 "
 
 SRC_URI:append:riscv64 = " \
     file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
-    file://001-Fix-RISCV-cpuinfo.patch \
 "
 
 inherit cmake
@@ -35,12 +34,14 @@ DEPENDS = " \
     libeigen \
     abseil-cpp \
     protobuf-native \
+    flatbuffers-native \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
 EXTRA_OECMAKE = " \
   -DBUILD_SHARED_LIBS=ON \
   -DTFLITE_ENABLE_XNNPACK=OFF \
+  -DTFLITE_HOST_TOOLS_DIR=${WORKDIR}/recipe-sysroot-native/usr/bin/ \
 "
 
 # Note:
@@ -90,12 +91,16 @@ do_configure:append() {
 
 do_install() {
     install -d ${D}/${libdir}
-    install -m 0755 ${B}/libtensorflow-lite.so  ${D}/${libdir}/
-    install -m 0755 ${B}/tensorflow/lite/profiling/proto/libprofiling_info_proto.so ${D}/${libdir}
+    install -m 0755 ${B}/libtensorflow-lite.so  ${D}/${libdir}
+    if [ -e ${B}/kleidiai/libkleidiai.so ]; then
+        install -m 0755 ${B}/kleidiai/libkleidiai.so ${D}/${libdir}
+    fi
+    install -m 0755 ${B}/profiling/proto/libprofiling_info_proto.so ${D}/${libdir}
  
     install -m 0755 ${B}/_deps/farmhash-build/libfarmhash.so ${D}/${libdir}
     install -m 0755 ${B}/_deps/fft2d-build/libfft2d_fftsg2d.so ${D}/${libdir}
     install -m 0755 ${B}/_deps/fft2d-build/libfft2d_fftsg.so ${D}/${libdir}
+
     if [ -e ${B}/_deps/ruy-build/libruy.so ]; then
         install -m 0755 ${B}/_deps/ruy-build/libruy.so ${D}/${libdir}
     fi
@@ -113,8 +118,22 @@ do_install() {
     install -d ${D}${includedir}/tensorflow/core/platform
     install -d ${D}${includedir}/tensorflow/tsl/platform
     install -d ${D}${includedir}/tensorflow/tsl/util
+    install -d ${D}${includedir}/tensorflow/compiler/mlir/lite
+    install -d ${D}${includedir}/tensorflow/compiler/mlir/lite/core/api
+    install -d ${D}${includedir}/tensorflow/compiler/mlir/lite/schema
+    install -d ${D}${includedir}/tensorflow/compiler/mlir/lite/experimental/remat
+    install -d ${D}${includedir}/tensorflow/compiler/mlir/lite/utils
     install -m 644 ${S}/tensorflow/core/util/*.h ${D}${includedir}/tensorflow/core/util
     install -m 644 ${S}/tensorflow/core/platform/*.h ${D}${includedir}/tensorflow/core/platform
+    install -m 644 ${S}/tensorflow/compiler/mlir/lite/allocation.h ${D}${includedir}/tensorflow/compiler/mlir/lite
+    install -m 644 ${S}/tensorflow/compiler/mlir/lite/core/macros.h ${D}${includedir}/tensorflow/compiler/mlir/lite/core
+    install -m 644 ${S}/tensorflow/compiler/mlir/lite/core/api/error_reporter.h ${D}${includedir}/tensorflow/compiler/mlir/lite/core/api
+    install -m 644 ${S}/tensorflow/compiler/mlir/lite/core/api/verifier.h ${D}${includedir}/tensorflow/compiler/mlir/lite/core/api
+    install -m 644 ${S}/tensorflow/compiler/mlir/lite/core/model_builder_base.h ${D}${includedir}/tensorflow/compiler/mlir/lite/core
+    install -m 644 ${S}/tensorflow/compiler/mlir/lite/schema/schema_generated.h ${D}${includedir}/tensorflow/compiler/mlir/lite/schema
+    install -m 644 ${S}/tensorflow/compiler/mlir/lite/experimental/remat/metadata_util.h ${D}${includedir}/tensorflow/compiler/mlir/lite/experimental/remat
+    install -m 644 ${S}/tensorflow/compiler/mlir/lite/utils/control_edges.h ${D}${includedir}/tensorflow/compiler/mlir/lite/utils
+   install -m 644 ${S}/tensorflow/compiler/mlir/lite/utils/string_utils.h ${D}${includedir}/tensorflow/compiler/mlir/lite/utils
 
     install -d ${D}${includedir}/tensorflow/lite
     install -d ${D}${includedir}/tensorflow/lite/acceleration/configuration
@@ -168,7 +187,6 @@ do_install() {
     install -d ${D}${includedir}/tensorflow/lite/experimental/acceleration/mini_benchmark
     install -d ${D}${includedir}/tensorflow/lite/experimental/microfrontend
     install -d ${D}${includedir}/tensorflow/lite/experimental/microfrontend/lib
-    install -d ${D}${includedir}/tensorflow/lite/experimental/remat
     install -d ${D}${includedir}/tensorflow/lite/experimental/resource
     install -d ${D}${includedir}/tensorflow/lite/internal
     install -d ${D}${includedir}/tensorflow/lite/java/src/main/native
@@ -283,7 +301,6 @@ do_install() {
     install -m 644 ${S}/tensorflow/lite/experimental/acceleration/mini_benchmark/*.h ${D}${includedir}/tensorflow/lite/experimental/acceleration/mini_benchmark
     install -m 644 ${S}/tensorflow/lite/experimental/microfrontend/*.h ${D}${includedir}/tensorflow/lite/experimental/microfrontend
     install -m 644 ${S}/tensorflow/lite/experimental/microfrontend/lib/*.h ${D}${includedir}/tensorflow/lite/experimental/microfrontend/lib
-    install -m 644 ${S}/tensorflow/lite/experimental/remat/*.h ${D}${includedir}/tensorflow/lite/experimental/remat
     install -m 644 ${S}/tensorflow/lite/experimental/resource/*.h ${D}${includedir}/tensorflow/lite/experimental/resource
     install -m 644 ${S}/tensorflow/lite/internal/*.h ${D}${includedir}/tensorflow/lite/internal
     install -m 644 ${S}/tensorflow/lite/java/src/main/native/*.h ${D}${includedir}/tensorflow/lite/java/src/main/native

@@ -1,7 +1,7 @@
 Upstream-Status: Pending
 
 diff --git a/tensorflow/lite/examples/label_image/CMakeLists.txt b/tensorflow/lite/examples/label_image/CMakeLists.txt
-index 9874801f34f..545ceec2381 100644
+index 2fcb09ce96e..48b24f15f6b 100644
 --- a/tensorflow/lite/examples/label_image/CMakeLists.txt
 +++ b/tensorflow/lite/examples/label_image/CMakeLists.txt
 @@ -15,12 +15,27 @@
@@ -36,7 +36,7 @@ index 9874801f34f..545ceec2381 100644
    ${XLA_SOURCE_DIR}/xla/tsl/util/stats_calculator.cc
    ${TFLITE_SOURCE_DIR}/profiling/memory_info.cc
    ${TFLITE_SOURCE_DIR}/profiling/profile_summarizer.cc
-@@ -42,20 +57,18 @@ else()
+@@ -42,14 +57,6 @@ else()
    set(TFLITE_LABEL_IMAGE_CC_OPTIONS "-DTFLITE_WITHOUT_XNNPACK")
  endif()  # TFLITE_ENABLE_XNNPACK
  
@@ -51,25 +51,14 @@ index 9874801f34f..545ceec2381 100644
  if(TFLITE_ENABLE_GPU)
    list(APPEND TFLITE_LABEL_IMAGE_SRCS
      ${TFLITE_SOURCE_DIR}/tools/delegates/gpu_delegate_provider.cc
-   )
- endif()  # TFLITE_ENABLE_GPU
- 
-+include_directories(label_image
-+  PUBLIC
-+  ${CMAKE_BINARY_DIR}
+@@ -64,6 +71,7 @@ endif()
+ include_directories(label_image
+   PUBLIC
+   ${CMAKE_BINARY_DIR}
 +  ${TFLITE_SOURCE_DIR}/examples
-+)
-+
- if(TFLITE_ENABLE_EXTERNAL_DELEGATE)
-   list(APPEND TFLITE_LABEL_IMAGE_SRCS
-           ${TFLITE_SOURCE_DIR}/tools/delegates/external_delegate_provider.cc)
-@@ -78,4 +91,6 @@ target_compile_options(label_image
  )
- target_link_libraries(label_image
-   tensorflow-lite
-+  profiling_info_proto
-+  protobuf
- )
+ 
+ add_executable(label_image
 diff --git a/tensorflow/lite/examples/label_image/bitmap_helpers.cc b/tensorflow/lite/examples/label_image/bitmap_helpers.cc
 index d3698f3b222..c9954126e9d 100644
 --- a/tensorflow/lite/examples/label_image/bitmap_helpers.cc
