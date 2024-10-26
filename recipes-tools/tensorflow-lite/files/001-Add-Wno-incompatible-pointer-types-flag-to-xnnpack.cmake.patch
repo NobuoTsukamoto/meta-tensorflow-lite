@@ -1,0 +1,14 @@
+Upstream-Status: Pending
+
+diff --git a/tensorflow/lite/tools/cmake/modules/xnnpack.cmake b/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
+index 0bf6fc80f62..699e88043d4 100644
+--- a/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
++++ b/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
+@@ -37,6 +37,7 @@ endif()
+ # dependencies by TFLite.
+ set(XNNPACK_BUILD_TESTS OFF CACHE BOOL "Disable XNNPACK test.")
+ set(XNNPACK_BUILD_BENCHMARKS OFF CACHE BOOL "Disable XNNPACK benchmarks.")
++set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-incompatible-pointer-types")
+ 
+ # The following line adds project of PTHREADPOOL, FP16 and XNNPACK which are
+ # needed to compile XNNPACK delegate of TFLite.

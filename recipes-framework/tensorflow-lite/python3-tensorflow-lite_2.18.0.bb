@@ -6,22 +6,18 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "ad6d8cc177d0c868982e39e0823d0efbfb95f04c"
+SRCREV_tensorflow = "6550e4bd80223cdb8be6c3afd1f81e86a4d433c3"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
     file://001-Fix-neon-sse-file-name-filter.patch \
+    file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
 "
 
 SRC_URI:append:riscv32 = " \
     file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
     file://001-RISCV32_pthreads.patch \
-    file://001-Fix-RISCV-cpuinfo.patch \
-"
-
-SRC_URI:append:riscv64 = " \
-    file://001-Fix-RISCV-cpuinfo.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -33,6 +29,7 @@ DEPENDS += "\
     python3-pybind11 \
     libgfortran \
     protobuf-native \
+    flatbuffers-native \
 "
 
 RDEPENDS:${PN} += " \
@@ -85,6 +82,7 @@ TENSORFLOW_TARGET_ARCH:riscv64 = "riscv64"
 # Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
 EXTRA_OECMAKE:append = " \
   -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} \
+  -DTFLITE_HOST_TOOLS_DIR=${WORKDIR}/recipe-sysroot-native/usr/bin/ \
 "
 
 do_configure[network] = "1"

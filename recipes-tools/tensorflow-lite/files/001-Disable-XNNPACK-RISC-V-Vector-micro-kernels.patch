@@ -1,12 +1,12 @@
 Upstream-Status: Inappropriate [https://twitter.com/MaratDukhan/status/1632582746823446529]
 
 diff --git a/tensorflow/lite/tools/cmake/modules/xnnpack.cmake b/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
-index eeb86758d63..ba133f9b71c 100644
+index 699e88043d4..ca5c6294d99 100644
 --- a/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
 +++ b/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
-@@ -38,6 +38,9 @@ endif()
- set(XNNPACK_BUILD_TESTS OFF CACHE BOOL "Disable XNNPACK test.")
+@@ -39,6 +39,9 @@ set(XNNPACK_BUILD_TESTS OFF CACHE BOOL "Disable XNNPACK test.")
  set(XNNPACK_BUILD_BENCHMARKS OFF CACHE BOOL "Disable XNNPACK benchmarks.")
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-incompatible-pointer-types")
  
 +# https://twitter.com/MaratDukhan/status/1632582746823446529
 +set(XNNPACK_ENABLE_RISCV_VECTOR OFF CACHE BOOL "Disable Build XNNPACK with RISC-V Vector micro-kernels.")
