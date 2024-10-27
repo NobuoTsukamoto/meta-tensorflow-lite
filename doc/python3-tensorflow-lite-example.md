@@ -68,4 +68,4 @@ time: 369.129ms
 ## Code changes
 The original code imports `tensorflow`. I am changing this to import `tflite_runtime.interpreter`. This has been modified to work with TensorFlow Lite.  
 See below for changes to the original code.
-- [001-label_image_py.patch](recipes-examples/tensorflow-lite/python/files/001-label_image_py.patch)
+- [001-label_image_py.patch](../recipes-examples/tensorflow-lite/files/001-label_image_py.patch)
