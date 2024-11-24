@@ -6,9 +6,9 @@ name: Bitbake raspberrypi
 on:
   # Triggers the workflow on push or pull request events
   push:
-    branches: [ main ]
+    branches: [ styhead ]
   pull_request:
-    branches: [ main ]
+    branches: [ styhead ]
   schedule:
     - cron: '0 12 * * 5'
 
