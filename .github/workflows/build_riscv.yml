@@ -16,8 +16,8 @@ on:
   workflow_dispatch:
 
 env:
-  TARGET_VERSION: master
-  TARGET_BITBAKE_VERSION: master
+  TARGET_VERSION: styhead
+  TARGET_BITBAKE_VERSION: 2.10
   WORKING_DIR: /home/runner/work
   BUILD_DIR: /mnt/build
   DOWNLOAD_DIR: /mnt/build/downloads
