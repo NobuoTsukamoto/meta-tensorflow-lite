@@ -70,7 +70,7 @@ jobs:
         run: |
           sudo chown runner /mnt
           git clone --depth 1 -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
-          git clone --depth 1 -b ${TARGET_VERSION} git://git.yoctoproject.org/meta-raspberrypi
+          git clone --depth 1 -b master git://git.yoctoproject.org/meta-raspberrypi
           git clone --depth 1 -b ${TARGET_VERSION} git://git.openembedded.org/meta-openembedded
         working-directory: /home/runner/work
 
