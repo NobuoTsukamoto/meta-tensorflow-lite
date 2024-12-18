@@ -84,7 +84,6 @@ jobs:
           bitbake-layers add-layer ${WORKING_DIR}/meta-tensorflow-lite/meta-tensorflow-lite
           bitbake-layers add-layer ${WORKING_DIR}/meta-riscv
           cat <<EOF> conf/auto.conf
-          FORTRAN:forcevariable = ",fortran"
           BB_NUMBER_THREADS = "8"
           EOF
           cat conf/auto.conf

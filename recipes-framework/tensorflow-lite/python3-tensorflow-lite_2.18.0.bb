@@ -27,7 +27,6 @@ DEPENDS += "\
     python3-wheel-native \
     python3-numpy \
     python3-pybind11 \
-    libgfortran \
     protobuf-native \
     flatbuffers-native \
 "

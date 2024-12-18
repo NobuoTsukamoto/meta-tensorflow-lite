@@ -83,7 +83,6 @@ jobs:
           bitbake-layers add-layer ${WORKING_DIR}/meta-tensorflow-lite/meta-tensorflow-lite/
           bitbake-layers add-layer ${WORKING_DIR}/meta-raspberrypi/
           cat <<EOF> conf/auto.conf
-          FORTRAN:forcevariable = ",fortran"
           LICENSE_FLAGS_ACCEPTED = "synaptics-killswitch"
           BB_NUMBER_THREADS = "8"
           EOF

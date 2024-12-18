@@ -32,7 +32,6 @@ Add `python3-tensorflow-lite` and `libedgetpu-nnn` recipes to `conf/auto.conf` f
   - libedgetpu-std: with reduced operating frequency ()
   - libedgetpu-max: with maximum operating frequency
 ```
-FORTRAN:forcevariable = ",fortran"
 IMAGE_INSTALL:append = " python3-tensorflow-lite libedegtpu-std"
 ```
 
