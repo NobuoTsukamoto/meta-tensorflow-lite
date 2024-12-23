@@ -51,6 +51,7 @@ EXTRA_OECMAKE = " \
 # XNNPack is valid only on aarch64 and RISC-V .
 # In the case of arm 32bit, it will be turned off because the build will be
 # an error depending on the combination of target CPUs.
+EXTRA_OECMAKE:append:arm = " -DTFLITE_ENABLE_RUY=ON"
 EXTRA_OECMAKE:append:aarch64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append:riscv32 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append:riscv64 = " -DTFLITE_ENABLE_XNNPACK=ON"
