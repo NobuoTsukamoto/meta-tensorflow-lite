@@ -42,7 +42,7 @@ TENSORFLOW_LITE_BUILD_DIR = "${S}/tensorflow/lite/tools/pip_package/gen/tflite_p
 TENSORFLOW_LITE_DIR = "${S}/tensorflow/lite"
 
 PYBIND11_INCLUDE = "${PYTHON_INCLUDE_DIR}/pybind11"
-NUMPY_INCLUDE = "${PKG_CONFIG_SYSROOT_DIR}/${PYTHON_SITEPACKAGES_DIR}/numpy/core/include"
+NUMPY_INCLUDE = "${PKG_CONFIG_SYSROOT_DIR}/${PYTHON_SITEPACKAGES_DIR}/numpy/_core/include"
 
 OECMAKE_SOURCEPATH = "${TENSORFLOW_LITE_DIR}"
 OECMAKE_TARGET_COMPILE= "_pywrap_tensorflow_interpreter_wrapper"
