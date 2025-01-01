@@ -65,7 +65,6 @@ jobs:
           bitbake-layers add-layer /home/runner/work/meta-tensorflow-lite/meta-tensorflow-lite/
           bitbake-layers add-layer /home/runner/work/meta-riscv/
           cat <<EOF> conf/auto.conf
-          FORTRAN:forcevariable = ",fortran"
           EOF
           cat conf/auto.conf
           MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite \

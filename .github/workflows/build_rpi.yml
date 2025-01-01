@@ -71,7 +71,6 @@ jobs:
           bitbake-layers add-layer /home/runner/work/meta-tensorflow-lite/meta-tensorflow-lite/
           bitbake-layers add-layer ../meta-raspberrypi/
           cat <<EOF> conf/auto.conf
-          FORTRAN:forcevariable = ",fortran"
           PREFERRED_VERSION_python3-tensorflow-lite="${{ matrix.tensorflow_version }}"
           PREFERRED_VERSION_libtensorflow-lite="${{ matrix.tensorflow_version }}"
           LICENSE_FLAGS_ACCEPTED = "synaptics-killswitch"

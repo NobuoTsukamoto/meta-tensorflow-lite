@@ -29,7 +29,6 @@ bitbake-layers add-layer ../meta-tensorflow-lite/
 ### Create conf/auto.conf file and write config
 Add `tensorflow-lite-minimal` recipes to `conf/auto.conf` file.
 ```
-FORTRAN:forcevariable = ",fortran"
 IMAGE_INSTALL:append = " tensorflow-lite-minimal"
 ```
 
