@@ -48,14 +48,6 @@ jobs:
       # checkout repository
       - name: Clone poky, meta-raspberrypi, meta-openembedded
         run: |
-          git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
-          git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/meta-raspberrypi
-          git clone -b ${TARGET_VERSION} git://git.openembedded.org/meta-openembedded
-        working-directory: ../
-
-      # checkout repository
-      - name: Clone poky, meta-raspberrypi, meta-openembedded
-        run: |
           sudo chown runner /mnt
           git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
           git clone -b ${TARGET_VERSION} git://git.yoctoproject.org/meta-raspberrypi
