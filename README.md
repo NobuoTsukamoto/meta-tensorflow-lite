@@ -69,7 +69,6 @@ $ bitbake-layers add-layer ../meta-raspberrypi/
 $ bitbake-layers add-layer ../meta-tensorflow-lite/
 
 # Add the package to 'conf/auto.conf' file. 
-FORTRAN:forcevariable = ",fortran"
 MACHINE ?= "raspberrypi4-64"
 IMAGE_INSTALL:append = " python3-tensorflow-lite libtensorflow-lite"
 
@@ -96,7 +95,6 @@ $ bitbake-layers add-layer ../meta-riscv/
 $ bitbake-layers add-layer ../meta-tensorflow-lite/
 
 # Add the package to 'conf/auto.conf' file. 
-FORTRAN:forcevariable = ",fortran"
 MACHINE ?= "qemuriscv64"
 IMAGE_INSTALL:append = " python3-tensorflow-lite  libtensorflow-lite"
 

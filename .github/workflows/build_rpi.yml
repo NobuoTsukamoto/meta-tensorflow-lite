@@ -65,7 +65,6 @@ jobs:
           bitbake-layers add-layer /home/runner/work/meta-tensorflow-lite/meta-tensorflow-lite/
           bitbake-layers add-layer /home/runner/work/meta-raspberrypi/
           cat <<EOF> conf/auto.conf
-          FORTRAN:forcevariable = ",fortran"
           LICENSE_FLAGS_ACCEPTED = "synaptics-killswitch"
           EOF
           cat conf/auto.conf
