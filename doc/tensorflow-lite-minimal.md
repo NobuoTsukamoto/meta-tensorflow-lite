@@ -2,7 +2,7 @@
 
 ## Reference
 
-- [TensorFlow Lite C++ minimal example - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.18.0/tensorflow/lite/examples/minimal/README.md)
+- [TensorFlow Lite C++ minimal example - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.19.0/tensorflow/lite/examples/minimal/README.md)
 
 ## How to
 Build sample on Raspberry Pi 4 AArch64 (core-image-weston).
@@ -72,4 +72,4 @@ In this recipe, we will modify CMake to link the shared library (libtensorflow-l
 For more information about the changes in CMake, please refer to the following patch.
 - [001-minimal_cmake.patch](../recipes-examples/tensorflow-lite/files/001-minimal_cmake.patch)
 
-See [libtensorflow-lite](../recipes-framework/tensorflow-lite/libtensorflow-lite_2.18.0.bb) for a recipe to build a shared library for libtensorflow-lite.so.
+See [libtensorflow-lite](../recipes-framework/tensorflow-lite/libtensorflow-lite_2.19.0.bb) for a recipe to build a shared library for libtensorflow-lite.so.

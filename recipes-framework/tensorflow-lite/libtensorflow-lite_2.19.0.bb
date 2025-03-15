@@ -6,12 +6,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "6550e4bd80223cdb8be6c3afd1f81e86a4d433c3"
+SRCREV_tensorflow = "e36baa302922ea3c7131b302c2996bd2051ee5c4"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
-    file://001-Fix-neon-sse-file-name-filter.patch \
     file://001-protobuf.cmake.patch \
     file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
 "
@@ -120,6 +119,7 @@ do_install() {
     install -d ${D}${includedir}/tensorflow/tsl/util
     install -d ${D}${includedir}/tensorflow/compiler/mlir/lite
     install -d ${D}${includedir}/tensorflow/compiler/mlir/lite/core/api
+    install -d ${D}${includedir}/tensorflow/compiler/mlir/lite/core/c/
     install -d ${D}${includedir}/tensorflow/compiler/mlir/lite/schema
     install -d ${D}${includedir}/tensorflow/compiler/mlir/lite/experimental/remat
     install -d ${D}${includedir}/tensorflow/compiler/mlir/lite/utils
@@ -130,10 +130,12 @@ do_install() {
     install -m 644 ${S}/tensorflow/compiler/mlir/lite/core/api/error_reporter.h ${D}${includedir}/tensorflow/compiler/mlir/lite/core/api
     install -m 644 ${S}/tensorflow/compiler/mlir/lite/core/api/verifier.h ${D}${includedir}/tensorflow/compiler/mlir/lite/core/api
     install -m 644 ${S}/tensorflow/compiler/mlir/lite/core/model_builder_base.h ${D}${includedir}/tensorflow/compiler/mlir/lite/core
+    install -m 644 ${S}/tensorflow/compiler/mlir/lite/core/c/tflite_types.h ${D}${includedir}/tensorflow/compiler/mlir/lite/core/c/
+    install -m 644 ${S}/tensorflow/compiler/mlir/lite/core/c/builtin_op_data.h ${D}${includedir}/tensorflow/compiler/mlir/lite/core/c/
     install -m 644 ${S}/tensorflow/compiler/mlir/lite/schema/schema_generated.h ${D}${includedir}/tensorflow/compiler/mlir/lite/schema
     install -m 644 ${S}/tensorflow/compiler/mlir/lite/experimental/remat/metadata_util.h ${D}${includedir}/tensorflow/compiler/mlir/lite/experimental/remat
     install -m 644 ${S}/tensorflow/compiler/mlir/lite/utils/control_edges.h ${D}${includedir}/tensorflow/compiler/mlir/lite/utils
-   install -m 644 ${S}/tensorflow/compiler/mlir/lite/utils/string_utils.h ${D}${includedir}/tensorflow/compiler/mlir/lite/utils
+    install -m 644 ${S}/tensorflow/compiler/mlir/lite/utils/string_utils.h ${D}${includedir}/tensorflow/compiler/mlir/lite/utils
 
     install -d ${D}${includedir}/tensorflow/lite
     install -d ${D}${includedir}/tensorflow/lite/acceleration/configuration

@@ -1,10 +1,10 @@
 Upstream-Status: Pending
 
 diff --git a/tensorflow/lite/examples/minimal/CMakeLists.txt b/tensorflow/lite/examples/minimal/CMakeLists.txt
-index 7f8301162bb..4dafbfc63de 100644
+index 0e01f858996..a998a64ae2a 100644
 --- a/tensorflow/lite/examples/minimal/CMakeLists.txt
 +++ b/tensorflow/lite/examples/minimal/CMakeLists.txt
-@@ -19,26 +19,29 @@
+@@ -19,28 +19,32 @@
  cmake_minimum_required(VERSION 3.16)
  project(minimal C CXX)
  
@@ -12,6 +12,8 @@ index 7f8301162bb..4dafbfc63de 100644
 +option(TFLITE_ENABLE_XNNPACK "Enable XNNPACK backend" OFF)
 +message(STATUS, “TFLITE_SOURCE_DIR = ${TFLITE_SOURCE_DIR}”)
 +
+ option(LINK_TFLITE_FLEX "Enable tensorflowlite_flex library linkage" OFF)
+ 
  set(TENSORFLOW_SOURCE_DIR "" CACHE PATH
    "Directory that contains the TensorFlow project"
  )
@@ -21,14 +23,15 @@ index 7f8301162bb..4dafbfc63de 100644
 -    ABSOLUTE
 -  )
 -endif()
--
+ 
 -add_subdirectory(
 -  "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite"
 -  "${CMAKE_CURRENT_BINARY_DIR}/tensorflow-lite"
 -  EXCLUDE_FROM_ALL
 -)
++set(CMAKE_CXX_STANDARD 20)
  
- set(CMAKE_CXX_STANDARD 17)
+-set(CMAKE_CXX_STANDARD 17)
 -add_executable(minimal
 -  minimal.cc
 -)
@@ -46,6 +49,15 @@ index 7f8301162bb..4dafbfc63de 100644
 +    minimal.cc
 +  )
 +endif()
- target_link_libraries(minimal
-   tensorflow-lite
- )
+ 
+ if(LINK_TFLITE_FLEX)
+   find_library(TF_LIB_FLEX tensorflowlite_flex HINTS "${TENSORFLOW_SOURCE_DIR}/bazel-bin/tensorflow/lite/delegates/flex/")
+@@ -56,5 +60,6 @@ if(LINK_TFLITE_FLEX)
+ else()
+   target_link_libraries(minimal
+     tensorflow-lite
++    absl_log_internal_message
+   )
+-endif()
+\ No newline at end of file
++endif()
