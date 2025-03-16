@@ -18,7 +18,7 @@ index ef7d290..abd8487 100644
  	-fPIC \
  	-Wall \
 -	-std=c++14 \
-+	-std=c++17 \
++	-std=c++20 \
  	-DDARWINN_PORT_DEFAULT
  
  LIBEDGETPU_LDFLAGS := \

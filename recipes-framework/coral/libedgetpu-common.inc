@@ -7,11 +7,11 @@ PV = "grouper"
 SRCREV_FORMAT = "libedgetpu_tensorflow"
 
 SRCREV_libedgetpu = "e35aed18fea2e2d25d98352e5a5bd357c170bd4d"
-SRCREV_tensorflow = "6550e4bd80223cdb8be6c3afd1f81e86a4d433c3"
+SRCREV_tensorflow = "e36baa302922ea3c7131b302c2996bd2051ee5c4"
 
 SRC_URI = " \
     git://github.com/google-coral/libedgetpu.git;name=libedgetpu;branch="master";protocol=https \
-    git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.18;protocol=https \
+    git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.19;protocol=https \
     file://001-libedgetpu_makefile.patch \
 "
 

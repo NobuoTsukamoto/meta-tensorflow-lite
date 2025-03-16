@@ -6,14 +6,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "6550e4bd80223cdb8be6c3afd1f81e86a4d433c3"
+SRCREV_tensorflow = "e36baa302922ea3c7131b302c2996bd2051ee5c4"
 
 SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
-    file://001-Fix-neon-sse-file-name-filter.patch \
     file://001-protobuf.cmake.patch \
     file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \

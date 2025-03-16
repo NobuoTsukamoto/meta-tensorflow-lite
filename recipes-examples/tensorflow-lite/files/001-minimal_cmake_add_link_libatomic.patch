@@ -1,12 +1,15 @@
 Upstream-Status: Pending
 
 diff --git a/tensorflow/lite/examples/minimal/CMakeLists.txt b/tensorflow/lite/examples/minimal/CMakeLists.txt
-index 4dafbfc63de..237592a505a 100644
+index e238db32570..318e7801819 100644
 --- a/tensorflow/lite/examples/minimal/CMakeLists.txt
 +++ b/tensorflow/lite/examples/minimal/CMakeLists.txt
-@@ -44,4 +44,5 @@ else()
+@@ -61,5 +61,6 @@ else()
+   target_link_libraries(minimal
+     tensorflow-lite
+     absl_log_internal_message
++    atomic
+   )
  endif()
- target_link_libraries(minimal
-   tensorflow-lite
-+  atomic
- )
+
+

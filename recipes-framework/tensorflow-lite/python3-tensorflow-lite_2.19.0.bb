@@ -6,12 +6,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "6550e4bd80223cdb8be6c3afd1f81e86a4d433c3"
+SRCREV_tensorflow = "e36baa302922ea3c7131b302c2996bd2051ee5c4"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
-    file://001-Fix-neon-sse-file-name-filter.patch \
     file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
 "
 
@@ -95,7 +94,7 @@ do_configure:append() {
 }
 
 do_compile:prepend() {
-    TENSORFLOW_VERSION=$(grep "_VERSION = " "${S}/tensorflow/tools/pip_package/setup.py" | cut -d= -f2 | sed "s/[ '-]//g")
+    TENSORFLOW_VERSION=${DPV}
     export PACKAGE_VERSION="${TENSORFLOW_VERSION}"
     export PROJECT_NAME="tflite_runtime"
 
