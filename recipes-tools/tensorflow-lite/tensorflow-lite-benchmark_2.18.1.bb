@@ -1,4 +1,4 @@
-DESCRIPTION = "TensorFlow Lite C"
+DESCRIPTION = "TFLite Model Benchmark Tool with C++ Binary"
 LICENSE = "Apache-2.0"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "6550e4bd80223cdb8be6c3afd1f81e86a4d433c3"
+SRCREV_tensorflow = "cb64295ec7308f770b22db6047a1e755b35b7bee"
+
+SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
@@ -14,12 +16,15 @@ SRC_URI = " \
     file://001-Fix-neon-sse-file-name-filter.patch \
     file://001-protobuf.cmake.patch \
     file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
+    https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
 
 SRC_URI:append:riscv32 = " \
-    file://001-RISCV32_pthreads.patch \
     file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+    file://001-RISCV32_pthreads.patch \
+    file://001-Add-link-atomic.patch \
 "
+ 
 
 SRC_URI:append:riscv64 = " \
     file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
@@ -36,7 +41,8 @@ DEPENDS = " \
     flatbuffers-native \
 "
 
-OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/c"
+OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
+OECMAKE_TARGET_COMPILE = "benchmark_model"
 EXTRA_OECMAKE = " \
   -DTFLITE_ENABLE_XNNPACK=OFF \
 "
@@ -71,7 +77,7 @@ EXTRA_OECMAKE:append = " \
   -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
   -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} \
   -DTFLITE_HOST_TOOLS_DIR=${WORKDIR}/recipe-sysroot-native/usr/bin/ \
- "
+"
 
 do_configure[network] = "1"
 
@@ -88,14 +94,9 @@ do_configure:append() {
 }
 
 do_install() {
-    install -d ${D}/${libdir}
-    install -m 0755 ${B}/libtensorflowlite_c.so ${D}/${libdir}/
-
-    install -d ${D}${includedir}/tensorflow/lite/c
-    install -m 644 ${S}/tensorflow/lite/c/c_api.h ${D}${includedir}/tensorflow/lite/c/
-    install -m 644 ${S}/tensorflow/lite/c/common.h ${D}${includedir}/tensorflow/lite/c/
-    install -m 644 ${S}/tensorflow/lite/c/c_api_experimental.h ${D}${includedir}/tensorflow/lite/c/
+    install -d ${D}${datadir}/tensorflow/lite/tools/benchmark/
+    install -m 755 ${B}/tools/benchmark/benchmark_model ${D}${datadir}/tensorflow/lite/tools/benchmark/benchmark_model
+    install -m 644 ${UNPACKDIR}/mobilenet_v1_1.0_224.tflite ${D}${datadir}/tensorflow/lite/tools/benchmark/
 }
 
-FILES:${PN}-dev = "${includedir}"
-FILES:${PN} += "${libdir}/libtensorflowlite_c.so"
+FILES:${PN} += "${datadir}/tensorflow/lite/tools/benchmark/*"
