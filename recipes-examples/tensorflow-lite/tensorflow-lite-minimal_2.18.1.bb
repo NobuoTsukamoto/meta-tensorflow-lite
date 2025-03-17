@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "6550e4bd80223cdb8be6c3afd1f81e86a4d433c3"
+SRCREV_tensorflow = "cb64295ec7308f770b22db6047a1e755b35b7bee"
 
 SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b"
 

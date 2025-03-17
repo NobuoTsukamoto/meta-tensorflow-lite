@@ -30,7 +30,7 @@ jobs:
     strategy:
       matrix:
         target_machine: [qemuriscv64, qemuriscv32]
-        tensorflow_version: [2.18.0]
+        tensorflow_version: [2.18.1]
         
     # The type of runner that the job will run on
     runs-on: ubuntu-22.04
