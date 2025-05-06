@@ -12,6 +12,7 @@ SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
     file://001-protobuf.cmake.patch \
+    file://001-flatbuffers.cmake.patch \
     file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
 "
 
