@@ -13,6 +13,7 @@ SRC_URI = " \
     git://github.com/google-coral/libedgetpu.git;name=libedgetpu;branch="master";protocol=https \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.19;protocol=https \
     file://001-libedgetpu_makefile.patch \
+    file://001-flatbuffers.cmake.patch;patchdir=${UNPACKDIR}/tensorflow \
 "
 
 S = "${WORKDIR}/git"
