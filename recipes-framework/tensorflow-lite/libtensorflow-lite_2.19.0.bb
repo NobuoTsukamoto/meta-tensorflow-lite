@@ -96,6 +96,7 @@ do_install() {
         install -m 0755 ${B}/kleidiai/libkleidiai.so ${D}/${libdir}
     fi
     install -m 0755 ${B}/profiling/proto/libprofiling_info_proto.so ${D}/${libdir}
+    install -m 0755 ${B}/_deps/protobuf-build/third_party/utf8_range/libutf8_validity.so ${D}/${libdir}
  
     install -m 0755 ${B}/_deps/farmhash-build/libfarmhash.so ${D}/${libdir}
     install -m 0755 ${B}/_deps/fft2d-build/libfft2d_fftsg2d.so ${D}/${libdir}
