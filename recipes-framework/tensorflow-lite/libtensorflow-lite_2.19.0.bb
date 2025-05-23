@@ -32,6 +32,7 @@ S = "${WORKDIR}/git"
 DEPENDS = " \
     libeigen \
     abseil-cpp \
+    protobuf \
     protobuf-native \
     flatbuffers-native \
 "
@@ -96,6 +97,14 @@ do_install() {
         install -m 0755 ${B}/kleidiai/libkleidiai.so ${D}/${libdir}
     fi
     install -m 0755 ${B}/profiling/proto/libprofiling_info_proto.so ${D}/${libdir}
+
+    # install -d ${D}${includedir}/google/protobuf
+    # install -d ${D}${includedir}/google/protobuf/io
+    # install -d ${D}${includedir}/google/protobuf/stubs
+    # install -m 644 ${B}/protobuf/src/google/protobuf/*.h ${D}${includedir}/google/protobuf/
+    # install -m 644 ${B}/protobuf/src/google/protobuf/*.inc ${D}${includedir}/google/protobuf/
+    # install -m 644 ${B}/protobuf/src/google/protobuf/io/*.h ${D}${includedir}/google/protobuf/io/
+    # install -m 644 ${B}/protobuf/src/google/protobuf/stubs/*.h ${D}${includedir}/google/protobuf/stubs/
  
     install -m 0755 ${B}/_deps/farmhash-build/libfarmhash.so ${D}/${libdir}
     install -m 0755 ${B}/_deps/fft2d-build/libfft2d_fftsg2d.so ${D}/${libdir}
