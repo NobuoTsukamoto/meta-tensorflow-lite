@@ -32,9 +32,12 @@ S = "${WORKDIR}/git"
 DEPENDS = " \
     libeigen \
     abseil-cpp \
-    protobuf \
     protobuf-native \
     flatbuffers-native \
+"
+
+RDEPENDS:${PN} += " \
+    protobuf \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
@@ -383,7 +386,8 @@ do_install() {
 
 }
 
-FILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
+FINSANE_SKIP:${PN} += "file-rdeps"
+ILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
 FILES:${PN} += "${libdir}/*.so"
 FILES:${PN} += "${datadir}/eigen3/*"
 FILES:${PN} += "${datadir}/cpuinfo/*"
