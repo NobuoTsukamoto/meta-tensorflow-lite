@@ -24,6 +24,7 @@ S = "${WORKDIR}/git"
 
 DEPENDS += "\
     libtensorflow-lite \
+    protobuf \
     flatbuffers \
 "
 
