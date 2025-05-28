@@ -10,8 +10,8 @@ SRCREV_tensorflow = "e36baa302922ea3c7131b302c2996bd2051ee5c4"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
+    file://001-remove_unnecessary_modules.patch \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
-    file://001-protobuf.cmake.patch \
     file://001-flatbuffers.cmake.patch \
     file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
 "
@@ -32,12 +32,9 @@ S = "${WORKDIR}/git"
 DEPENDS = " \
     libeigen \
     abseil-cpp \
+    protobuf \
     protobuf-native \
     flatbuffers-native \
-"
-
-RDEPENDS:${PN} += " \
-    protobuf \
 "
 
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
@@ -84,6 +81,7 @@ do_configure[network] = "1"
 do_configure:prepend() {
     rm -rf ${S}/tensorflow/lite/tools/cmake/modules/Findabsl.cmake
     rm -rf ${S}/tensorflow/lite/tools/cmake/modules/FindEigen3.cmake
+    rm -rf ${S}/tensorflow/lite/tools/cmake/modules/FindProtobuf.cmake
 }
 
 do_configure:append() {
@@ -387,7 +385,7 @@ do_install() {
 }
 
 FINSANE_SKIP:${PN} += "file-rdeps"
-ILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
+FILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
 FILES:${PN} += "${libdir}/*.so"
 FILES:${PN} += "${datadir}/eigen3/*"
 FILES:${PN} += "${datadir}/cpuinfo/*"
