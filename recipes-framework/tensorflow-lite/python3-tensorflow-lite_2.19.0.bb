@@ -11,6 +11,8 @@ SRCREV_tensorflow = "e36baa302922ea3c7131b302c2996bd2051ee5c4"
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
+    file://001-protobuf.cmake.patch \
+    file://001-flatbuffers.cmake.patch \
     file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
 "
 
@@ -44,7 +46,7 @@ PYBIND11_INCLUDE = "${PYTHON_INCLUDE_DIR}/pybind11"
 NUMPY_INCLUDE = "${PKG_CONFIG_SYSROOT_DIR}/${PYTHON_SITEPACKAGES_DIR}/numpy/_core/include"
 
 OECMAKE_SOURCEPATH = "${TENSORFLOW_LITE_DIR}"
-OECMAKE_TARGET_COMPILE= "_pywrap_tensorflow_interpreter_wrapper"
+OECMAKE_TARGET_COMPILE　= "_pywrap_tensorflow_interpreter_wrapper"
 OECMAKE_C_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_IN} -I${NUMPY_INCLUDE}"
 OECMAKE_CXX_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_INCLUDE} -I${NUMPY_INCLUDE}"
 EXTRA_OECMAKE = " \

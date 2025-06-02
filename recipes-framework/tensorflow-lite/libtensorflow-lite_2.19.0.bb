@@ -10,8 +10,9 @@ SRCREV_tensorflow = "e36baa302922ea3c7131b302c2996bd2051ee5c4"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
+    file://001-remove_unnecessary_modules.patch \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
-    file://001-protobuf.cmake.patch \
+    file://001-flatbuffers.cmake.patch \
     file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
 "
 
@@ -31,6 +32,7 @@ S = "${WORKDIR}/git"
 DEPENDS = " \
     libeigen \
     abseil-cpp \
+    protobuf \
     protobuf-native \
     flatbuffers-native \
 "
@@ -79,6 +81,7 @@ do_configure[network] = "1"
 do_configure:prepend() {
     rm -rf ${S}/tensorflow/lite/tools/cmake/modules/Findabsl.cmake
     rm -rf ${S}/tensorflow/lite/tools/cmake/modules/FindEigen3.cmake
+    rm -rf ${S}/tensorflow/lite/tools/cmake/modules/FindProtobuf.cmake
 }
 
 do_configure:append() {
@@ -95,6 +98,14 @@ do_install() {
         install -m 0755 ${B}/kleidiai/libkleidiai.so ${D}/${libdir}
     fi
     install -m 0755 ${B}/profiling/proto/libprofiling_info_proto.so ${D}/${libdir}
+
+    # install -d ${D}${includedir}/google/protobuf
+    # install -d ${D}${includedir}/google/protobuf/io
+    # install -d ${D}${includedir}/google/protobuf/stubs
+    # install -m 644 ${B}/protobuf/src/google/protobuf/*.h ${D}${includedir}/google/protobuf/
+    # install -m 644 ${B}/protobuf/src/google/protobuf/*.inc ${D}${includedir}/google/protobuf/
+    # install -m 644 ${B}/protobuf/src/google/protobuf/io/*.h ${D}${includedir}/google/protobuf/io/
+    # install -m 644 ${B}/protobuf/src/google/protobuf/stubs/*.h ${D}${includedir}/google/protobuf/stubs/
  
     install -m 0755 ${B}/_deps/farmhash-build/libfarmhash.so ${D}/${libdir}
     install -m 0755 ${B}/_deps/fft2d-build/libfft2d_fftsg2d.so ${D}/${libdir}
@@ -373,6 +384,7 @@ do_install() {
 
 }
 
+FINSANE_SKIP:${PN} += "file-rdeps"
 FILES:${PN}-dev = "${includedir} ${libdir}/libtensorflowlite.so "
 FILES:${PN} += "${libdir}/*.so"
 FILES:${PN} += "${datadir}/eigen3/*"
