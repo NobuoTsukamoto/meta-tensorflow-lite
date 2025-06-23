@@ -17,7 +17,7 @@ on:
 
 env:
   TARGET_VERSION: walnascar
-  TARGET_BITBAKE_VERSION: 	2.14
+  TARGET_BITBAKE_VERSION: 	2.12
   TARGET_RISCV_VERSION: master
   WORKING_DIR: /home/runner/work
   BUILD_DIR: /mnt/build
