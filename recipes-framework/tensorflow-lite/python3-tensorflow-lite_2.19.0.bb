@@ -21,8 +21,6 @@ SRC_URI:append:riscv32 = " \
     file://001-RISCV32_pthreads.patch \
 "
 
-S = "${WORKDIR}/git"
-
 DEPENDS += "\
     python3-pip-native \
     python3-wheel-native \

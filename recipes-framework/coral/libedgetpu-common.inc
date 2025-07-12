@@ -16,8 +16,7 @@ SRC_URI = " \
     file://001-flatbuffers.cmake.patch;patchdir=${UNPACKDIR}/tensorflow \
 "
 
-S = "${WORKDIR}/git"
-B = "${WORKDIR}/git/makefile_build"
+B = "${S}/makefile_build"
 
 DEPENDS = " \
     flatbuffers-native \

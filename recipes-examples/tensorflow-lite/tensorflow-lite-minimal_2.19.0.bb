@@ -22,8 +22,6 @@ SRC_URI:append:riscv32 = " \
 
 inherit cmake
 
-S = "${WORKDIR}/git"
-
 DEPENDS += "\
     libtensorflow-lite \
     flatbuffers \

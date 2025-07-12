@@ -27,8 +27,6 @@ SRC_URI:append:riscv64 = " \
 
 inherit cmake
 
-S = "${WORKDIR}/git"
-
 DEPENDS = " \
     libeigen \
     abseil-cpp \
