@@ -20,8 +20,6 @@ SRC_URI = " \
 
 inherit cmake
 
-S = "${WORKDIR}/git"
-
 DEPENDS += "\
     libtensorflow-lite \
     protobuf \

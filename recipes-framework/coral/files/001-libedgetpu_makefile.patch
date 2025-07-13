@@ -1,7 +1,7 @@
 Upstream-Status: Submitted [https://github.com/google-coral/libedgetpu/pull/66]
 
 diff --git a/makefile_build/Makefile b/makefile_build/Makefile
-index ef7d290..abd8487 100644
+index ef7d290..824bf04 100644
 --- a/makefile_build/Makefile
 +++ b/makefile_build/Makefile
 @@ -10,8 +10,6 @@ BUILDROOT ?= $(MAKEFILE_DIR)/..
@@ -33,15 +33,7 @@ index ef7d290..abd8487 100644
  	-labsl_flags_internal \
  	-labsl_flags_reflection \
  	-labsl_flags_marshalling \
-@@ -40,6 +37,7 @@ LIBEDGETPU_LDFLAGS := \
- 	-labsl_hashtablez_sampler \
- 	-labsl_raw_hash_set \
- 	-labsl_str_format_internal \
-+	-labsl_bad_optional_access \
- 	-lusb-1.0
- 
- LIBEDGETPU_FLATC_SRCS := \
-@@ -59,9 +57,6 @@ LIBEDGETPU_INCLUDES := \
+@@ -59,9 +56,6 @@ LIBEDGETPU_INCLUDES := \
  	$(BUILDDIR)/$(BUILDROOT)
  LIBEDGETPU_INCLUDES := $(addprefix -I,$(LIBEDGETPU_INCLUDES))
  
@@ -51,7 +43,7 @@ index ef7d290..abd8487 100644
  LIBEDGETPU_CCSRCS := \
  	$(BUILDROOT)/api/allocated_buffer.cc \
  	$(BUILDROOT)/api/buffer.cc \
-@@ -140,7 +135,9 @@ LIBEDGETPU_CCSRCS := \
+@@ -140,7 +134,9 @@ LIBEDGETPU_CCSRCS := \
  	$(BUILDROOT)/tflite/edgetpu_c.cc \
  	$(BUILDROOT)/tflite/edgetpu_delegate_for_custom_op.cc \
  	$(BUILDROOT)/tflite/edgetpu_delegate_for_custom_op_tflite_plugin.cc \
@@ -62,10 +54,11 @@ index ef7d290..abd8487 100644
  LIBEDGETPU_CCOBJS := $(call TOBUILDDIR,$(patsubst %.cc,%.o,$(LIBEDGETPU_CCSRCS)))
  
  # In order to support direct and throttled mode - we need to compile two files
-@@ -181,11 +178,6 @@ firmware:
+@@ -180,12 +176,6 @@ firmware:
+ 	done
  	@echo "} // namespace" >> $(LIBEDGETPU_FW_OUTPUT)
  
- 
+-
 -$(LIBEDGETPU_COBJS) : $(BUILDDIR)/%.o: %.c
 -	@$(MKDIR)
 -	@echo "Compiling $<"
@@ -74,7 +67,7 @@ index ef7d290..abd8487 100644
  $(LIBEDGETPU_CCOBJS) : $(BUILDDIR)/%.o: %.cc
  	@$(MKDIR)
  	@echo "Compiling $<"
-@@ -201,14 +193,14 @@ $(LIBEDGETPU_STD_CCOBJS) : $(BUILDDIR)/%-throttled.o: %.cc
+@@ -201,14 +191,14 @@ $(LIBEDGETPU_STD_CCOBJS) : $(BUILDDIR)/%-throttled.o: %.cc
  	@echo "Compiling $<"
  	@$(CXX) -DTHROTTLE_EDGE_TPU $(LIBEDGETPU_CXXFLAGS) $(LIBEDGETPU_INCLUDES) -c $< -MD -MT $@ -MF $(@:%o=%d) -o $@
  

@@ -23,8 +23,6 @@ RDEPENDS:${PN} += " \
     python3-pillow \
 "
 
-S = "${WORKDIR}/git"
-
 do_install:append() {
     install -d ${D}${datadir}/tensorflow/lite/examples/python
     install -m 644 ${S}/tensorflow/lite/examples/python/label_image.py ${D}${datadir}/tensorflow/lite/examples/python/

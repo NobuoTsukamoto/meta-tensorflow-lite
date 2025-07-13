@@ -9,7 +9,7 @@ index de09cdeda9c..fb8c36188d8 100644
    GIT_REPOSITORY https://github.com/protocolbuffers/protobuf
    # Sync with tensorflow/third_party/protobuf/protobuf.patch
 -  GIT_TAG 90b73ac3f0b10320315c2ca0d03a5a9b095d2f66
-+  GIT_TAG 1be1c9d0ea6efa2a25bd7b76186844d1669be78a
++  GIT_TAG 74211c0dfc2777318ab53c2cd2c317a2ef9012de
    GIT_PROGRESS TRUE
    PREFIX "${CMAKE_BINARY_DIR}"
    SOURCE_DIR "${CMAKE_BINARY_DIR}/protobuf"
