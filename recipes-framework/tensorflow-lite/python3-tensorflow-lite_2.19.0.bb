@@ -30,6 +30,7 @@ DEPENDS += "\
     python3-pybind11 \
     protobuf-native \
     flatbuffers-native \
+    patchelf-native \
 "
 
 RDEPENDS:${PN} += " \
@@ -160,6 +161,8 @@ do_install() {
     ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} -m pip install --disable-pip-version-check -v \
     -t ${D}/${PYTHON_SITEPACKAGES_DIR} --no-cache-dir --no-deps \
     ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3/dist/tflite_runtime-${DPV}*.whl
+
+    patchelf --clear-execstack ${D}${PYTHON_SITEPACKAGES_DIR}/tflite_runtime/_pywrap_tensorflow_interpreter_wrapper.so
 }
 
 FILES:${PN}-dev = ""
