@@ -18,7 +18,7 @@ on:
 env:
   TARGET_VERSION: walnascar
   TARGET_BITBAKE_VERSION: 	2.12
-  TARGET_RISCV_VERSION: 7d5cbc931cb358a3e0335d832f2d089add4ea35d
+  TARGET_RISCV_VERSION: d23e5d677ddd40506a899621307dc7e21dfdd46c
   WORKING_DIR: /home/runner/work
   BUILD_DIR: /mnt/build
   DOWNLOAD_DIR: /mnt/build/downloads
