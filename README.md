@@ -20,6 +20,7 @@ Please note that it is not official support.
 | :--------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
 | [meta-raspberrypi](https://github.com/agherzan/meta-raspberrypi) | [![Bitbake raspberrypi](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml/badge.svg?branch=walnascar)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_rpi.yml) |
 | [meta-riscv](https://github.com/riscv/meta-riscv)                | [![Bitbake qemuriscv](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml/badge.svg?branch=walnascar)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_riscv.yml) |
+| [meta-intel](https://git.yoctoproject.org/meta-intel)            | [![Bitbake intel](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_intel.yml/badge.svg?branch=walnascar)](https://github.com/NobuoTsukamoto/meta-tensorflow-lite/actions/workflows/build_intel.yml) |
 
 ## Available recipes
 - framework
