@@ -30,6 +30,7 @@ DEPENDS += "\
     python3-pybind11 \
     protobuf-native \
     flatbuffers-native \
+    patchelf-native \
 "
 
 RDEPENDS:${PN} += " \
@@ -62,7 +63,9 @@ EXTRA_OECMAKE:append:arm = " -DTFLITE_ENABLE_RUY=ON"
 EXTRA_OECMAKE:append:aarch64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append:riscv32 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append:riscv64 = " -DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:x86-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 
+TENSORFLOW_TARGET_ARCH = "${TARGET_ARCH}"
 TENSORFLOW_TARGET_ARCH:raspberrypi = "armv6"
 TENSORFLOW_TARGET_ARCH:raspberrypi0 = "armv6"
 TENSORFLOW_TARGET_ARCH:raspberrypi0-wifi = "armv6"
@@ -158,6 +161,8 @@ do_install() {
     ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} -m pip install --disable-pip-version-check -v \
     -t ${D}/${PYTHON_SITEPACKAGES_DIR} --no-cache-dir --no-deps \
     ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3/dist/tflite_runtime-${DPV}*.whl
+
+    patchelf --clear-execstack ${D}${PYTHON_SITEPACKAGES_DIR}/tflite_runtime/_pywrap_tensorflow_interpreter_wrapper.so
 }
 
 FILES:${PN}-dev = ""
