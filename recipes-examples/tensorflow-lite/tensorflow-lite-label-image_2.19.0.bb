@@ -42,3 +42,5 @@ do_install() {
 }
 
 FILES:${PN} += "${datadir}/tensorflow/lite/examples/label_image/*"
+INSANE_SKIP:${PN} += "buildpaths"
+INSANE_SKIP:${PN}-dbg += "buildpaths"
