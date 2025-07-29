@@ -25,9 +25,12 @@ SRC_URI:append:riscv32 = " \
     file://001-Add-link-atomic.patch \
 "
  
-
 SRC_URI:append:riscv64 = " \
     file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
+"
+
+SRC_URI:append:x86-64 = " \
+    file://001-Set-CMAKE_POLICY_VERSION_MINIMUM-NEON2SSE.patch \
 "
 
 inherit cmake
