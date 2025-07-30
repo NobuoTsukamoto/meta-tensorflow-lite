@@ -21,6 +21,10 @@ SRC_URI:append:riscv32 = " \
     file://001-RISCV32_pthreads.patch \
 "
 
+SRC_URI:append:x86-64 = " \
+    file://001-Set-CMAKE_POLICY_VERSION_MINIMUM-NEON2SSE.patch \
+"
+
 DEPENDS += "\
     python3-pip-native \
     python3-wheel-native \
