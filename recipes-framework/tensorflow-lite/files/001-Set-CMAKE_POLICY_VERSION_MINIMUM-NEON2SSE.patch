@@ -1,0 +1,15 @@
+Upstream-Status: Pending
+
+diff --git a/tensorflow/lite/tools/cmake/modules/neon2sse.cmake b/tensorflow/lite/tools/cmake/modules/neon2sse.cmake
+index c2612e34bd2..57258a9a0c2 100644
+--- a/tensorflow/lite/tools/cmake/modules/neon2sse.cmake
++++ b/tensorflow/lite/tools/cmake/modules/neon2sse.cmake
+@@ -32,6 +32,8 @@ OverridableFetchContent_Declare(
+   SOURCE_DIR "${CMAKE_BINARY_DIR}/neon2sse"
+ )
+ 
++set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
++
+ OverridableFetchContent_GetProperties(neon2sse)
+ if(NOT neon2sse_POPULATED)
+   OverridableFetchContent_Populate(neon2sse)
