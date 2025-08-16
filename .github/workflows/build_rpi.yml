@@ -17,7 +17,6 @@ on:
 
 env:
   TARGET_VERSION: walnascar
-  TARGET_RASPI_VERSION: 49a2d124890b96d28a590e52e6d0dd611c114f6b
   WORKING_DIR: /home/runner/work
   BUILD_DIR: /mnt/build
   DOWNLOAD_DIR: /mnt/build/downloads
@@ -30,7 +29,7 @@ jobs:
     strategy:
       matrix:
         target_machine: [raspberrypi-cm, raspberrypi-cm3, raspberrypi, raspberrypi0-2w-64, raspberrypi0-wifi, raspberrypi0, raspberrypi2, raspberrypi3-64, raspberrypi3, raspberrypi4-64, raspberrypi4, raspberrypi5]
-        tensorflow_version: [2.19.0]
+        tensorflow_version: [2.19.1]
       fail-fast: false
 
     # The type of runner that the job will run on
@@ -71,10 +70,7 @@ jobs:
         run: |
           sudo chown runner /mnt
           git clone --depth 1 -b ${TARGET_VERSION} git://git.yoctoproject.org/poky.git
-          git clone git://git.yoctoproject.org/meta-raspberrypi
-          cd meta-raspberrypi
-          git checkout ${TARGET_RASPI_VERSION}
-          cd ..
+          git clone --depth 1 -b ${TARGET_VERSION} git://git.yoctoproject.org/meta-raspberrypi
           git clone --depth 1 -b ${TARGET_VERSION} git://git.openembedded.org/meta-openembedded
         working-directory: /home/runner/work
 
