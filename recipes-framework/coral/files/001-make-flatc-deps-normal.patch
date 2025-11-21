@@ -1,0 +1,23 @@
+Make flatc generated dependencies have stronger guarantees
+
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+Upstream-Status: Inappropriate [oe specific]
+
+--- libedgetpu-max-grouper/makefile_build/Makefile.orig	2025-11-21 11:20:08.881584923 +0100
++++ libedgetpu-max-grouper/makefile_build/Makefile	2025-11-21 11:21:03.472355577 +0100
+@@ -191,13 +191,13 @@
+ 	@echo "Compiling $<"
+ 	@$(CXX) -DTHROTTLE_EDGE_TPU $(LIBEDGETPU_CXXFLAGS) $(LIBEDGETPU_INCLUDES) -c $< -MD -MT $@ -MF $(@:%o=%d) -o $@
+ 
+-libedgetpu: | firmware $(LIBEDGETPU_FLATC_OBJS) $(LIBEDGETPU_CCOBJS) $(LIBEDGETPU_MAX_CCOBJS)
++libedgetpu: $(LIBEDGETPU_FLATC_OBJS) | firmware $(LIBEDGETPU_CCOBJS) $(LIBEDGETPU_MAX_CCOBJS)
+ 	@mkdir -p $(BUILDDIR)/direct/k8
+ 	@echo "Building libedgetpu.so"
+ 	@$(CXX) $(LIBEDGETPU_CCFLAGS) $(LIBEDGETPU_LDFLAGS) ${LDFLAGS} $(LIBEDGETPU_CCOBJS) $(LIBEDGETPU_MAX_CCOBJS) -o $(BUILDDIR)/direct/k8/libedgetpu.so.1.0
+ 	@ln -sf $(BUILDDIR)/direct/k8/libedgetpu.so.1.0 $(BUILDDIR)/direct/k8/libedgetpu.so.1
+ 
+-libedgetpu-throttled: | firmware $(LIBEDGETPU_FLATC_OBJS) $(LIBEDGETPU_CCOBJS) $(LIBEDGETPU_STD_CCOBJS)
++libedgetpu-throttled: $(LIBEDGETPU_FLATC_OBJS) | firmware $(LIBEDGETPU_CCOBJS) $(LIBEDGETPU_STD_CCOBJS)
+ 	@mkdir -p $(BUILDDIR)/throttled/k8
+ 	@echo "Building throttled libedgetpu.so"
+ 	@$(CXX) $(LIBEDGETPU_CCFLAGS) $(LIBEDGETPU_LDFLAGS) ${LDFLAGS} $(LIBEDGETPU_CCOBJS) $(LIBEDGETPU_STD_CCOBJS) -o $(BUILDDIR)/throttled/k8/libedgetpu.so.1.0
