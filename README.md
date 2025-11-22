@@ -55,11 +55,12 @@ Please note that it is not official support.
 ### Quick start for the Raspberry Pi AArch64 (core-image-weston)
 ```
 # Clone repositories and oe-init-build-env
-$ git clone git://git.yoctoproject.org/poky.git
+$ git clone https://github.com/openembedded/bitbake.git
+$ git clone https://github.com/openembedded/openembedded-core.git
+$ git clone https://github.com/openembedded/meta-openembedded.git
 $ git clone git://git.yoctoproject.org/meta-raspberrypi
-$ git clone git://git.openembedded.org/meta-openembedded
 $ git clone https://github.com/NobuoTsukamoto/meta-tensorflow-lite.git
-$ source poky/oe-init-build-env build
+$ source openembedded-core/oe-init-build-env build
 
 # Add layer
 $ bitbake-layers add-layer ../meta-openembedded/meta-oe/
