@@ -16,6 +16,7 @@ SRC_URI = " \
     file://001-label_image_cpp.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_1.0_224_frozen.tgz;name=label \
+    file://001-label-image_cmake-minimum-required.patch \
 "
 
 inherit cmake
