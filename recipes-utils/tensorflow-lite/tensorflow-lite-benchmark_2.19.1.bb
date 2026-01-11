@@ -37,6 +37,7 @@ S = "${WORKDIR}/git"
 DEPENDS = " \
     libeigen \
     abseil-cpp \
+    protobuf \
     protobuf-native \
     flatbuffers-native \
 "
