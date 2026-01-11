@@ -8,7 +8,7 @@ index 8febb1fbd1c..033c6922a45 100644
    GIT_REPOSITORY https://github.com/google/flatbuffers
    # Sync with tensorflow/third_party/flatbuffers/workspace.bzl
 -  GIT_TAG e6463926479bd6b330cbcf673f7e917803fd5831
-+  GIT_TAG 187240970746d00bbd26b0f5873ed54d2477f9f3
++  GIT_TAG 7e163021e59cca4f8e1e35a7c828b5c6b7915953
    # NOTE: b/340264458 - `GIT_SHALLOW TRUE` works for tag name only.
    GIT_SHALLOW FALSE
    GIT_PROGRESS TRUE
@@ -25,8 +25,8 @@ index 4cb4861e78f..362a8e8bcd1 100644
 -              FLATBUFFERS_VERSION_MINOR == 3 &&
 -              FLATBUFFERS_VERSION_REVISION == 25,
 +static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
-+              FLATBUFFERS_VERSION_MINOR == 9 &&
-+              FLATBUFFERS_VERSION_REVISION == 23,
++              FLATBUFFERS_VERSION_MINOR == 12 &&
++              FLATBUFFERS_VERSION_REVISION == 19,
               "Non-compatible flatbuffers version included");
  
  namespace tflite {
@@ -43,8 +43,8 @@ index 6262406f6d5..a8275936736 100755
 -              FLATBUFFERS_VERSION_MINOR == 3 &&
 -              FLATBUFFERS_VERSION_REVISION == 25,
 +static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
-+              FLATBUFFERS_VERSION_MINOR == 9 &&
-+              FLATBUFFERS_VERSION_REVISION == 23,
++              FLATBUFFERS_VERSION_MINOR == 12 &&
++              FLATBUFFERS_VERSION_REVISION == 19,
               "Non-compatible flatbuffers version included");
  
  namespace tflite {
@@ -61,8 +61,8 @@ index 12af129c5c2..950439bfc14 100755
 -              FLATBUFFERS_VERSION_MINOR == 3 &&
 -              FLATBUFFERS_VERSION_REVISION == 25,
 +static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
-+              FLATBUFFERS_VERSION_MINOR == 9 &&
-+              FLATBUFFERS_VERSION_REVISION == 23,
++              FLATBUFFERS_VERSION_MINOR == 12 &&
++              FLATBUFFERS_VERSION_REVISION == 19,
               "Non-compatible flatbuffers version included");
  
  namespace tflite {
