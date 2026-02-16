@@ -5,8 +5,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 # Compute branch info from ${PV} as Base PV...
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
+TF_MAJOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[0]}"
+TF_MINOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[1]}"
+TF_PATCH = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[2]}"
 
-SRCREV_tensorflow = "f4247ebb6f9e7421f38c3f01a9a5d5cd54bd24fd"
+SRCREV_tensorflow = "72fbba3d20f4616d7312b5e2b7f79daf6e82f2fa"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
@@ -48,11 +51,13 @@ TENSORFLOW_LITE_DIR = "${S}/tensorflow/lite"
 PYBIND11_INCLUDE = "${PYTHON_INCLUDE_DIR}/pybind11"
 NUMPY_INCLUDE = "${PKG_CONFIG_SYSROOT_DIR}/${PYTHON_SITEPACKAGES_DIR}/numpy/_core/include"
 
+TF_CXX_FLAGS = "-DTF_MAJOR_VERSION=${TF_MAJOR} -DTF_MINOR_VERSION=${TF_MINOR} -DTF_PATCH_VERSION=${TF_PATCH} -DTF_VERSION_SUFFIX=''"
+
 OECMAKE_SOURCEPATH = "${TENSORFLOW_LITE_DIR}"
 OECMAKE_TARGET_COMPILE　= "_pywrap_tensorflow_interpreter_wrapper"
-OECMAKE_C_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_IN} -I${NUMPY_INCLUDE}"
-OECMAKE_CXX_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_INCLUDE} -I${NUMPY_INCLUDE}"
-EXTRA_OECMAKE = " \
+OECMAKE_C_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_IN} -I${NUMPY_INCLUDE} ${TF_CXX_FLAGS}"
+OECMAKE_CXX_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_INCLUDE} -I${NUMPY_INCLUDE} ${TF_CXX_FLAGS}"
+EXTRA_OECMAKE:append = " \
   -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
   -DTFLITE_ENABLE_XNNPACK=OFF \
 "

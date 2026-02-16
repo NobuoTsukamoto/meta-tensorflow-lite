@@ -69,7 +69,7 @@ index 07ab2343ae5..93fd9df6768 100644
 +  protobuf
  )
 diff --git a/tensorflow/lite/examples/label_image/bitmap_helpers.cc b/tensorflow/lite/examples/label_image/bitmap_helpers.cc
-index d3698f3b222..c9954126e9d 100644
+index 32d7f443fc4..c09d8e3833f 100644
 --- a/tensorflow/lite/examples/label_image/bitmap_helpers.cc
 +++ b/tensorflow/lite/examples/label_image/bitmap_helpers.cc
 @@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
@@ -81,9 +81,9 @@ index d3698f3b222..c9954126e9d 100644
  
  #include <unistd.h>  // NOLINT(build/include_order)
  
-@@ -24,8 +24,8 @@ limitations under the License.
- #include <iostream>
+@@ -25,8 +25,8 @@ limitations under the License.
  #include <string>
+ #include <vector>
  
 -#include "tensorflow/lite/examples/label_image/label_image.h"
 -#include "tensorflow/lite/examples/label_image/log.h"
@@ -134,7 +134,7 @@ index 29bf702ccb4..bfa6255a8c5 100644
  namespace tflite {
  namespace label_image {
 diff --git a/tensorflow/lite/examples/label_image/label_image.cc b/tensorflow/lite/examples/label_image/label_image.cc
-index 9368f00d0fc..c61b0b53146 100644
+index 1d441b46b3c..863f84c780a 100644
 --- a/tensorflow/lite/examples/label_image/label_image.cc
 +++ b/tensorflow/lite/examples/label_image/label_image.cc
 @@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
@@ -146,7 +146,7 @@ index 9368f00d0fc..c61b0b53146 100644
  
  #include <fcntl.h>      // NOLINT(build/include_order)
  #include <getopt.h>     // NOLINT(build/include_order)
-@@ -35,9 +35,9 @@ limitations under the License.
+@@ -36,9 +36,9 @@ limitations under the License.
  #include "tensorflow/lite/c/c_api_types.h"
  #include "tensorflow/lite/c/common.h"
  #include "tensorflow/lite/core/interpreter_builder.h"
