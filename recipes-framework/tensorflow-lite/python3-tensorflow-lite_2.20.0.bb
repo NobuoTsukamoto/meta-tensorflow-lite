@@ -122,6 +122,7 @@ do_compile:prepend() {
        "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime"
     echo "__version__ = '${PACKAGE_VERSION}'" >> "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime/__init__.py"
     echo "__git_version__ = '$(git -C "${S}" describe)'" >> "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime/__init__.py"
+    chown -R root:root ${D}${PYTHON_SITEPACKAGES_DIR}
 }
 
 do_compile:append() {
