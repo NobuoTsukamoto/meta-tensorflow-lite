@@ -122,7 +122,6 @@ do_compile:prepend() {
        "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime"
     echo "__version__ = '${PACKAGE_VERSION}'" >> "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime/__init__.py"
     echo "__git_version__ = '$(git -C "${S}" describe)'" >> "${TENSORFLOW_LITE_BUILD_DIR}/tflite_runtime/__init__.py"
-    chown -R root:root ${D}${PYTHON_SITEPACKAGES_DIR}
 }
 
 do_compile:append() {
@@ -171,6 +170,8 @@ do_install() {
     ${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3/dist/tflite_runtime-${DPV}*.whl
 
     patchelf --clear-execstack ${D}${PYTHON_SITEPACKAGES_DIR}/tflite_runtime/_pywrap_tensorflow_interpreter_wrapper.so
+
+    chown -R root:root ${D}${PYTHON_SITEPACKAGES_DIR}
 }
 
 FILES:${PN}-dev = ""
