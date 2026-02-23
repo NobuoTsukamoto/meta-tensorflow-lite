@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 
-SRCREV_tensorflow = "f4247ebb6f9e7421f38c3f01a9a5d5cd54bd24fd"
+SRCREV_tensorflow = "72fbba3d20f4616d7312b5e2b7f79daf6e82f2fa"
 
 SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b"
 SRC_URI[label.sha256sum] = "366a2d53008df0d2a82b375e2020bbc57e43bbe19971370e47b7f74ea0aaab91"
@@ -17,6 +17,7 @@ SRC_URI = " \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_1.0_224_frozen.tgz;name=label \
     file://001-label-image_cmake-minimum-required.patch \
+    file://001-label_image_add_absl_log.patch \
 "
 
 inherit cmake
@@ -30,7 +31,7 @@ DEPENDS += "\
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite/examples/label_image"
 
 EXTRA_OECMAKE:append = " -DTFLITE_ENABLE_LABEL_IMAGE=ON"
-EXTRA_OECMAKE:append:aarch64 = "-DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:aarch64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append:riscv32 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append:riscv64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 

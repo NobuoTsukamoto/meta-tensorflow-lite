@@ -5,8 +5,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 # Compute branch info from ${PV} as Base PV...
 BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
+TF_MAJOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[0]}"
+TF_MINOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[1]}"
+TF_PATCH = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[2]}"
 
-SRCREV_tensorflow = "f4247ebb6f9e7421f38c3f01a9a5d5cd54bd24fd"
+SRCREV_tensorflow = "72fbba3d20f4616d7312b5e2b7f79daf6e82f2fa"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
@@ -39,11 +42,15 @@ DEPENDS = " \
     flatbuffers-native \
 "
 
+TF_CXX_FLAGS = "-DTF_MAJOR_VERSION=${TF_MAJOR} -DTF_MINOR_VERSION=${TF_MINOR} -DTF_PATCH_VERSION=${TF_PATCH} -DTF_VERSION_SUFFIX=''"
+
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
-EXTRA_OECMAKE = " \
-  -DBUILD_SHARED_LIBS=ON \
-  -DTFLITE_ENABLE_XNNPACK=OFF \
-  -DTFLITE_HOST_TOOLS_DIR=${WORKDIR}/recipe-sysroot-native/usr/bin/ \
+EXTRA_OECMAKE:append = " \
+    -DBUILD_SHARED_LIBS=ON \
+    -DTFLITE_ENABLE_XNNPACK=OFF \
+    -DTFLITE_HOST_TOOLS_DIR=${WORKDIR}/recipe-sysroot-native/usr/bin/ \
+    -DCMAKE_C_FLAGS='${CFLAGS} ${TF_CXX_FLAGS}' \
+    -DCMAKE_CXX_FLAGS='${CXXFLAGS} ${TF_CXX_FLAGS}' \
 "
 
 # Note:
