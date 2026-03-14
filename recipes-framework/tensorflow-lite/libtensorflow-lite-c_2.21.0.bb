@@ -9,23 +9,16 @@ TF_MAJOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[0]}"
 TF_MINOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[1]}"
 TF_PATCH = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[2]}"
 
-SRCREV_tensorflow = "72fbba3d20f4616d7312b5e2b7f79daf6e82f2fa"
+SRCREV_tensorflow = "a481b10260dfdf833a1b16007eead49c1d7febf3"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
-    file://001-protobuf.cmake.patch \
     file://001-flatbuffers.cmake.patch \
-    file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
 "
 
 SRC_URI:append:riscv32 = " \
     file://001-RISCV32_pthreads.patch \
-    file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
-"
-
-SRC_URI:append:riscv64 = " \
-    file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
 "
 
 SRC_URI:append:x86-64 = " \
@@ -49,6 +42,7 @@ EXTRA_OECMAKE:append = " \
     -DTFLITE_ENABLE_XNNPACK=OFF \
     -DCMAKE_C_FLAGS='${CFLAGS} ${TF_CXX_FLAGS}' \
     -DCMAKE_CXX_FLAGS='${CXXFLAGS} ${TF_CXX_FLAGS}' \
+    -DTENSORFLOW_SOURCE_DIR=${S} \
 "
 
 # Note:
