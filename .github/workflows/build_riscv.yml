@@ -38,7 +38,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       
       # Install essential host packages
       - name: Install Packages
@@ -84,7 +84,8 @@ jobs:
           bitbake-layers add-layer ${WORKING_DIR}/meta-tensorflow-lite/meta-tensorflow-lite
           bitbake-layers add-layer ${WORKING_DIR}/meta-riscv
           cat <<EOF> conf/auto.conf
-          BB_NUMBER_THREADS = "8"
+          BB_NUMBER_THREADS = "4"
+          PARALLEL_MAKE = "-j 4"
           EOF
           cat conf/auto.conf
           MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite \
