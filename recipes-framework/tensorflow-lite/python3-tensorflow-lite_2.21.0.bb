@@ -9,18 +9,15 @@ TF_MAJOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[0]}"
 TF_MINOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[1]}"
 TF_PATCH = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[2]}"
 
-SRCREV_tensorflow = "72fbba3d20f4616d7312b5e2b7f79daf6e82f2fa"
+SRCREV_tensorflow = "a481b10260dfdf833a1b16007eead49c1d7febf3"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
-    file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
-    file://001-protobuf.cmake.patch \
     file://001-flatbuffers.cmake.patch \
-    file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
+    file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
 "
 
 SRC_URI:append:riscv32 = " \
-    file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
     file://001-RISCV32_pthreads.patch \
 "
 
@@ -48,8 +45,8 @@ inherit setuptools3 cmake
 TENSORFLOW_LITE_BUILD_DIR = "${S}/tensorflow/lite/tools/pip_package/gen/tflite_pip/python3"
 TENSORFLOW_LITE_DIR = "${S}/tensorflow/lite"
 
-PYBIND11_INCLUDE = "${PYTHON_INCLUDE_DIR}/pybind11"
-NUMPY_INCLUDE = "${PKG_CONFIG_SYSROOT_DIR}/${PYTHON_SITEPACKAGES_DIR}/numpy/_core/include"
+PYBIND11_INCLUDE = "${RECIPE_SYSROOT}${PYTHON_SITEPACKAGES_DIR}/pybind11"
+NUMPY_INCLUDE = "${RECIPE_SYSROOT}${PYTHON_SITEPACKAGES_DIR}/numpy/_core/include"
 
 TF_CXX_FLAGS = "-DTF_MAJOR_VERSION=${TF_MAJOR} -DTF_MINOR_VERSION=${TF_MINOR} -DTF_PATCH_VERSION=${TF_PATCH} -DTF_VERSION_SUFFIX=''"
 
@@ -58,8 +55,10 @@ OECMAKE_TARGET_COMPILE　= "_pywrap_tensorflow_interpreter_wrapper"
 OECMAKE_C_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_IN} -I${NUMPY_INCLUDE} ${TF_CXX_FLAGS}"
 OECMAKE_CXX_FLAGS += "-I${PYTHON_INCLUDE_DIR} -I${PYBIND11_INCLUDE} -I${NUMPY_INCLUDE} ${TF_CXX_FLAGS}"
 EXTRA_OECMAKE:append = " \
-  -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
-  -DTFLITE_ENABLE_XNNPACK=OFF \
+    -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
+    -DTFLITE_ENABLE_XNNPACK=OFF \
+    -DTENSORFLOW_SOURCE_DIR=${S} \
+    -DPython3_NumPy_INCLUDE_DIR=${NUMPY_INCLUDE} \
 "
 
 # Note:

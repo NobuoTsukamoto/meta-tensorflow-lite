@@ -9,29 +9,23 @@ TF_MAJOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[0]}"
 TF_MINOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[1]}"
 TF_PATCH = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[2]}"
 
-SRCREV_tensorflow = "72fbba3d20f4616d7312b5e2b7f79daf6e82f2fa"
+SRCREV_tensorflow = "a481b10260dfdf833a1b16007eead49c1d7febf3"
 
 SRC_URI[model.sha256sum] = "1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b"
 
 SRC_URI = " \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;branch=r${BPV};protocol=https \
     file://001-Set-CMAKE-SYSTEM-PROCESSOR.patch \
-    file://001-protobuf.cmake.patch \
     file://001-flatbuffers.cmake.patch \
-    file://001-Add-Wno-incompatible-pointer-types-flag-to-xnnpack.cmake.patch \
+    file://001-protobuf.cmake.patch \
     https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz;name=model \
 "
 
 SRC_URI:append:riscv32 = " \
-    file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
     file://001-RISCV32_pthreads.patch \
     file://001-Add-link-atomic.patch \
 "
  
-SRC_URI:append:riscv64 = " \
-    file://001-Disable-XNNPACK-RISC-V-Vector-micro-kernels.patch \
-"
-
 SRC_URI:append:x86-64 = " \
     file://001-Set-CMAKE_POLICY_VERSION_MINIMUM-NEON2SSE.patch \
 "
@@ -46,16 +40,19 @@ DEPENDS = " \
     flatbuffers-native \
 "
 
-TF_CXX_FLAGS = "-DTF_MAJOR_VERSION=${TF_MAJOR} -DTF_MINOR_VERSION=${TF_MINOR} -DTF_PATCH_VERSION=${TF_PATCH} -DTF_VERSION_SUFFIX=''"
-
 OECMAKE_SOURCEPATH = "${S}/tensorflow/lite"
 OECMAKE_TARGET_COMPILE = "benchmark_model"
+
+# Note:
+# Download the submodule using FetchContent_Populate.
+# Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
 EXTRA_OECMAKE:append = " \
     -DTFLITE_ENABLE_XNNPACK=OFF \
-    -DCMAKE_C_FLAGS='${CFLAGS} ${TF_CXX_FLAGS}' \
-    -DCMAKE_CXX_FLAGS='${CXXFLAGS} ${TF_CXX_FLAGS}' \
+    -DTFLITE_HOST_TOOLS_DIR=${WORKDIR}/recipe-sysroot-native/usr/bin/ \
+    -DTENSORFLOW_SOURCE_DIR=${S} \
+    -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
+    -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} \
 "
-
 
 # Note:
 # XNNPack is valid only on aarch64 and RISC-V .
@@ -82,15 +79,6 @@ TENSORFLOW_TARGET_ARCH:raspberrypi4-64 = "aarch64"
 TENSORFLOW_TARGET_ARCH:raspberrypi5 = "aarch64"
 TENSORFLOW_TARGET_ARCH:riscv32 = "riscv32"
 TENSORFLOW_TARGET_ARCH:riscv64 = "riscv64"
-
-# Note:
-# Download the submodule using FetchContent_Populate.
-# Therefore, turn off FETCHCONTENT_FULLY_DISCONNECTED.
-EXTRA_OECMAKE:append = " \
-  -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
-  -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} \
-  -DTFLITE_HOST_TOOLS_DIR=${WORKDIR}/recipe-sysroot-native/usr/bin/ \
-"
 
 do_configure[network] = "1"
 
