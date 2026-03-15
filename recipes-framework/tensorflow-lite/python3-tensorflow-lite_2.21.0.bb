@@ -67,7 +67,7 @@ EXTRA_OECMAKE:append = " \
 # an error depending on the combination of target CPUs.
 EXTRA_OECMAKE:append:arm = " -DTFLITE_ENABLE_RUY=ON"
 EXTRA_OECMAKE:append:aarch64 = " -DTFLITE_ENABLE_XNNPACK=ON"
-EXTRA_OECMAKE:append:riscv32 = " -DTFLITE_ENABLE_XNNPACK=ON"
+EXTRA_OECMAKE:append:riscv32 = " -DTFLITE_ENABLE_XNNPACK=OFF"
 EXTRA_OECMAKE:append:riscv64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 EXTRA_OECMAKE:append:x86-64 = " -DTFLITE_ENABLE_XNNPACK=ON"
 
