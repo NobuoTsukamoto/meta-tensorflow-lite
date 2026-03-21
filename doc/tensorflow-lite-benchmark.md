@@ -44,7 +44,7 @@ MACHINE=qemuriscv64 runqemu nographic
 ```
 
 ### Run benchmark tool.
-Login `root` and run benchmark tool.
+Log in as `root` and run the benchmark tool.
 ```
 cd /usr/share/tensorflow/lite/tools/benchmark/
 ./benchmark_model \
