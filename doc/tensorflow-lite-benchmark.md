@@ -5,7 +5,7 @@
 - [TFLite Model Benchmark Tool with C++ Binary - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.21.0/tensorflow/lite/tools/benchmark/README.md)
 
 ## How to
-Build sample on qemueriscv64 (core-image-full-cmdline).
+Build sample on qemuriscv64 (core-image-full-cmdline).
 
 ### Clone repositories and oe-init-build-env.
 ```
@@ -44,7 +44,7 @@ MACHINE=qemuriscv64 runqemu nographic
 ```
 
 ### Run benchmark tool.
-login `root` and run benchmark tool.
+Login `root` and run benchmark tool.
 ```
 cd /usr/share/tensorflow/lite/tools/benchmark/
 ./benchmark_model \

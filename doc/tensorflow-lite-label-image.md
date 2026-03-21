@@ -5,7 +5,7 @@
 - [TensorFlow Lite C++ image classification demo - tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/blob/v2.21.0/tensorflow/lite/examples/label_image/README.md)
 
 ## How to
-Build sample on qemueriscv64 (core-image-full-cmdline).
+Build sample on qemuriscv64 (core-image-full-cmdline).
 
 ### Clone repositories and oe-init-build-env.
 ```
@@ -44,7 +44,7 @@ MACHINE=qemuriscv64 runqemu nographic
 ```
 
 ### Run example.
-login `root` and run the example.
+Login `root` and run the example.
 ```
 cd /usr/share/tensorflow/lite/examples/label_image/
 ./label_image \
