@@ -44,7 +44,7 @@ MACHINE=qemuriscv64 runqemu nographic
 ```
 
 ### Run example.
-Login `root` and run the example.
+Log in as `root` and run the example.
 ```
 cd /usr/share/tensorflow/lite/examples/label_image/
 ./label_image \
