@@ -46,7 +46,7 @@ Please note that it is not official support.
 ### Support version
 | Recipe          | Version |
 | :--             | :--     |
-| TensorFlow Lite | v2.21.0  |
+| TensorFlow Lite | 2.21.0  |
 | libedgetpu      | e35aed18fea2e2d25d98352e5a5bd357c170bd4d |
 
 ## How to
@@ -57,7 +57,7 @@ Please note that it is not official support.
 $ git clone https://github.com/openembedded/bitbake.git
 $ git clone https://github.com/openembedded/openembedded-core.git
 $ git clone https://github.com/openembedded/meta-openembedded.git
-$ git clone git://git.yoctoproject.org/meta-raspberrypi
+$ git clone https://git.yoctoproject.org/meta-raspberrypi
 $ git clone https://github.com/NobuoTsukamoto/meta-tensorflow-lite.git
 $ source openembedded-core/oe-init-build-env build
 
