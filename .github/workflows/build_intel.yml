@@ -91,7 +91,7 @@ jobs:
           cat conf/auto.conf
           MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite \
             libtensorflow-lite-c python3-tensorflow-lite-example tensorflow-lite-label-image \
-            tensorflow-lite-minimal tensorflow-lite-benchmark libedgetpu-std
+            tensorflow-lite-minimal tensorflow-lite-benchmark libedgetpu-std litert
           df -h
         working-directory: /mnt
 
