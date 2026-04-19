@@ -10,7 +10,7 @@ TF_MINOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[1]}"
 TF_PATCH = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[2]}"
 SRCREV_FORMAT = "litert_tensorflow"
 
-SRCREV_litert = "7b113d8dcd3391ea28f6a4e66b7d186f0f2ee62e"
+SRCREV_litert = "ea79caffdd0f52cd44f203674f18a16a3cb861ad"
 SRCREV_tensorflow = "a481b10260dfdf833a1b16007eead49c1d7febf3"
 
 SRC_URI = " \
