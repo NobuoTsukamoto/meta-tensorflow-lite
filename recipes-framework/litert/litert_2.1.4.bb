@@ -28,13 +28,32 @@ inherit cmake
 
 OECMAKE_SOURCEPATH = "${S}/litert"
 
+TENSORFLOW_TARGET_ARCH = "${TARGET_ARCH}"
+TENSORFLOW_TARGET_ARCH:raspberrypi = "armv6"
+TENSORFLOW_TARGET_ARCH:raspberrypi0 = "armv6"
+TENSORFLOW_TARGET_ARCH:raspberrypi0-wifi = "armv6"
+TENSORFLOW_TARGET_ARCH:raspberrypi-cm = "armv6"
+TENSORFLOW_TARGET_ARCH:raspberrypi2 = "armv7"
+TENSORFLOW_TARGET_ARCH:raspberrypi3 = "armv7"
+TENSORFLOW_TARGET_ARCH:raspberrypi4 = "armv7"
+TENSORFLOW_TARGET_ARCH:raspberrypi-cm3 = "armv7"
+TENSORFLOW_TARGET_ARCH:raspberrypi0-2w-64 = "aarch64"
+TENSORFLOW_TARGET_ARCH:raspberrypi3-64 = "aarch64"
+TENSORFLOW_TARGET_ARCH:raspberrypi4-64 = "aarch64"
+TENSORFLOW_TARGET_ARCH:raspberrypi5 = "aarch64"
+TENSORFLOW_TARGET_ARCH:riscv32 = "riscv32"
+TENSORFLOW_TARGET_ARCH:riscv64 = "riscv64"
+TENSORFLOW_TARGET_ARCH:intel-corei7-64 = "x86_64"
+TENSORFLOW_TARGET_ARCH:intel-skylake-64 = "x86_64"
+
+
 EXTRA_OECMAKE:append = " \
     -DTFLITE_ENABLE_XNNPACK=ON \
     -DTFLITE_HOST_TOOLS_DIR=${WORKDIR}/recipe-sysroot-native/usr/bin/ \
     -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
     -DTENSORFLOW_SOURCE_DIR=${UNPACKDIR}/tensorflow \
+    -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} \
 "
-
 
 do_configure[network] = "1"
 
