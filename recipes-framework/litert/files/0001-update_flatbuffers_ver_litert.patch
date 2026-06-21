@@ -1,80 +1,15 @@
 Upstream-Status: Pending
+---
+ tflite/acceleration/configuration/configuration_generated.h   | 4 ++--
+ tflite/converter/schema/conversion_metadata_generated.h       | 4 ++--
+ tflite/converter/schema/schema_generated.h                    | 4 ++--
+ tflite/delegates/gpu/cl/compiled_program_cache_generated.h    | 4 ++--
+ tflite/delegates/gpu/cl/serialization_generated.h             | 4 ++--
+ tflite/delegates/gpu/common/gpu_model_generated.h             | 4 ++--
+ .../gpu/common/task/tflite_serialization_base_generated.h     | 4 ++--
+ tflite/tools/cmake/modules/flatbuffers.cmake                  | 2 +-
+ 8 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/tflite/delegates/gpu/cl/compiled_program_cache_generated.h b/tflite/delegates/gpu/cl/compiled_program_cache_generated.h
-index 2151d9964..70486b31a 100755
---- a/tflite/delegates/gpu/cl/compiled_program_cache_generated.h
-+++ b/tflite/delegates/gpu/cl/compiled_program_cache_generated.h
-@@ -23,8 +23,8 @@ limitations under the License.
- // Ensure the included flatbuffers.h is the same version as when this file was
- // generated, otherwise it may not be compatible.
- static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
--              FLATBUFFERS_VERSION_MINOR == 9 &&
--              FLATBUFFERS_VERSION_REVISION == 23,
-+              FLATBUFFERS_VERSION_MINOR == 12 &&
-+              FLATBUFFERS_VERSION_REVISION == 19,
-              "Non-compatible flatbuffers version included");
-
- namespace tflite {
-diff --git a/tflite/delegates/gpu/common/gpu_model_generated.h b/tflite/delegates/gpu/common/gpu_model_generated.h
-index 6602b2d76..bf5e2381a 100755
---- a/tflite/delegates/gpu/common/gpu_model_generated.h
-+++ b/tflite/delegates/gpu/common/gpu_model_generated.h
-@@ -22,8 +22,8 @@ limitations under the License.
- // Ensure the included flatbuffers.h is the same version as when this file was
- // generated, otherwise it may not be compatible.
- static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
--              FLATBUFFERS_VERSION_MINOR == 9 &&
--              FLATBUFFERS_VERSION_REVISION == 23,
-+              FLATBUFFERS_VERSION_MINOR == 12 &&
-+              FLATBUFFERS_VERSION_REVISION == 19,
-              "Non-compatible flatbuffers version included");
-
- #include "tflite_serialization_base_generated.h"
-diff --git a/tflite/delegates/gpu/cl/serialization_generated.h b/tflite/delegates/gpu/cl/serialization_generated.h
-index 07ebfdfda..ba4ea92d2 100755
---- a/tflite/delegates/gpu/cl/serialization_generated.h
-+++ b/tflite/delegates/gpu/cl/serialization_generated.h
-@@ -23,8 +23,8 @@ limitations under the License.
- // Ensure the included flatbuffers.h is the same version as when this file was
- // generated, otherwise it may not be compatible.
- static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
--              FLATBUFFERS_VERSION_MINOR == 9 &&
--              FLATBUFFERS_VERSION_REVISION == 23,
-+              FLATBUFFERS_VERSION_MINOR == 12 &&
-+              FLATBUFFERS_VERSION_REVISION == 19,
-              "Non-compatible flatbuffers version included");
-
- #include "gpu_model_generated.h"
-diff --git a/tflite/delegates/gpu/common/task/tflite_serialization_base_generated.h b/tflite/delegates/gpu/common/task/tflite_serialization_base_generated.h
-index d3d49ade4..ae571daa6 100755
---- a/tflite/delegates/gpu/common/task/tflite_serialization_base_generated.h
-+++ b/tflite/delegates/gpu/common/task/tflite_serialization_base_generated.h
-@@ -23,8 +23,8 @@ limitations under the License.
- // Ensure the included flatbuffers.h is the same version as when this file was
- // generated, otherwise it may not be compatible.
- static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
--              FLATBUFFERS_VERSION_MINOR == 9 &&
--              FLATBUFFERS_VERSION_REVISION == 23,
-+              FLATBUFFERS_VERSION_MINOR == 12 &&
-+              FLATBUFFERS_VERSION_REVISION == 19,
-              "Non-compatible flatbuffers version included");
-
- namespace tflite {
-diff --git a/tflite/converter/schema/conversion_metadata_generated.h b/tflite/converter/schema/conversion_metadata_generated.h
-index f78ce6a22..a7897396b 100755
---- a/tflite/converter/schema/conversion_metadata_generated.h
-+++ b/tflite/converter/schema/conversion_metadata_generated.h
-@@ -23,8 +23,8 @@ limitations under the License.
- // Ensure the included flatbuffers.h is the same version as when this file was
- // generated, otherwise it may not be compatible.
- static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
--              FLATBUFFERS_VERSION_MINOR == 9 &&
--              FLATBUFFERS_VERSION_REVISION == 23,
-+              FLATBUFFERS_VERSION_MINOR == 12 &&
-+              FLATBUFFERS_VERSION_REVISION == 19,
-              "Non-compatible flatbuffers version included");
-
- namespace tflite {
 diff --git a/tflite/acceleration/configuration/configuration_generated.h b/tflite/acceleration/configuration/configuration_generated.h
 index 645d1e11f..366a33ac1 100644
 --- a/tflite/acceleration/configuration/configuration_generated.h
@@ -90,10 +25,85 @@ index 645d1e11f..366a33ac1 100644
               "Non-compatible flatbuffers version included");
  
  namespace tflite {
+diff --git a/tflite/converter/schema/conversion_metadata_generated.h b/tflite/converter/schema/conversion_metadata_generated.h
+index f78ce6a22..a7897396b 100755
+--- a/tflite/converter/schema/conversion_metadata_generated.h
++++ b/tflite/converter/schema/conversion_metadata_generated.h
+@@ -23,8 +23,8 @@ limitations under the License.
+ // Ensure the included flatbuffers.h is the same version as when this file was
+ // generated, otherwise it may not be compatible.
+ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
+-              FLATBUFFERS_VERSION_MINOR == 9 &&
+-              FLATBUFFERS_VERSION_REVISION == 23,
++              FLATBUFFERS_VERSION_MINOR == 12 &&
++              FLATBUFFERS_VERSION_REVISION == 19,
+              "Non-compatible flatbuffers version included");
+ 
+ namespace tflite {
 diff --git a/tflite/converter/schema/schema_generated.h b/tflite/converter/schema/schema_generated.h
-index 5009ef2f7..31330a564 100755
+index 5009ef2f7..4ce29a7a5 100755
 --- a/tflite/converter/schema/schema_generated.h
 +++ b/tflite/converter/schema/schema_generated.h
+@@ -23,8 +23,8 @@ limitations under the License.
+ // Ensure the included flatbuffers.h is the same version as when this file was
+ // generated, otherwise it may not be compatible.
+ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
+-              FLATBUFFERS_VERSION_MINOR == 9 &&
+-              FLATBUFFERS_VERSION_REVISION == 23,
++              FLATBUFFERS_VERSION_MINOR == 12 &&
++              FLATBUFFERS_VERSION_REVISION == 19,
+              "Non-compatible flatbuffers version included");
+ 
+ namespace tflite {
+diff --git a/tflite/delegates/gpu/cl/compiled_program_cache_generated.h b/tflite/delegates/gpu/cl/compiled_program_cache_generated.h
+index 2151d9964..70486b31a 100755
+--- a/tflite/delegates/gpu/cl/compiled_program_cache_generated.h
++++ b/tflite/delegates/gpu/cl/compiled_program_cache_generated.h
+@@ -23,8 +23,8 @@ limitations under the License.
+ // Ensure the included flatbuffers.h is the same version as when this file was
+ // generated, otherwise it may not be compatible.
+ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
+-              FLATBUFFERS_VERSION_MINOR == 9 &&
+-              FLATBUFFERS_VERSION_REVISION == 23,
++              FLATBUFFERS_VERSION_MINOR == 12 &&
++              FLATBUFFERS_VERSION_REVISION == 19,
+              "Non-compatible flatbuffers version included");
+ 
+ namespace tflite {
+diff --git a/tflite/delegates/gpu/cl/serialization_generated.h b/tflite/delegates/gpu/cl/serialization_generated.h
+index 07ebfdfda..ba4ea92d2 100755
+--- a/tflite/delegates/gpu/cl/serialization_generated.h
++++ b/tflite/delegates/gpu/cl/serialization_generated.h
+@@ -23,8 +23,8 @@ limitations under the License.
+ // Ensure the included flatbuffers.h is the same version as when this file was
+ // generated, otherwise it may not be compatible.
+ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
+-              FLATBUFFERS_VERSION_MINOR == 9 &&
+-              FLATBUFFERS_VERSION_REVISION == 23,
++              FLATBUFFERS_VERSION_MINOR == 12 &&
++              FLATBUFFERS_VERSION_REVISION == 19,
+              "Non-compatible flatbuffers version included");
+ 
+ #include "gpu_model_generated.h"
+diff --git a/tflite/delegates/gpu/common/gpu_model_generated.h b/tflite/delegates/gpu/common/gpu_model_generated.h
+index 6602b2d76..bf5e2381a 100755
+--- a/tflite/delegates/gpu/common/gpu_model_generated.h
++++ b/tflite/delegates/gpu/common/gpu_model_generated.h
+@@ -22,8 +22,8 @@ limitations under the License.
+ // Ensure the included flatbuffers.h is the same version as when this file was
+ // generated, otherwise it may not be compatible.
+ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
+-              FLATBUFFERS_VERSION_MINOR == 9 &&
+-              FLATBUFFERS_VERSION_REVISION == 23,
++              FLATBUFFERS_VERSION_MINOR == 12 &&
++              FLATBUFFERS_VERSION_REVISION == 19,
+              "Non-compatible flatbuffers version included");
+ 
+ #include "tflite_serialization_base_generated.h"
+diff --git a/tflite/delegates/gpu/common/task/tflite_serialization_base_generated.h b/tflite/delegates/gpu/common/task/tflite_serialization_base_generated.h
+index d3d49ade4..ae571daa6 100755
+--- a/tflite/delegates/gpu/common/task/tflite_serialization_base_generated.h
++++ b/tflite/delegates/gpu/common/task/tflite_serialization_base_generated.h
 @@ -23,8 +23,8 @@ limitations under the License.
  // Ensure the included flatbuffers.h is the same version as when this file was
  // generated, otherwise it may not be compatible.
@@ -118,4 +128,3 @@ index ec0950f5e..405e8e9b9 100644
    # NOTE: b/340264458 - `GIT_SHALLOW TRUE` works for tag name only,
    # so if you change the `GIT_TAG` above to a hash rather than a tag name,
    # you need to also change the line below to `GIT_SHALLOW FALSE`.
-

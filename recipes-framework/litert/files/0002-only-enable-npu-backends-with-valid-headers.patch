@@ -1,0 +1,30 @@
+Upstream-Status: Pending
+---
+ litert/vendors/CMakeLists.txt | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/litert/vendors/CMakeLists.txt b/litert/vendors/CMakeLists.txt
+index 808db0d..cc871e2 100644
+--- a/litert/vendors/CMakeLists.txt
++++ b/litert/vendors/CMakeLists.txt
+@@ -317,7 +317,7 @@ endif()
+ 
+ # Qualcomm
+ option(LITERT_ENABLE_QUALCOMM "Enable Qualcomm dispatch build (requires QNN SDK headers/libs)" OFF)
+-if(QAIRT_HEADERS_DIR AND NOT LITERT_ENABLE_QUALCOMM)
++if(EXISTS "${QAIRT_HEADERS_DIR}/QnnCommon.h" AND NOT LITERT_ENABLE_QUALCOMM)
+   message(STATUS "Enabling Qualcomm dispatch: QNN headers detected at ${QAIRT_HEADERS_DIR}")
+   set(LITERT_ENABLE_QUALCOMM ON CACHE BOOL "" FORCE)
+ endif()
+@@ -329,7 +329,8 @@ endif()
+ 
+ # Samsung
+ option(LITERT_ENABLE_SAMSUNG "Enable Samsung NPU build" ON)
+-if(LITECORE_HEADERS_DIR AND NOT LITERT_ENABLE_SAMSUNG)
++if(EXISTS "${LITECORE_HEADERS_DIR}/graph_wrapper_api.h"
++   AND NOT LITERT_ENABLE_SAMSUNG)
+   message(STATUS "Enabling Samsung dispatch: Samsung headers detected at ${LITECORE_HEADERS_DIR}")
+   set(LITERT_ENABLE_SAMSUNG ON CACHE BOOL "" FORCE)
+ endif()
+-- 
+2.50.1
