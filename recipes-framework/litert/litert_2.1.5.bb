@@ -8,17 +8,18 @@ DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 TF_MAJOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[0]}"
 TF_MINOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[1]}"
 TF_PATCH = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[2]}"
+PV = "2.1.5"
 SRCREV_FORMAT = "litert_tensorflow"
 
-SRCREV_litert = "ea79caffdd0f52cd44f203674f18a16a3cb861ad"
-SRCREV_tensorflow = "a481b10260dfdf833a1b16007eead49c1d7febf3"
+SRCREV_litert = "9d26e89d88ef8785b6a1e54ec41ac8add215a125"
+SRCREV_tensorflow = "6d40c20cdfe385746c31da6227b95722f5ece342"
 
-SRC_URI = " \
-    git://github.com/google-ai-edge/LiteRT.git;name=litert;branch=${PV};protocol=https \
-    git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.21;protocol=https \
-    file://0001-update_flatbuffers_ver_litert.patch \
-    file://0001-update_flatbuffers_ver_tensorflow.patch;patchdir=${UNPACKDIR}/tensorflow \
-"
+SRC_URI = "git://github.com/google-ai-edge/LiteRT.git;name=litert;branch=${PV};protocol=https \
+           git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;nobranch=1;protocol=https \
+           file://0001-update_flatbuffers_ver_litert.patch \
+           file://0002-only-enable-npu-backends-with-valid-headers.patch \
+           file://0001-update_flatbuffers_ver_tensorflow.patch;patchdir=${UNPACKDIR}/tensorflow \
+           "
 
 DEPENDS = " \
     flatbuffers-native \
@@ -53,6 +54,12 @@ EXTRA_OECMAKE:append = " \
     -DFETCHCONTENT_FULLY_DISCONNECTED=OFF \
     -DTENSORFLOW_SOURCE_DIR=${UNPACKDIR}/tensorflow \
     -DTENSORFLOW_TARGET_ARCH=${TENSORFLOW_TARGET_ARCH} \
+    -DLITERT_ENABLE_NPU=OFF \
+    -DLITERT_ENABLE_QUALCOMM=OFF \
+    -DLITERT_ENABLE_SAMSUNG=OFF \
+    -DNEUROPILOT_HEADERS_DIR=${UNPACKDIR}/disabled-neuropilot \
+    -DQAIRT_HEADERS_DIR=${UNPACKDIR}/disabled-qairt \
+    -DLITECORE_HEADERS_DIR=${UNPACKDIR}/disabled-litecore \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
 "
 
