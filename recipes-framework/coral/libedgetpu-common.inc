@@ -15,6 +15,7 @@ SRC_URI = " \
     file://001-libedgetpu_makefile.patch \
     file://001-make-flatc-deps-normal.patch \
     file://001-flatbuffers.cmake.patch;patchdir=${UNPACKDIR}/tensorflow \
+    file://001-fix-usb_device_interface-error.patch \
 "
 
 B = "${S}/makefile_build"
