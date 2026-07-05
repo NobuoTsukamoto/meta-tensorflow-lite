@@ -10,11 +10,12 @@ SRCREV_libedgetpu = "e35aed18fea2e2d25d98352e5a5bd357c170bd4d"
 SRCREV_tensorflow = "a481b10260dfdf833a1b16007eead49c1d7febf3"
 
 SRC_URI = " \
-    git://github.com/google-coral/libedgetpu.git;name=libedgetpu;branch="master";protocol=https \
+    git://github.com/google-coral/libedgetpu.git;name=libedgetpu;protocol=https;nobranch=1 \
     git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;branch=r2.21;protocol=https \
     file://001-libedgetpu_makefile.patch \
     file://001-make-flatc-deps-normal.patch \
     file://001-flatbuffers.cmake.patch;patchdir=${UNPACKDIR}/tensorflow \
+    file://001-fix-usb_device_interface-error.patch \
 "
 
 B = "${S}/makefile_build"
