@@ -1,0 +1,32 @@
+Upstream-Status: Pending
+---
+ tflite/tools/cmake/modules/abseil-cpp.cmake | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/tflite/tools/cmake/modules/abseil-cpp.cmake b/tflite/tools/cmake/modules/abseil-cpp.cmake
+index 648d819..d7b1452 100644
+--- a/tflite/tools/cmake/modules/abseil-cpp.cmake
++++ b/tflite/tools/cmake/modules/abseil-cpp.cmake
+@@ -34,6 +34,20 @@ OverridableFetchContent_GetProperties(abseil-cpp)
+ if(NOT abseil-cpp_POPULATED)
+   OverridableFetchContent_Populate(abseil-cpp)
+ endif()
++
++# GCC 16 rejects including bmi2intrin.h directly. The Abseil revision used by
++# LiteRT 2.1.6 still does that when __BMI2__ is enabled, so adjust the fetched
++# source before add_subdirectory() sees it.
++set(_ABSL_RAW_HASH_SET
++    "${abseil-cpp_SOURCE_DIR}/absl/container/internal/raw_hash_set.h")
++if(EXISTS "${_ABSL_RAW_HASH_SET}")
++  file(READ "${_ABSL_RAW_HASH_SET}" _ABSL_RAW_HASH_SET_CONTENT)
++  string(REPLACE "#include <bmi2intrin.h>" "#include <x86gprintrin.h>"
++         _ABSL_RAW_HASH_SET_CONTENT "${_ABSL_RAW_HASH_SET_CONTENT}")
++  file(WRITE "${_ABSL_RAW_HASH_SET}" "${_ABSL_RAW_HASH_SET_CONTENT}")
++endif()
++unset(_ABSL_RAW_HASH_SET)
++unset(_ABSL_RAW_HASH_SET_CONTENT)
+ 
+ set(ABSL_USE_GOOGLETEST_HEAD OFF CACHE BOOL "Disable googletest")
+ set(ABSL_RUN_TESTS OFF CACHE BOOL "Disable build of ABSL tests")
+-- 
+2.50.1

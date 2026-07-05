@@ -8,16 +8,17 @@ DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 TF_MAJOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[0]}"
 TF_MINOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[1]}"
 TF_PATCH = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[2]}"
-PV = "2.1.5"
+PV = "2.1.6"
 SRCREV_FORMAT = "litert_tensorflow"
 
-SRCREV_litert = "9d26e89d88ef8785b6a1e54ec41ac8add215a125"
-SRCREV_tensorflow = "6d40c20cdfe385746c31da6227b95722f5ece342"
+SRCREV_litert = "1461b6b2def31713f5c71446eab844aae05d02e9"
+SRCREV_tensorflow = "b8a17154d80e4d7d2ce9419e38f5f6ae208e2137"
 
-SRC_URI = "git://github.com/google-ai-edge/LiteRT.git;name=litert;branch=${PV};protocol=https \
+SRC_URI = "git://github.com/google-ai-edge/LiteRT.git;name=litert;branch=${PV};protocol=https;lfs=0 \
            git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;nobranch=1;protocol=https \
            file://0001-update_flatbuffers_ver_litert.patch \
            file://0002-only-enable-npu-backends-with-valid-headers.patch \
+           file://0003-fix-abseil-bmi2-include-for-gcc-16.patch \
            file://0001-update_flatbuffers_ver_tensorflow.patch;patchdir=${UNPACKDIR}/tensorflow \
            "
 
