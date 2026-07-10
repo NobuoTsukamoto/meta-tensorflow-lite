@@ -28,6 +28,10 @@ DEPENDS = " \
 
 inherit cmake
 
+# pthreadpool's Linux futex fallback expects SYS_futex, but riscv32 time64
+# syscall headers only expose SYS_futex_time64.
+CFLAGS:append:riscv32 = " -DSYS_futex=SYS_futex_time64"
+
 OECMAKE_SOURCEPATH = "${S}/litert"
 
 TENSORFLOW_TARGET_ARCH = "${TARGET_ARCH}"
