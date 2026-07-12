@@ -75,4 +75,12 @@ EXTRA_OECMAKE:append = " \
 
 do_configure[network] = "1"
 
+# cmake.bbclass maps every 32-bit ARM tune to the generic processor name
+# "arm". cpuinfo requires an ARM version (armv5-armv8) and otherwise omits
+# its Linux/ARM sources, causing undefined symbols when libLiteRt.so links.
+cmake_do_generate_toolchain_file:append() {
+    sed -i -e 's/^set( CMAKE_SYSTEM_PROCESSOR .* )$/set( CMAKE_SYSTEM_PROCESSOR ${TENSORFLOW_TARGET_ARCH} )/' \
+        ${WORKDIR}/toolchain.cmake
+}
+
 INSANE_SKIP:${PN}-dbg += "buildpaths"
