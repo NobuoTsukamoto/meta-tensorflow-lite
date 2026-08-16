@@ -41,7 +41,7 @@ index f78ce6a22..a7897396b 100755
  
  namespace tflite {
 diff --git a/tflite/converter/schema/schema_generated.h b/tflite/converter/schema/schema_generated.h
-index 5009ef2f7..4ce29a7a5 100755
+index e5c3bd4f9..c1f507631 100755
 --- a/tflite/converter/schema/schema_generated.h
 +++ b/tflite/converter/schema/schema_generated.h
 @@ -23,8 +23,8 @@ limitations under the License.
