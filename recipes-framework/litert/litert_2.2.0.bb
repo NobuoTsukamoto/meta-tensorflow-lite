@@ -35,7 +35,10 @@ CFLAGS:append:riscv32 = " -DSYS_futex=SYS_futex_time64"
 # XNNPACK 0.0.0-20250606 enables its RVV microkernels by default and builds
 # them with a hard-coded RV64 ABI (-march=rv64gcv -mabi=lp64d).  They cannot
 # be linked into a riscv32 target, so use the scalar kernels on RV32.
-EXTRA_OECMAKE:append:riscv32 = " -DXNNPACK_ENABLE_RISCV_VECTOR=OFF"
+EXTRA_OECMAKE:append:riscv32 = " \
+    -DXNNPACK_ENABLE_RISCV_VECTOR=OFF \
+    -DXNNPACK_ENABLE_RISCV_FP16_VECTOR=OFF \
+"
 
 OECMAKE_SOURCEPATH = "${S}/litert"
 
