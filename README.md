@@ -32,6 +32,7 @@ Please note that it is not official support.
     [C API shared library](recipes-framework/tensorflow-lite/libtensorflow-lite-c_2.21.0.bb)
   - libedgetpu-max / libedgetpu-std  
     [bitbake with libedgetpu](./doc/coral_libedgetpu.md)
+  - [litert](recipes-framework/litert/litert_2.2.0.bb)
 - examples
   - python3-tensorflow-lite-example  
     [TensorFlow Lite Python image classification demo](./doc/python3-tensorflow-lite-example.md)
@@ -48,6 +49,7 @@ Please note that it is not official support.
 | :--             | :--     |
 | TensorFlow Lite | 2.21.0  |
 | libedgetpu      | e35aed18fea2e2d25d98352e5a5bd357c170bd4d |
+| LiteRT          | 2.2.0   |
 
 ## How to
 
