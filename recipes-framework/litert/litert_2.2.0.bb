@@ -32,6 +32,10 @@ inherit cmake
 # syscall headers only expose SYS_futex_time64.
 CFLAGS:append:riscv32 = " -DSYS_futex=SYS_futex_time64"
 
+# XNNPACK removes -mcpu from compiler flags. Keep ARMv7 Thumb-2 enabled.
+CFLAGS:append:arm = " -march=armv7-a"
+CXXFLAGS:append:arm = " -march=armv7-a"
+
 # XNNPACK 0.0.0-20250606 enables its RVV microkernels by default and builds
 # them with a hard-coded RV64 ABI (-march=rv64gcv -mabi=lp64d).  They cannot
 # be linked into a riscv32 target, so use the scalar kernels on RV32.
