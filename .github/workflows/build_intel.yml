@@ -86,7 +86,8 @@ jobs:
           bitbake-layers add-layer ${WORKING_DIR}/meta-tensorflow-lite/meta-tensorflow-lite/
           bitbake-layers add-layer ${WORKING_DIR}/meta-intel/
           cat <<EOF> conf/auto.conf
-          BB_NUMBER_THREADS = "8"
+          BB_NUMBER_THREADS = "2"
+          PARALLEL_MAKE = "-j 2"
           EOF
           cat conf/auto.conf
           MACHINE=${{matrix.target_machine}} bitbake python3-tensorflow-lite libtensorflow-lite \
