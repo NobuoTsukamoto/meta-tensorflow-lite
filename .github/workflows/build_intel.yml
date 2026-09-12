@@ -41,7 +41,28 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
+      # Free disk space on root partition (/dev/root)
+      - name: Free disk space
+        run: |
+          echo "=== Disk space before cleanup ==="
+          df -h
+          sudo rm -rf /opt/* || true
+          sudo rm -rf /usr/share/dotnet || true
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY" || true
+          sudo rm -rf /usr/local/lib/android || true
+          sudo rm -rf /usr/local/share/boost || true
+          sudo rm -rf /usr/lib/jvm || true
+          sudo docker image prune --all --force || true
+          sudo apt-get purge -y \
+            azure-cli* dotnet-sdk* ghc* google-chrome-stable* \
+            firefox* moby-* mongodb* nginx postgresql* \
+            temurin-* llvm-* php* powershell ruby* subversion >/dev/null 2>&1 || true
+          sudo apt-get autoremove -y >/dev/null 2>&1 || true
+          sudo apt-get autoclean -y >/dev/null 2>&1 || true
+          echo "=== Disk space after cleanup ==="
+          df -h
+
       # Install essential host packages
       - name: Install Packages
         run: |
