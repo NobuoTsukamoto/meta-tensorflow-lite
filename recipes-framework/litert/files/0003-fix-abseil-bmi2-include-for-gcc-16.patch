@@ -4,7 +4,7 @@ Upstream-Status: Pending
  1 file changed, 14 insertions(+)
 
 diff --git a/tflite/tools/cmake/modules/abseil-cpp.cmake b/tflite/tools/cmake/modules/abseil-cpp.cmake
-index bd220d32e..872fa7441 100644
+index bd220d32e..a5136bb7c 100644
 --- a/tflite/tools/cmake/modules/abseil-cpp.cmake
 +++ b/tflite/tools/cmake/modules/abseil-cpp.cmake
 @@ -35,6 +35,20 @@ if(NOT abseil-cpp_POPULATED)
@@ -12,7 +12,7 @@ index bd220d32e..872fa7441 100644
  endif()
 
 +# GCC 16 rejects including bmi2intrin.h directly. The Abseil revision used by
-+# LiteRT 2.2.0 still does that when __BMI2__ is enabled, so adjust the fetched
++# LiteRT 2.3.0 still does that when __BMI2__ is enabled, so adjust the fetched
 +# source before add_subdirectory() sees it.
 +set(_ABSL_RAW_HASH_SET
 +    "${abseil-cpp_SOURCE_DIR}/absl/container/internal/raw_hash_set.h")
