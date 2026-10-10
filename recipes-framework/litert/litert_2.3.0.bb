@@ -8,13 +8,13 @@ DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 TF_MAJOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[0]}"
 TF_MINOR = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[1]}"
 TF_PATCH = "${@(d.getVar('PV').split('.') + ['0', '0', '0'])[2]}"
-PV = "2.2.0"
+PV = "2.3.0"
 SRCREV_FORMAT = "litert_tensorflow"
 
-SRCREV_litert = "145c7523ff08d5e57ab5c582141775eea47da9c7"
+SRCREV_litert = "12d5852de049413709bb4afe5f54b79c2a9692a8"
 SRCREV_tensorflow = "a481b10260dfdf833a1b16007eead49c1d7febf3"
 
-SRC_URI = "git://github.com/google-ai-edge/LiteRT.git;name=litert;branch=release/${PV};protocol=https;lfs=0 \
+SRC_URI = "git://github.com/google-ai-edge/LiteRT.git;name=litert;branch=release/2.3.0;protocol=https;lfs=0 \
            git://github.com/tensorflow/tensorflow.git;name=tensorflow;destsuffix=tensorflow;nobranch=1;protocol=https \
            file://0001-update_flatbuffers_ver_litert.patch \
            file://0002-only-enable-npu-backends-with-valid-headers.patch \
