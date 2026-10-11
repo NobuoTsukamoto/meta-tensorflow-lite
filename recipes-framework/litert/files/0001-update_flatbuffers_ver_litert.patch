@@ -41,7 +41,7 @@ index f78ce6a22..a7897396b 100755
  
  namespace tflite {
 diff --git a/tflite/converter/schema/schema_generated.h b/tflite/converter/schema/schema_generated.h
-index e5c3bd4f9..c1f507631 100755
+index 1bb5ef0f6..ecad0aa07 100755
 --- a/tflite/converter/schema/schema_generated.h
 +++ b/tflite/converter/schema/schema_generated.h
 @@ -23,8 +23,8 @@ limitations under the License.
@@ -116,7 +116,7 @@ index d3d49ade4..ae571daa6 100755
  
  namespace tflite {
 diff --git a/tflite/tools/cmake/modules/flatbuffers.cmake b/tflite/tools/cmake/modules/flatbuffers.cmake
-index ec0950f5e..405e8e9b9 100644
+index 6133f2e59..04297a0c3 100644
 --- a/tflite/tools/cmake/modules/flatbuffers.cmake
 +++ b/tflite/tools/cmake/modules/flatbuffers.cmake
 @@ -23,7 +23,7 @@ OverridableFetchContent_Declare(

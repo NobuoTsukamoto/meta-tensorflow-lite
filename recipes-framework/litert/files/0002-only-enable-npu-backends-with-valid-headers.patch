@@ -4,10 +4,10 @@ Upstream-Status: Pending
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/litert/vendors/CMakeLists.txt b/litert/vendors/CMakeLists.txt
-index e03d29241..eb15db036 100644
+index c3bf2f022..53bba553d 100644
 --- a/litert/vendors/CMakeLists.txt
 +++ b/litert/vendors/CMakeLists.txt
-@@ -328,7 +328,7 @@ endif()
+@@ -339,7 +339,7 @@ endif()
  
  # Qualcomm
  option(LITERT_ENABLE_QUALCOMM "Enable Qualcomm dispatch build (requires QNN SDK headers/libs)" OFF)
@@ -16,7 +16,7 @@ index e03d29241..eb15db036 100644
    message(STATUS "Enabling Qualcomm dispatch: QNN headers detected at ${QAIRT_HEADERS_DIR}")
    set(LITERT_ENABLE_QUALCOMM ON CACHE BOOL "" FORCE)
  endif()
-@@ -339,7 +339,8 @@ endif()
+@@ -350,7 +350,8 @@ endif()
  
  # Samsung
  option(LITERT_ENABLE_SAMSUNG "Enable Samsung NPU build" ON)
