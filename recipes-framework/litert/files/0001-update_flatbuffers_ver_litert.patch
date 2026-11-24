@@ -1,3 +1,8 @@
+From 017949e8ab6de9445757c7ce5e47c2c1e44c02df Mon Sep 17 00:00:00 2001
+From: Nobuo Tsukamoto <nextremer.nb.o@gmail.com>
+Date: Sun, 12 Apr 2026 20:43:13 +0900
+Subject: [PATCH] LiteRT v2.1.6
+
 Upstream-Status: Pending
 ---
  tflite/acceleration/configuration/configuration_generated.h   | 4 ++--
